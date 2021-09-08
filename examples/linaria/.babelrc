@@ -1,0 +1,9 @@
+{
+    "presets": [
+        "next/babel", 
+        "linaria/babel"
+    ],
+    "plugins": [
+        "css-var/babel"
+    ]
+}

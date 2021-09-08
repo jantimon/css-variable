@@ -1,0 +1,7 @@
+{
+    "presets": ["next/babel"],
+    "plugins": [
+        "css-var/babel",
+        "babel-plugin-styled-components"
+    ]
+}

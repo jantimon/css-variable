@@ -2,7 +2,7 @@
 const path = require("path");
 const child_process = require("child_process");
 const assert = require("assert");
-const port = 47841;
+let port = 47841;
 let runningChildren = new Set();
 
 runTest().then(
@@ -25,12 +25,14 @@ async function runTest() {
     await launchExample(path.resolve(__dirname, "../examples/styled-components"));
 }
 
-async function testExample() {
+/** @param {string} url */
+async function testExample(url) {
+    
     console.log("💻 start browser and open nextjs app");
     const puppeteer = require('puppeteer');
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.goto(`http://localhost:${port}`, {
+    await page.goto(url, {
       waitUntil: 'networkidle2',
     });
     const {fontSize,color} = await page.evaluate(() => {
@@ -51,6 +53,7 @@ async function testExample() {
 
 /** @param {string} cwd */
 async function launchExample(cwd) {
+  const testPort = port++
   console.log(`🧹 remove ${path.join(cwd, 'node_modules')}`);
   await removeDir(path.join(cwd, '.next'));
   await removeDir(path.join(cwd, 'node_modules'));
@@ -59,14 +62,13 @@ async function launchExample(cwd) {
   await spawnAsync("npm", ["install"], { cwd, stdio: "inherit" }).promise;
   console.log("🚀 build & launch nextjs");
   await spawnAsync("npm", ["run", "build"], { cwd, stdio: "inherit" }).promise;
-  const {child: server, promise: serverClosed} = spawnAsync("npm", ["start", "--",  "-p", String(port)], { cwd, stdio: "inherit" });
+  const {child: server, promise: serverClosed} = spawnAsync("npm", ["start", "--",  "-p", String(testPort)], { cwd, stdio: "inherit" });
   await new Promise((resolve) => setTimeout(resolve, 500));
   await Promise.race([
-    testExample(),
+    testExample(`http://localhost:${testPort}`),
     serverClosed
   ]);
   server.kill();
-  await serverClosed;
 }
 
 function removeDir(directory) {

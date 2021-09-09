@@ -11,7 +11,7 @@ runTest().then(
     process.exit(0);
   },
   (e) => {
-    console.error(e);
+    console.error("🤷‍♂️ Test failed because of ", e);
     process.exit(1);
   }
 );
@@ -83,8 +83,8 @@ function spawnAsync(command, args, options) {
   return {child, promise: new Promise((resolve, reject) => {
     child.on("close", (code) => {
         runningChildren.delete(child);
-      if (code !== 0) {
-        reject(code);
+      if (code) {
+        reject(new Error(`${command} failed - exit code: ${code}`));
       } else {
         resolve();
       }

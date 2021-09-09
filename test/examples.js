@@ -7,7 +7,7 @@ let runningChildren = new Set();
 
 runTest().then(
   () => {
-    console.log("✅ Next integration tests passed");
+    console.log("\n\n✅ Next integration tests passed");
     process.exit(0);
   },
   (e) => {
@@ -17,7 +17,7 @@ runTest().then(
 );
 
 async function runTest() {
-    console.log("🚀 install puppeteer");
+    console.log("📦 install puppeteer");
     await spawnAsync("npm", ["install"], { cwd: __dirname, stdio: "inherit" }).promise;
     console.log("🚀 test next <-> linaria integration");
     await launchExample(path.resolve(__dirname, "../examples/linaria"));
@@ -26,6 +26,7 @@ async function runTest() {
 }
 
 async function testExample() {
+    console.log("💻 start browser and open nextjs app");
     const puppeteer = require('puppeteer');
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -50,9 +51,13 @@ async function testExample() {
 
 /** @param {string} cwd */
 async function launchExample(cwd) {
-  await spawnAsync("npx", ["--yes", "rimraf", ".next"], { cwd, stdio: "inherit" }).promise;
-  await spawnAsync("npx", ["--yes", "rimraf", "node_modules"], { cwd, stdio: "inherit" }).promise;
+  console.log(`🧹 remove ${path.join(cwd, 'node_modules')}`);
+  await removeDir(path.join(cwd, '.next'));
+  await removeDir(path.join(cwd, 'node_modules'));
+  await removeDir(path.join(cwd, '.linaria-cache'));
+  console.log("📦 install example dependencies");
   await spawnAsync("npm", ["install"], { cwd, stdio: "inherit" }).promise;
+  console.log("🚀 build & launch nextjs");
   await spawnAsync("npm", ["run", "build"], { cwd, stdio: "inherit" }).promise;
   const {child: server, promise: serverClosed} = spawnAsync("npm", ["start", "--",  "-p", String(port)], { cwd, stdio: "inherit" });
   await new Promise((resolve) => setTimeout(resolve, 500));
@@ -62,6 +67,14 @@ async function launchExample(cwd) {
   ]);
   server.kill();
   await serverClosed;
+}
+
+function removeDir(directory) {
+  return new Promise((resolve) => {
+    require("rimraf")(directory, () => {
+        resolve();
+    });
+  });
 }
 
 function spawnAsync(command, args, options) {

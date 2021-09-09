@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "next dev"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
+    "@babel/core": "7.15.5",
     "@babel/preset-env": "^7.15.4",
     "css-var": "../../",
     "linaria": "2.1.0",

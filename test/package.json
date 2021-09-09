@@ -1,0 +1,11 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node ./examples.js"
+  },
+  "dependencies": {
+    "puppeteer": "^10.2.0"
+  }
+}

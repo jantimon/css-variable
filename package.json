@@ -2,7 +2,7 @@
   "name": "css-var",
   "version": "2.0.0",
   "description": "define CSS custom properties (variables) in JS",
-  "main": "./dist/index.mjs",
+  "main": "./dist/index.js",
   "exports": {
     ".": {
       "require": "./dist/index.js",
@@ -21,7 +21,8 @@
     "prepublishOnly": "npm run build:types && npm run build:commonjs && npm run build:module",
     "build:commonjs": "babel --config-file=./babel.commonjs.js src/index.ts > dist/index.js",
     "build:module": "babel --config-file=./babel.config.js src/index.ts > dist/index.mjs",
-    "build:types": "tsc --emitDeclarationOnly --declaration --target ESNext --outDir dist src/index.ts"
+    "build:types": "tsc --emitDeclarationOnly --declaration --target ESNext --outDir dist src/index.ts",
+    "test": "node ./test/examples.js"
   },
   "repository": {
     "type": "git",
@@ -41,6 +42,7 @@
     "@babel/core": "^7.15.5",
     "@babel/plugin-transform-modules-commonjs": "^7.15.4",
     "@babel/preset-typescript": "^7.15.0",
+    "@babel/runtime": "^7.15.4",
     "@babel/types": "^7.15.4",
     "terser": "5.7.2",
     "typescript": "^4.4.2"

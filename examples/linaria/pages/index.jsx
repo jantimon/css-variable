@@ -21,10 +21,10 @@ const xVar = new CssVariable({ value: 0, unit: "px" });
 
 const StyledHeadline = styled.h1`
   font-family: Arial, Helvetica, sans-serif;
-  font-size: ${theme.fontSize.var};
-  color: ${colorVar.var};
-  transform: translateX(${xVar.var});
-  width: calc(100% - 1 * ${xVar.var});
+  font-size: ${theme.fontSize.val};
+  color: ${colorVar.val};
+  transform: translateX(${xVar.val});
+  width: calc(100% - 1 * ${xVar.val});
 `;
 
 /** @param {{color?:string, children: string}} props */
@@ -37,8 +37,8 @@ const FancyComponent = ({ color, children }) => {
 };
 
 const BigBox = styled.div`
-  background: ${theme.colors.secondary.var};
-  padding: ${theme.spacings.m.var};
+  background: ${theme.colors.secondary.val};
+  padding: ${theme.spacings.m.val};
 
   ${colorVar.createStyle("grey")}
   ${xVar.createStyle(20)}
@@ -51,7 +51,7 @@ const BigBox = styled.div`
 const Demo = () => (
   <>
     <FancyComponent color="orange">Demo</FancyComponent>
-    <div style={xVar.createStyle(200)}>
+    <div>
       <FancyComponent>xOffset</FancyComponent>
     </div>
     <BigBox>

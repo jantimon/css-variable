@@ -26,6 +26,7 @@ type CssVariableOptions<TValue> =
   | { value: TValue | CssVariable<TValue> };
 type CssVariableValue = string | number;
 
+/*#__PURE__*/
 export class CssVariable<TValue = CssVariableValue> extends String {
   private readonly unit: CssUnit | "";
   /** Name e.g. `--baseSize` */
@@ -57,6 +58,7 @@ export class CssVariable<TValue = CssVariableValue> extends String {
    * E.g. `var(--baseSize, 12px)`
    */
   constructor(uniqueName: string, options: CssVariableOptions<TValue>);
+  /*#__PURE__*/
   constructor(
     arg1?: string | CssVariableOptions<TValue>,
     arg2?: CssVariableOptions<TValue>

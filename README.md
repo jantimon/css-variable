@@ -118,7 +118,7 @@ const App = () => <>
 
 ## License
 
-Licensed under MIT 
-Crafter with <3 [@jantimon](https://twitter.com/jantimon)
+Licensed under MIT  
+Crafted with <3 [@jantimon](https://twitter.com/jantimon)
 
 Special thanks to [@4alpine](https://twitter.com/4lpine) for donating the package name.

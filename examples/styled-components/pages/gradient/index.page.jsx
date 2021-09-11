@@ -9,8 +9,8 @@ import {
 const Link = styled.a`
   font-family: Arial, Helvetica, sans-serif;
   font-size: 20px;
-  ${gradientStartColor.name}: orange;
-  ${gradientEndColor.name}: purple;
+  ${gradientStartColor.createStyle("orange")};
+  ${gradientEndColor.createStyle("purple")};
   ${gradientHover};
 `;
 

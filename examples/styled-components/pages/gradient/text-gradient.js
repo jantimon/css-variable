@@ -3,7 +3,9 @@ import { CssVariable } from "css-variable";
 import { css } from "styled-components";
 
 export const fontColor = new CssVariable({value: "currentColor"});
+/** The linear gradient start color during hover */
 export const gradientStartColor = new CssVariable();
+/** The linear gradient end color during hover */
 export const gradientEndColor = new CssVariable();
 
 export const gradientHover = css`

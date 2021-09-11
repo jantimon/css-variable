@@ -18,11 +18,13 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "prepublishOnly": "npm run build:types && npm run build:commonjs && npm run build:module",
+    "prepublishOnly": "npm run build",
+    "build": "npm run build:types && npm run build:commonjs && npm run build:module",
     "build:commonjs": "babel --config-file=./babel.commonjs.js src/index.ts > dist/index.js",
     "build:module": "babel --config-file=./babel.config.js src/index.ts > dist/index.mjs",
     "build:types": "tsc --emitDeclarationOnly --declaration --target ESNext --outDir dist src/index.ts",
-    "test": "node ./test/examples.js"
+    "test": "node ./test/examples.js",
+    "docs": "node ./docs/build.js"
   },
   "repository": {
     "type": "git",

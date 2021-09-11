@@ -1,11 +1,12 @@
 /// @ts-check
-const path = require("path");
+const fs = require("fs");
 const child_process = require("child_process");
 
 async function run () {
     await spawnAsync("npm", ["install"], { cwd: __dirname, stdio: "inherit" }).promise;
     await spawnAsync("npm", ["run", "build"], { cwd: __dirname, stdio: "inherit" }).promise;
     await spawnAsync("npm", ["run", "export"], { cwd: __dirname, stdio: "inherit" }).promise;
+    fs.writeFileSync(__dirname + '/out/CNAME', 'css-variable.js.org');
 }
 
 run();

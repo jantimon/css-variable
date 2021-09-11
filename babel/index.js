@@ -2,13 +2,14 @@
 const PACKAGE_NAME = "css-variable";
 const VARIABLE_NAME = "CssVariable";
 const hash = require("./hash");
+const path = require("path");
 
 /**
  * @param {import('@babel/core')} babel
  * @returns {import('@babel/core').PluginObj<{
  *  varCount: number,
  *  varPrefix: string,
- *  isUsedInCurrentFile: boolean
+ *  isImportedInCurrentFile: boolean
  * } & babel.PluginPass>}
  */
 module.exports = function (babel) {
@@ -19,18 +20,28 @@ module.exports = function (babel) {
   return {
     name: `${PACKAGE_NAME} unique variable name injector`,
     pre() {
-      this.isUsedInCurrentFile = false;
+      this.isImportedInCurrentFile = false;
       this.varCount = 0;
+      // Variables should keep the same generated name for
+      // multiple builds.
+      //
+      // This is possible by hashing the source filename
+      // which includes the CssVariable.
+      // 
+      // As an absolute file might be different from system to system
+      // the relative filename is used instead
+      const relativeFileName = path.relative(__dirname, this.file.opts.filename).replace(/\\/g, '/')
       this.varPrefix = hash(this.file.opts.filename || "weruz");
     },
     visitor: {
       ImportDeclaration({ node }) {
+        // Search for `import {CssVariable} from "css-variable";`
         const isLib = node.source.value === PACKAGE_NAME;
         if (!isLib) {
           return;
         }
-        this.isUsedInCurrentFile =
-          this.isUsedInCurrentFile ||
+        this.isImportedInCurrentFile =
+          this.isImportedInCurrentFile ||
           node.specifiers.some(
             (specifier) =>
               "imported" in specifier &&
@@ -39,13 +50,18 @@ module.exports = function (babel) {
           );
       },
       NewExpression(path) {
-        if (!this.isUsedInCurrentFile) {
+        if (!this.isImportedInCurrentFile) {
           return;
         }
         const callee = path.node.callee;
         if (!("name" in callee) || callee.name !== VARIABLE_NAME) {
           return;
         }
+        // Inject the variable prefix 
+        //
+        // E.g. CssVariable() -> CssVariable("1isaui4-0")
+        // E.g. CssVariable({value: "10px"}) -> CssVariable("1isaui4-0", {value: "10px"})
+        //
         const constructorArguments = path.node.arguments;
         const firstArg = constructorArguments[0];
         const secondArg = constructorArguments[1];

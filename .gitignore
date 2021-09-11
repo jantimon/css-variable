@@ -1,0 +1,8 @@
+node_modules
+.next
+.linaria-cache
+dist
+package-lock.json
+yarn.lock
+yarn-error.log
+out

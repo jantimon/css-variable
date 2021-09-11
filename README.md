@@ -71,6 +71,11 @@ The optional recommended babel plugin guarantees consistent variable names on SS
 }
 ```
 
+With the plugin in place babel will inject the variable name during build time:
+
+  - `new CssVariable()` -> `CssVariable("1isaui4-0")`
+  - `new CssVariable({value: '10px'})` -> `CssVariable("1isaui4-0", {value: '10px'})`
+
 ### Theming with `serializeThemeValues`
 
 The optional `serializeThemeValues` helper allows to combine multiple CssVariables into a theme.

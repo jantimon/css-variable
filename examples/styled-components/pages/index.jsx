@@ -1,6 +1,6 @@
 /// @ts-check
 import styled from "styled-components";
-import { CssVariable, serializeThemeValues } from "css-var";
+import { CssVariable, serializeThemeValues } from "css-variable";
 
 const theme = {
   fontSize: new CssVariable("FontSize"),

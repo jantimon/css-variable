@@ -5,7 +5,7 @@
             "linaria/babel"
         ],
         "plugins": [
-            "css-var/babel"
+            "css-variable/babel"
         ]
     }
 }

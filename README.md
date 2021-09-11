@@ -1,4 +1,4 @@
-# css-var
+# css-variable
 
 Tiny ( ~0.3 kb ) treeshakable library to define CSS custom properties (variables) in JS.  
 Compatible with 👩‍🎤 Emotion / 💅 StyledComponents / Linaria and similar CSS-in-JS solutions.
@@ -6,7 +6,7 @@ Compatible with 👩‍🎤 Emotion / 💅 StyledComponents / Linaria and simila
 ## Install
 
 ```bash
-npm i css-var
+npm i css-variable
 ```
 
 ## Usage
@@ -19,14 +19,14 @@ The constructor has an optional name property.
 If omitted a unique css variable will be auto generated:
 
 ```jsx
-import { CssVariable } from 'css-var';
+import { CssVariable } from 'css-variable';
 export const baseSize = new CssVariable();
 ```
 
 Should you prefer a specific name just use it instead:
 
 ```jsx
-import { CssVariable } from 'css-var';
+import { CssVariable } from 'css-variable';
 export const baseSize = new CssVariable("base-size");
 ```
 
@@ -66,7 +66,7 @@ The optional recommended babel plugin guarantees consistent variable names on SS
 ```json
 {
     "plugins": [
-        "css-var/babel"
+        "css-variable/babel"
     ]
 }
 ```
@@ -79,7 +79,7 @@ The following example is using styled components however the approach is compati
 
 ```js
 import styled, { createGlobalStyle } from 'styled-components';
-import { CssVariable, serializeThemeValues } from 'css-var';
+import { CssVariable, serializeThemeValues } from 'css-variable';
 
 // Define a theme structure
 const theme = {
@@ -110,3 +110,10 @@ const App = () => <>
   <Button>click me</Button>
 </>
 ```
+
+## License
+
+Licensed under MIT 
+Crafter with <3 [@jantimon](https://twitter.com/jantimon)
+
+Special thanks to [@4alpine](https://twitter.com/4lpine) for donating the package name.

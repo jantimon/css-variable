@@ -1,7 +1,7 @@
 /// @ts-check
 import { css } from "linaria";
 import { styled } from "linaria/react";
-import { CssVariable, serializeThemeValues } from "css-var";
+import { CssVariable, serializeThemeValues } from "css-variable";
 
 const theme = {
   fontSize: new CssVariable("FontSize"),

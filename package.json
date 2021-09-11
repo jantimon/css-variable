@@ -1,5 +1,5 @@
 {
-  "name": "css-var",
+  "name": "css-variable",
   "version": "2.0.0",
   "description": "define CSS custom properties (variables) in JS",
   "main": "./dist/index.js",
@@ -26,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jantimon/css-var-in-js.git"
+    "url": "git+https://github.com/jantimon/css-variable.git"
   },
   "keywords": [
     "css"
@@ -34,9 +34,9 @@
   "author": "Jan Nicklas",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jantimon/css-var-in-js/issues"
+    "url": "https://github.com/jantimon/css-variable/issues"
   },
-  "homepage": "https://github.com/jantimon/css-var-in-js#readme",
+  "homepage": "https://github.com/jantimon/css-variable#readme",
   "devDependencies": {
     "@babel/cli": "^7.15.4",
     "@babel/core": "^7.15.5",

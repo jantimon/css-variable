@@ -1,5 +1,5 @@
 // @ts-check
-const PACKAGE_NAME = "css-var";
+const PACKAGE_NAME = "css-variable";
 const VARIABLE_NAME = "CssVariable";
 const hash = require("./hash");
 

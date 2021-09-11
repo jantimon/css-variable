@@ -10,7 +10,7 @@
   "dependencies": {
     "@babel/core": "7.15.5",
     "@babel/preset-env": "^7.15.4",
-    "css-var": "../../",
+    "css-variable": "../../",
     "linaria": "2.1.0",
     "next": "^11.1.2",
     "next-linaria": "0.11.0",

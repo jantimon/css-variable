@@ -26,7 +26,6 @@ type CSSVariableOptions<TValue> =
   | { value: TValue | CSSVariable<TValue> };
 type CSSVariableValue = string | number;
 
-/*#__PURE__*/
 export class CSSVariable<TValue = CSSVariableValue> extends String {
   private readonly unit: CSSUnit | "";
   /** Name e.g. `--baseSize` */

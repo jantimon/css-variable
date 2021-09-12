@@ -2,7 +2,7 @@
 import { CSSVariable } from "css-variable";
 import { css } from "linaria";
 
-export const fontColor = new CSSVariable({value: "currentColor"});
+export const fontColor = new CSSVariable({ value: "currentColor" });
 /** The linear gradient start color during hover */
 export const gradientStartColor = new CSSVariable();
 /** The linear gradient end color during hover */
@@ -27,4 +27,3 @@ export const gradientHover = css`
     100%{background-position:left}
   }
 `;
-

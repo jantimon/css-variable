@@ -2,17 +2,25 @@
 import { styled } from "linaria/lib/react";
 import { CodeExample } from "./CodeExample";
 import "./Theme";
-import { theme } from "./Theme";
+import { theme, ThemeSwitch } from "./Theme";
 
-const Header = styled.header`
+const HeaderWrapper = styled.header`
+  background: ${theme.colors.backgroundSecondary.val};
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 5px;
+`;
+
+const Header = styled.div`
   display: grid;
-  grid-template-columns: auto max-content max-content;
+  grid-template-columns: auto max-content max-content max-content;
   grid-template-rows: 1fr;
   gap: 10px;
   color: ${theme.colors.base.val};
   align-items: end;
   max-width: 1200px;
-  margin: 0 auto 120px;
+  margin: 0 auto;
 `;
 
 const TextLogo = styled.h1`
@@ -27,9 +35,9 @@ const HeaderLink = styled.a`
   text-decoration: none;
 `;
 
-const Main = styled.header`
+const Main = styled.main`
   max-width: 600px;
-  margin: 0 auto;
+  margin: 80px auto 50px;
   display: flex;
   flex-direction: column;
   gap: ${theme.spacings.m.val};
@@ -55,13 +63,16 @@ const Text = styled.p`
 
 const Index = () => (
   <>
-    <Header>
-      <TextLogo>CSS Variable</TextLogo>
-      <HeaderLink href="/documentation">Documentation</HeaderLink>
-      <HeaderLink href="https://github.com/jantimon/css-variable">
-        Github
-      </HeaderLink>
-    </Header>
+    <HeaderWrapper>
+      <Header>
+        <TextLogo>CSS Variable</TextLogo>
+        <ThemeSwitch />
+        <HeaderLink href="/documentation">Documentation</HeaderLink>
+        <HeaderLink href="https://github.com/jantimon/css-variable">
+          Github
+        </HeaderLink>
+      </Header>
+    </HeaderWrapper>
     <Main>
       <Intro>
         Typesafe CSS Variable definitions for your CSS-in-JS solution
@@ -89,7 +100,10 @@ export const Headline = styled.h1\`
       </CodeExample>
 
       <Headline>Export CSSVariables with your components</Headline>
-      <Text>CSSVariables allow you to make a component stylable without css overwrites</Text>
+      <Text>
+        CSSVariables allow you to make a component stylable without css
+        overwrites
+      </Text>
 
       <CodeExample>
         {`
@@ -165,7 +179,10 @@ const darkThemeCSS = serializeThemeValues(theme, {
       </CodeExample>
 
       <Headline>Unique and consistent variable names</Headline>
-      <Text>The optional babel plugin generates unique variable names during build time</Text>
+      <Text>
+        The optional babel plugin generates unique variable names during build
+        time
+      </Text>
       <CodeExample>
         {`
 {

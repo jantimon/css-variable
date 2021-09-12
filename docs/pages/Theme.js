@@ -32,6 +32,7 @@ export const Base = css`
   :global {
     * { box-sizing: inherit }
     body {
+      width: min-content;
       margin: 0;
       padding: 0;
       background: ${theme.colors.backgroundPrimary.val};

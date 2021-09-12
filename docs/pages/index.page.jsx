@@ -36,13 +36,27 @@ const HeaderLink = styled.a`
 `;
 
 const Main = styled.main`
-  padding: 0 10px;
+  padding: 80px 10px 50px;
   width: min-content;
   max-width: 800px;
-  margin: 80px auto 50px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: ${theme.spacings.m.val};
+`;
+
+const Gradient = styled.div`
+  position: relative;
+  z-index: -1;
+  :before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-image: radial-gradient(at -20% 0%, ${theme.colors.backgroundSecondary.val} -20%, #2551b0 65%, ${theme.colors.backgroundPrimary.val} 110%);
+    height: 400px;
+  }
 `;
 
 const Intro = styled.h2`
@@ -75,6 +89,7 @@ const Index = () => (
         <ThemeSwitch />
       </Header>
     </HeaderWrapper>
+    <Gradient />
     <Main>
       <Intro>
         Typesafe CSS Variable definitions for your CSS-in-JS solution

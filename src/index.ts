@@ -26,7 +26,11 @@ type CSSVariableOptions<TValue> =
   | { value: TValue | CSSVariable<TValue> };
 type CSSVariableValue = string | number;
 
-export class CSSVariable<TValue = CSSVariableValue> extends String {
+export class CSSVariable<TValue = CSSVariableValue> extends (
+  // Inherit from String to be compatible to most CSS-in-JS solutions
+  // Hacky cast to any for reduced autocomplete
+  String as any as { new(base: string): { toString: () => string } }
+) {
   private readonly unit: CSSUnit | "";
   /** Name e.g. `--baseSize` */
   readonly name: string;

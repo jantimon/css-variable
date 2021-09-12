@@ -144,7 +144,9 @@ type ThemeValues<TThemeStructure extends ThemeStructure> = {
  *    primary: "#6290C3",
  *    secondary: "#C2E7DA",
  *  }
- * })
+ * }) 
+ * 
+ * console.log(brightThemeCss) // -> `--1isaui4-0:#6290C3; --1isaui4-1:#C2E7DA;`
  * ```
  */
 export const serializeThemeValues = <TTheme extends ThemeStructure>(

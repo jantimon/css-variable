@@ -1,6 +1,5 @@
-/// @ts-check
 import styled from "styled-components";
-import { CSSVariable, serializeThemeValues } from "css-variable";
+import { CSSPixelValue, CSSVariable, serializeThemeValues } from "css-variable";
 
 const theme = {
   fontSize: new CSSVariable("FontSize"),
@@ -46,7 +45,7 @@ const ThemeB = styled.div`
 `;
 
 const colorVar = new CSSVariable({ value: theme.colors.primary });
-const xVar = new CSSVariable({ value: 0, unit: "px" });
+const xVar = new CSSVariable<CSSPixelValue>({ value: "0" });
 
 const StyledHeadline = styled.h1`
   font-family: Arial, Helvetica, sans-serif;
@@ -56,8 +55,7 @@ const StyledHeadline = styled.h1`
   width: calc(100% - 1 * ${xVar});
 `;
 
-/** @param {{color?:string, children: string}} props */
-const FancyComponent = ({ color, children }) => {
+const FancyComponent: React.FunctionComponent<{color?:string}> = ({ color, children }) => {
   return (
     <StyledHeadline style={color && colorVar.createStyle(color)}>
       {children}
@@ -70,17 +68,17 @@ const BigBox = styled.div`
   padding: ${theme.spacings.m};
 
   ${colorVar.createStyle("grey")}
-  ${xVar.createStyle(20)}
+  ${xVar.createStyle('20px')}
 
   @media (min-width: 500px) {
-    ${xVar.createStyle(250)};
+    ${xVar.createStyle('250px')};
   }
 `;
 
 const Demo = () => (
   <>
     <FancyComponent color="orange">Demo</FancyComponent>
-    <div style={xVar.createStyle(200)}>
+    <div style={xVar.createStyle(`200px`)}>
       <FancyComponent>xOffset</FancyComponent>
     </div>
     <BigBox>

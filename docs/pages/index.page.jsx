@@ -1,9 +1,8 @@
 /// @ts-check
-import "./Theme";
-import { Link } from "./Link";
 import { styled } from "linaria/lib/react";
-import { theme } from "./Theme";
 import { CodeExample } from "./CodeExample";
+import "./Theme";
+import { theme } from "./Theme";
 
 const Header = styled.header`
   display: grid;

@@ -1,5 +1,5 @@
-export type CSSUnit =
-  // Length
+export type CSSPixelValue = '0' | `${string}px`;
+export type CSSLengthValue = '0' | `${string}${
   | "%"
   | "ch"
   | "cm"
@@ -15,23 +15,22 @@ export type CSSUnit =
   | "vmax"
   | "vmin"
   | "vw"
-  //Angle
+}`;
+export type CSSAngleValue = `${string}${
   | "deg"
   | "grad"
   | "rad"
-  | "turn";
+  | "turn"
+}`;
+export type CSSHexColor = `#${string}`;
 
-type CSSVariableOptions<TValue> =
-  | { value: TValue | CSSVariable<TValue>; unit: CSSUnit }
-  | { value: TValue | CSSVariable<TValue> };
-type CSSVariableValue = string | number;
+type CSSVariableOptions<TValue> = { value: TValue | CSSVariable<TValue> };
 
-export class CSSVariable<TValue = CSSVariableValue> extends (
+export class CSSVariable<TValue = string> extends (
   // Inherit from String to be compatible to most CSS-in-JS solutions
   // Hacky cast to any for reduced autocomplete
   String as any as { new(base: string): { toString: () => string } }
 ) {
-  private readonly unit: CSSUnit | "";
   /** Name e.g. `--baseSize` */
   readonly name: string;
 
@@ -75,23 +74,20 @@ export class CSSVariable<TValue = CSSVariableValue> extends (
       (args.find((arg): arg is string => typeof arg === "string") ||
         // Fallback if babel plugin is missing
         Math.round(Math.random() * 10000).toString(16));
-    const unit =
-      ((optionArg || {}) as { unit: CSSUnit | undefined }).unit || "";
-    super(`var(${name}${optionArg ? `, ${optionArg.value + unit}` : ""})`);
+    super(`var(${name}${optionArg ? `, ${optionArg.value}` : ""})`);
     this.name = name;
-    this.unit = unit;
   }
   /** Returns the variable name e.g. `--baseSize` */
   getName() {
     return this.name;
   }
   /** Create a CSSObject e.g. `{ "--baseSize": '12px' }` */
-  createStyle(newValue: TValue | CSSVariable<TValue>, unit?: CSSUnit) {
-    return { [this.name]: newValue + (unit || this.unit) };
+  createStyle(newValue: TValue | CSSVariable<TValue>) {
+    return { [this.name]: (`${newValue}` as unknown as TValue) };
   }
   /** Create a CSSString e.g. `--baseSize:12px;` */
-  createCSS(newValue: TValue | CSSVariable<TValue>, unit?: CSSUnit) {
-    return `${this.name}:${newValue + (unit || this.unit)};`;
+  createCSS(newValue: TValue | CSSVariable<TValue> ) {
+    return `${this.name}:${newValue};`;
   }
   /** Returns the variable value e.g. `var(--baseSize, 12px)` */
   get val() {
@@ -117,14 +113,14 @@ export class CSSVariable<TValue = CSSVariableValue> extends (
  * ```
  */
 type ThemeStructure = { [key: string]: CSSVariable | ThemeStructure };
-type TCSSVariableValue<T> = T extends CSSVariable<infer U> ? U : T
+type Tstring<T> = T extends CSSVariable<infer U> ? U : T
 /**
  * The ThemeValues type is a helper to map a ThemeStructure to a value type
  * to guarantee that the structure and values in serializeThemeValues match 
  */
 type ThemeValues<TThemeStructure extends ThemeStructure> = {
   [Property in keyof TThemeStructure]: TThemeStructure[Property] extends CSSVariable
-  ? TCSSVariableValue<TThemeStructure[Property]> | CSSVariable<TCSSVariableValue<TThemeStructure[Property]>>
+  ? Tstring<TThemeStructure[Property]> | CSSVariable<Tstring<TThemeStructure[Property]>>
   : TThemeStructure[Property] extends ThemeStructure
   ? ThemeValues<TThemeStructure[Property]>
   : never;

@@ -1,4 +1,3 @@
-/// @ts-check
 import classnames from "classnames";
 import { css } from "linaria";
 import { gradientEndColor, gradientHover, gradientStartColor } from './text-gradient';

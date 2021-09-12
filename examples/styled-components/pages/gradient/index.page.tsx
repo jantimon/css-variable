@@ -1,4 +1,3 @@
-/// @ts-check
 import styled from "styled-components";
 import {
   gradientEndColor,
@@ -9,8 +8,8 @@ import {
 const Link = styled.a`
   font-family: Arial, Helvetica, sans-serif;
   font-size: 20px;
-  ${gradientStartColor.createStyle("orange")};
-  ${gradientEndColor.createStyle("purple")};
+  ${gradientStartColor.createStyle("#5610a5")};
+  ${gradientEndColor.createStyle("#2286ad")};
   ${gradientHover};
 `;
 

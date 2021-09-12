@@ -1,4 +1,3 @@
-/// @ts-check
 import { CSSVariable } from "css-variable";
 import { css } from "linaria";
 

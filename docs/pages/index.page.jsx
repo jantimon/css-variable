@@ -70,11 +70,11 @@ const Index = () => (
 
       <CodeExample>
         {`
-import { CssVariable } from 'css-variable';
+import { CSSVariable } from 'css-variable';
 
 export const theme = {
-  primary: new CssVariable(),
-  secondary: new CssVariable(),
+  primary: new CSSVariable(),
+  secondary: new CSSVariable(),
 }
 `}
       </CodeExample>
@@ -94,10 +94,10 @@ export const Headline = styled.h1\`
 
       <CodeExample>
         {`
-import { CssVariable } from 'css-variable';
+import { CSSVariable } from 'css-variable';
 
-export const color = new CssVariable({value: "#3a5779"});
-export const hoverColor = new CssVariable({value: "#23374e"});
+export const color = new CSSVariable({value: "#3a5779"});
+export const hoverColor = new CSSVariable({value: "#23374e"});
 
 export const Button = styled.button\`
   color: \${color};
@@ -146,19 +146,19 @@ export const TeaserDark = styled.button\`
       <Text>Set values of your CSS Variables in wrapper components</Text>
       <CodeExample>
         {`
-import { CssVariable, serializeThemeValues } from 'css-variable';
+import { CSSVariable, serializeThemeValues } from 'css-variable';
 
 export const theme = {
-  primary: new CssVariable(),
-  secondary: new CssVariable(),
+  primary: new CSSVariable(),
+  secondary: new CSSVariable(),
 }
 
-const lightThemeCss = serializeThemeValues(theme, {
+const lightThemeCSS = serializeThemeValues(theme, {
   primary: "#3a5779",
   secondary: "#23374e"
 });
 
-const darkThemeCss = serializeThemeValues(theme, {
+const darkThemeCSS = serializeThemeValues(theme, {
   primary: "#6191c9",
   secondary: "#4d79aa"
 });

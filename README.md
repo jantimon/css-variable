@@ -13,26 +13,26 @@ npm i css-variable
 
 ## Usage
 
-### `CssVariable`
+### `CSSVariable`
 
-The `CssVariable` constructor creates a new typed Token
+The `CSSVariable` constructor creates a new typed Token
 
 The constructor has an optional name property.
 If omitted a unique css variable will be auto generated:
 
 ```jsx
-import { CssVariable } from 'css-variable';
-export const baseSize = new CssVariable();
+import { CSSVariable } from 'css-variable';
+export const baseSize = new CSSVariable();
 ```
 
 Should you prefer a specific name just use it instead:
 
 ```jsx
-import { CssVariable } from 'css-variable';
-export const baseSize = new CssVariable("base-size");
+import { CSSVariable } from 'css-variable';
+export const baseSize = new CSSVariable("base-size");
 ```
 
-Once defined the CssVariable can be used in your css-in-js code.  
+Once defined the CSSVariable can be used in your css-in-js code.  
 It works for styled-components / emotion / linaria and similar solutions.
 
 ```jsx
@@ -41,7 +41,7 @@ const Headline = styled.h1`
 `
 ```
 
-The `createStyle` method allows to modify a Css Variables inside a block:
+The `createStyle` method allows to modify a CSS Variables inside a block:
 
 ```jsx
 const Section = styled.section`
@@ -75,29 +75,29 @@ The optional recommended babel plugin guarantees consistent variable names on SS
 
 With the plugin in place babel will inject the variable name during build time:
 
-  - `new CssVariable()` -> `/*@__PURE__ */ new CssVariable("1isaui4-0")`
-  - `new CssVariable({value: '10px'})` -> `/*@__PURE__ */ new CssVariable("1isaui4-0", {value: '10px'})`
+  - `new CSSVariable()` -> `/*@__PURE__ */ new CSSVariable("1isaui4-0")`
+  - `new CSSVariable({value: '10px'})` -> `/*@__PURE__ */ new CSSVariable("1isaui4-0", {value: '10px'})`
 
 ### Theming with `serializeThemeValues`
 
-The optional `serializeThemeValues` helper allows to combine multiple CssVariables into a theme.
+The optional `serializeThemeValues` helper allows to combine multiple CSSVariables into a theme.
 
-The following example is using styled components however the approach is compatible with most Css-in-JS libraries:
+The following example is using styled components however the approach is compatible with most CSS-in-JS libraries:
 
 ```js
 import styled, { createGlobalStyle } from 'styled-components';
-import { CssVariable, serializeThemeValues } from 'css-variable';
+import { CSSVariable, serializeThemeValues } from 'css-variable';
 
 // Define a theme structure
 const theme = {
   colors: {
-   primary: new CssVariable(),
-   secondary: new CssVariable(),
+   primary: new CSSVariable(),
+   secondary: new CSSVariable(),
  }
 }
 
 // Set theme values
-const themeCss = serializeThemeValues(theme, {
+const themeCSS = serializeThemeValues(theme, {
   colors: {
     primary: "#6290C3",
     secondary: "#C2E7DA",
@@ -105,7 +105,7 @@ const themeCss = serializeThemeValues(theme, {
 
 // Render theme
 // (this step depends on your css solution)
-const BrightTheme = createGlobalStyle`:root { ${themeCss} }`;
+const BrightTheme = createGlobalStyle`:root { ${themeCSS} }`;
 
 // Use the theme in your components
 const Button = styled.button`

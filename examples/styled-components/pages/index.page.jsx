@@ -1,17 +1,17 @@
 /// @ts-check
 import styled from "styled-components";
-import { CssVariable, serializeThemeValues } from "css-variable";
+import { CSSVariable, serializeThemeValues } from "css-variable";
 
 const theme = {
-  fontSize: new CssVariable("FontSize"),
+  fontSize: new CSSVariable("FontSize"),
   spacings: {
-    s: new CssVariable(),
-    m: new CssVariable(),
-    l: new CssVariable(),
+    s: new CSSVariable(),
+    m: new CSSVariable(),
+    l: new CSSVariable(),
   },
   colors: {
-    primary: new CssVariable("primary"),
-    secondary: new CssVariable("secondary"),
+    primary: new CSSVariable("primary"),
+    secondary: new CSSVariable("secondary"),
   },
 };
 
@@ -45,8 +45,8 @@ const ThemeB = styled.div`
   })}
 `;
 
-const colorVar = new CssVariable({ value: theme.colors.primary });
-const xVar = new CssVariable({ value: 0, unit: "px" });
+const colorVar = new CSSVariable({ value: theme.colors.primary });
+const xVar = new CSSVariable({ value: 0, unit: "px" });
 
 const StyledHeadline = styled.h1`
   font-family: Arial, Helvetica, sans-serif;

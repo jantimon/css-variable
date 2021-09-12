@@ -1,18 +1,18 @@
 /// @ts-check
-import { CssVariable, serializeThemeValues } from "css-variable";
+import { CSSVariable, serializeThemeValues } from "css-variable";
 import { css } from "linaria";
 
 export const theme = {
-  fontSize: new CssVariable("FontSize"),
+  fontSize: new CSSVariable("FontSize"),
   spacings: {
-    s: new CssVariable(),
-    m: new CssVariable(),
-    l: new CssVariable(),
+    s: new CSSVariable(),
+    m: new CSSVariable(),
+    l: new CSSVariable(),
   },
   colors: {
-    base: new CssVariable("base"),
-    primary: new CssVariable("primary"),
-    secondary: new CssVariable("secondary"),
+    base: new CSSVariable("base"),
+    primary: new CSSVariable("primary"),
+    secondary: new CSSVariable("secondary"),
   },
 };
 

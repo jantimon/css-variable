@@ -1,6 +1,6 @@
 // @ts-check
 const PACKAGE_NAME = "css-variable";
-const VARIABLE_NAME = "CssVariable";
+const VARIABLE_NAME = "CSSVariable";
 const hash = require("./hash");
 const path = require("path");
 
@@ -26,7 +26,7 @@ module.exports = function (babel) {
       // multiple builds.
       //
       // This is possible by hashing the source filename
-      // which includes the CssVariable.
+      // which includes the CSSVariable.
       // 
       // As an absolute file might be different from system to system
       // the relative filename is used instead
@@ -35,7 +35,7 @@ module.exports = function (babel) {
     },
     visitor: {
       ImportDeclaration({ node }) {
-        // Search for `import {CssVariable} from "css-variable";`
+        // Search for `import {CSSVariable} from "css-variable";`
         const isLib = node.source.value === PACKAGE_NAME;
         if (!isLib) {
           return;
@@ -60,8 +60,8 @@ module.exports = function (babel) {
         //
         // Inject the variable prefix 
         //
-        // E.g. CssVariable() -> CssVariable("1isaui4-0")
-        // E.g. CssVariable({value: "10px"}) -> CssVariable("1isaui4-0", {value: "10px"})
+        // E.g. CSSVariable() -> CSSVariable("1isaui4-0")
+        // E.g. CSSVariable({value: "10px"}) -> CSSVariable("1isaui4-0", {value: "10px"})
         //
         const constructorArguments = path.node.arguments;
         const firstArg = constructorArguments[0];
@@ -73,7 +73,7 @@ module.exports = function (babel) {
         }
         //
         // Inject @__PURE__ comment to tell terser that
-        // creating s CssVariable class instance will cause no 
+        // creating s CSSVariable class instance will cause no 
         // side effects and is save to be removed
         //
         path.addComment('leading', "@__PURE__");

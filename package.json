@@ -30,6 +30,9 @@
     "type": "git",
     "url": "git+https://github.com/jantimon/css-variable.git"
   },
+  "release": {
+    "branches": ["main"]
+  },
   "keywords": [
     "css"
   ],

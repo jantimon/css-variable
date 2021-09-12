@@ -83,11 +83,11 @@ export class CssVariable<TValue = CssVariableValue> extends String {
     return this.name;
   }
   /** Create a CssObject e.g. `{ "--baseSize": '12px' }` */
-  createStyle(newValue: TValue, unit?: CssUnit) {
+  createStyle(newValue: TValue | CssVariable<TValue>, unit?: CssUnit) {
     return { [this.name]: newValue + (unit || this.unit) };
   }
   /** Create a CssString e.g. `--baseSize:12px;` */
-  createCss(newValue: TValue, unit?: CssUnit) {
+  createCss(newValue: TValue | CssVariable<TValue>, unit?: CssUnit) {
     return `${this.name}:${newValue + (unit || this.unit)};`;
   }
   /** Returns the variable value e.g. `var(--baseSize, 12px)` */
@@ -96,12 +96,34 @@ export class CssVariable<TValue = CssVariableValue> extends String {
   }
 }
 
-type Theme = { [key: string]: CssVariable | Theme };
-type ThemeValues<TTheme extends Theme> = {
-  [Property in keyof TTheme]: TTheme[Property] extends CssVariable
-    ? string
-    : TTheme[Property] extends Theme
-    ? ThemeValues<TTheme[Property]>
+/**
+ * A theme structure groups multiple CssVariable instances 
+ * in a nested object structure e.g.:
+ * 
+ * ```ts
+ * const theme = { 
+ *   colors: {
+ *     primary: new CssVariable(),
+ *     secondary: new CssVariable()
+ *   },
+ *   spacings: {
+ *     small: new CssVariable(),
+ *     large: new CssVariable()
+ *   }
+ * }
+ * ```
+ */
+type ThemeStructure = { [key: string]: CssVariable | ThemeStructure };
+type TCssVariableValue<T> = T extends CssVariable<infer U> ? U : T
+/**
+ * The ThemeValues type is a helper to map a ThemeStructure to a value type
+ * to guarantee that the structure and values in serializeThemeValues match 
+ */
+type ThemeValues<TThemeStructure extends ThemeStructure> = {
+  [Property in keyof TThemeStructure]: TThemeStructure[Property] extends CssVariable
+    ? TCssVariableValue<TThemeStructure[Property]> | CssVariable<TCssVariableValue<TThemeStructure[Property]>>
+    : TThemeStructure[Property] extends ThemeStructure
+    ? ThemeValues<TThemeStructure[Property]>
     : never;
 };
 
@@ -116,6 +138,7 @@ type ThemeValues<TTheme extends Theme> = {
  *    secondary: new CssVariable(),
  *  }
  * }
+ * 
  * const brightThemeCss = serializeThemeValues(theme, {
  *   colors: {
  *    primary: "#6290C3",
@@ -124,17 +147,17 @@ type ThemeValues<TTheme extends Theme> = {
  * })
  * ```
  */
-export const serializeThemeValues = <TTheme extends Theme>(
+export const serializeThemeValues = <TTheme extends ThemeStructure>(
   cssVariables: TTheme,
-  themeValues: ThemeValues<TTheme>
+  cssVariableValues: ThemeValues<TTheme>
 ): string =>
   Object.keys(cssVariables)
     .map((key) =>
-      typeof themeValues[key] === "string"
-      ? (cssVariables[key] as CssVariable).createCss(themeValues[key] as string)
+      typeof cssVariableValues[key] === "string"
+      ? (cssVariables[key] as CssVariable).createCss(cssVariableValues[key] as string)
         : serializeThemeValues(
-            cssVariables[key] as Theme,
-            themeValues[key] as ThemeValues<Theme>
+            cssVariables[key] as ThemeStructure,
+            cssVariableValues[key] as ThemeValues<ThemeStructure>
           )
     )
     .join("");

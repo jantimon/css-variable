@@ -3,6 +3,7 @@ import { styled } from "linaria/lib/react";
 import { CodeExample } from "./CodeExample";
 import "./Theme";
 import { theme, ThemeSwitch } from "./Theme";
+import Head from 'next/head';
 
 const HeaderWrapper = styled.header`
   background: ${theme.colors.backgroundSecondary.val};
@@ -79,6 +80,9 @@ const Text = styled.p`
 
 const Index = () => (
   <>
+    <Head>
+      <link rel="shortcut icon" href="/static/favicon.png" />
+    </Head>
     <HeaderWrapper>
       <Header>
         <TextLogo>CSS Variable</TextLogo>

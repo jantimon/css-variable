@@ -9,7 +9,7 @@ const HeaderWrapper = styled.header`
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 5px;
+  padding: 5px 10px;
 `;
 
 const Header = styled.div`
@@ -36,7 +36,9 @@ const HeaderLink = styled.a`
 `;
 
 const Main = styled.main`
-  max-width: 600px;
+  padding: 0 10px;
+  width: min-content;
+  max-width: 800px;
   margin: 80px auto 50px;
   display: flex;
   flex-direction: column;
@@ -66,11 +68,11 @@ const Index = () => (
     <HeaderWrapper>
       <Header>
         <TextLogo>CSS Variable</TextLogo>
-        <ThemeSwitch />
         <HeaderLink href="/documentation">Documentation</HeaderLink>
         <HeaderLink href="https://github.com/jantimon/css-variable">
           Github
         </HeaderLink>
+        <ThemeSwitch />
       </Header>
     </HeaderWrapper>
     <Main>

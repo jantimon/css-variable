@@ -30,10 +30,12 @@ export const Font = css`
 
 export const Base = css`
   :global {
+    * { box-sizing: inherit }
     body {
       margin: 0;
       padding: 0;
       background: ${theme.colors.backgroundPrimary.val};
+      box-sizing: border-box;
     }
   }
 `;
@@ -80,10 +82,25 @@ const ThemeSwitchButton = styled.button`
   border: none;
   background: transparent;
   padding: 0;
+  position: relative;
+  overflow: hidden;
   :before {
-    content: "☀️";
+    transition: transform 300ms ease-in-out;
+    content: "🌙";
+    display: block;
     ${`.${invertedTheme}`} & {
-      content: "🌙";
+      transform: translateY(-120%);
+    }
+  }
+  :after {
+    transition: transform 300ms ease-in-out;
+    position: absolute;
+    left: 0;
+    top: 0;
+    content: "☀️";
+    transform: translateY(240%);
+    ${`.${invertedTheme}`} & {
+      transform: translateY(0);
     }
   }
 `;

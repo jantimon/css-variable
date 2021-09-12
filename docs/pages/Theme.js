@@ -21,7 +21,7 @@ export const theme = {
 
 export const Font = css`
   :global {
-    @import url("https://fonts.googleapis.com/css?family=Noto%20Sans&display=swap");
+    @import url("https://fonts.googleapis.com/css?family=Noto%20Sans");
     body {
       font-family: "Noto Sans";
     }

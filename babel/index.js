@@ -57,6 +57,7 @@ module.exports = function (babel) {
         if (!("name" in callee) || callee.name !== VARIABLE_NAME) {
           return;
         }
+        //
         // Inject the variable prefix 
         //
         // E.g. CssVariable() -> CssVariable("1isaui4-0")
@@ -70,6 +71,12 @@ module.exports = function (babel) {
             stringLiteral(this.varPrefix + "-" + this.varCount++)
           );
         }
+        //
+        // Inject @__PURE__ comment to tell terser that
+        // creating s CssVariable class instance will cause no 
+        // side effects and is save to be removed
+        //
+        path.addComment('leading', "@__PURE__");
       },
     },
   };

@@ -1,6 +1,6 @@
 /// @ts-check
 import { styled } from "linaria/lib/react";
-import { CodeExample } from "./CodeExample";
+import { CodeExample, CodeExampleWithPreview } from "./CodeExample";
 import "./Theme";
 import { theme, ThemeSwitch } from "./Theme";
 import Head from 'next/head';
@@ -126,7 +126,19 @@ export const Headline = styled.h1\`
         overwrites
       </Text>
 
-      <CodeExample>
+      <CodeExampleWithPreview preview={`
+import { CSSVariable } from 'css-variable';
+
+export const color = new CSSVariable("--1isaui4-0", {value: "#3a5779"});
+export const hoverColor = new CSSVariable("--1isaui4-1", {value: "#23374e"});
+
+export const Button = styled.button\`
+  color: var(--1isaui4-0, #3a5779);
+  :hover { 
+    color: var(--1isaui4-1, #23374e);
+  }
+\`;
+      `}>
         {`
 import { CSSVariable } from 'css-variable';
 
@@ -140,11 +152,39 @@ export const Button = styled.button\`
   }
 \`;
         `}
-      </CodeExample>
+      </CodeExampleWithPreview>
 
       <Headline>Modify CSSVariables</Headline>
       <Text>Set values of your CSS Variables in wrapper components</Text>
-      <CodeExample>
+      <CodeExampleWithPreview preview={`
+import { Button, color, hoverColor } from './Button'
+
+export const Teaser = styled.button\`
+  background: #C2E7DA;
+
+  --1isaui4-0: #3a5779;
+  --1isaui4-1: #23374e;
+
+  @media (prefers-color-scheme: dark) {
+    background: #23374e;
+    --1isaui4-0: #5886bb;
+    --1isaui4-1: #679cda;
+  }
+\`
+
+export const TeaserDark = styled.button\`
+  background: #23374e;
+
+  --1isaui4-0: #5886bb;
+  --1isaui4-1: #679cda;
+
+  @media (prefers-color-scheme: dark) {
+    background: #C2E7DA;
+    --1isaui4-0: #3a5779;
+    --1isaui4-1: #23374e;
+  }
+\`
+      `}>
         {`
 import { Button, color, hoverColor } from './Button'
 
@@ -174,18 +214,35 @@ export const TeaserDark = styled.button\`
   }
 \`
         `}
-      </CodeExample>
+      </CodeExampleWithPreview>
 
       <Headline>Use CSSVariables for themes</Headline>
       <Text>Set values of your CSS Variables in wrapper components</Text>
-      <CodeExample>
+      <CodeExampleWithPreview preview={`
+import { CSSVariable, serializeThemeValues } from 'css-variable';
+
+export const theme = {
+  primary: new CSSVariable("--1isaui4-0"),
+  secondary: new CSSVariable("--1isaui4-1"),
+};
+
+const lightThemeCSS = \`
+  --1isaui4-0: #3a5779;
+  --1isaui4-1: #23374e;
+\`;
+
+const darkThemeCSS = \`
+  --1isaui4-0: #6191c9;
+  --1isaui4-1: #4d79aa;
+\`;
+        `}>
         {`
 import { CSSVariable, serializeThemeValues } from 'css-variable';
 
 export const theme = {
   primary: new CSSVariable(),
   secondary: new CSSVariable(),
-}
+};
 
 const lightThemeCSS = serializeThemeValues(theme, {
   primary: "#3a5779",
@@ -197,7 +254,7 @@ const darkThemeCSS = serializeThemeValues(theme, {
   secondary: "#4d79aa"
 });
 `}
-      </CodeExample>
+      </CodeExampleWithPreview>
 
       <Headline>Unique and consistent variable names</Headline>
       <Text>

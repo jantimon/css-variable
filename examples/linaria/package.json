@@ -14,7 +14,7 @@
     "@types/react-dom": "17.0.9",
     "@types/styled-components": "5.1.14",
     "classnames": "2.3.1",
-    "css-variable": "../../",
+    "css-variable": "file:../../",
     "linaria": "2.1.0",
     "next": "^11.1.2",
     "next-linaria": "0.11.0",

@@ -15,6 +15,7 @@ const codeExampleStyles = css`
   padding: 10px 20px !important;
 `;
 
+/** @param {{children, className?: string}} props */
 export const CodeExample = ({ children, className }) => (
   <SyntaxHighlighter
     className={classnames(codeExampleStyles, className)}
@@ -56,10 +57,10 @@ const invisble = css`
   opacity: 0;
   pointer-events: none;
 `
-export const CodeExampleWithPreview = ({children, preview}) => {
+export const CodeExampleWithPreview = ({ children, preview, title }) => {
   const [isPreviewVisible, setPrviewVisible] = useState(false);
   return <CodeExampleWithPreviewWrapper>
-    <CodeSwitchButton onClick={() => setPrviewVisible(!isPreviewVisible)}>{isPreviewVisible ? 'hide' : 'show'}{" css variables"}</CodeSwitchButton>
+    <CodeSwitchButton onClick={() => setPrviewVisible(!isPreviewVisible)}>{isPreviewVisible ? 'hide' : 'show'}{` ${title}`}</CodeSwitchButton>
     <CodeExample className={classnames(gridOverlay, isPreviewVisible && invisble)}>{children}</CodeExample>
     <CodeExample className={classnames(gridOverlay, !isPreviewVisible && invisble)}>{preview}</CodeExample>
   </CodeExampleWithPreviewWrapper>

@@ -62,16 +62,14 @@ export class CSSVariable<TValue = string> extends (
   constructor(uniqueName: string, options: CSSVariableOptions<TValue>);
   /*#__PURE__*/
   constructor(
-    arg1?: string | CSSVariableOptions<TValue>,
-    arg2?: CSSVariableOptions<TValue>
+    ...args: Array<string | CSSVariableOptions<TValue>>
   ) {
-    const args = [arg2, arg1];
     const optionArg = args.find(
       (arg): arg is CSSVariableOptions<TValue> => typeof arg === "object"
     );
     const name =
       "--" +
-      (args.find((arg): arg is string => typeof arg === "string") ||
+      (args.filter((arg): arg is string => typeof arg === "string").join('-') ||
         // Fallback if babel plugin is missing
         Math.round(Math.random() * 10000).toString(16));
     super(`var(${name}${optionArg ? `, ${optionArg.value}` : ""})`);

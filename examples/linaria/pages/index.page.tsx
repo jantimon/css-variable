@@ -4,15 +4,15 @@ import { styled } from "linaria/react";
 
 
 const theme = {
-  fontSize: new CSSVariable("FontSize"),
+  fontSize: new CSSVariable(),
   spacings: {
     s: new CSSVariable(),
     m: new CSSVariable(),
     l: new CSSVariable(),
   },
   colors: {
-    primary: new CSSVariable("primary"),
-    secondary: new CSSVariable("secondary"),
+    primary: new CSSVariable(),
+    secondary: new CSSVariable(),
   },
 };
 

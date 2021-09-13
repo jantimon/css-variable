@@ -59,8 +59,7 @@ module.exports = function (babel) {
         //
         const constructorArguments = path.node.arguments;
         const firstArg = constructorArguments[0];
-        const secondArg = constructorArguments[1];
-        if (!secondArg && (!firstArg || firstArg.type !== "StringLiteral")) {
+        if (!firstArg || firstArg.type !== "StringLiteral") {
           constructorArguments.unshift(
             stringLiteral(devPrefix + getVarPrefix(this) + this.varCount++)
           );

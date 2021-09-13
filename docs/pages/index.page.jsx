@@ -66,6 +66,12 @@ const Intro = styled.h2`
   text-align: center;
 `;
 
+const Outro = styled.p`
+  font-size: 14px;
+  margin-top: 50px;
+  color: ${theme.colors.base.val};
+`;
+
 const Headline = styled.h2`
   font-size: 18px;
   color: ${theme.colors.base.val};
@@ -126,16 +132,16 @@ export const Headline = styled.h1\`
         overwrites
       </Text>
 
-      <CodeExampleWithPreview preview={`
+      <CodeExampleWithPreview title="css variables" preview={`
 import { CSSVariable } from 'css-variable';
 
-export const color = new CSSVariable("1isaui4-0", {value: "#3a5779"});
-export const hoverColor = new CSSVariable("1isaui4-1", {value: "#23374e"});
+export const color = new CSSVariable("1isauia0", {value: "#3a5779"});
+export const hoverColor = new CSSVariable("1isauia1", {value: "#23374e"});
 
 export const Button = styled.button\`
-  color: var(--1isaui4-0, #3a5779);
+  color: var(--1isauia0, #3a5779);
   :hover { 
-    color: var(--1isaui4-1, #23374e);
+    color: var(--1isauia1, #23374e);
   }
 \`;
       `}>
@@ -156,32 +162,32 @@ export const Button = styled.button\`
 
       <Headline>Modify CSSVariables</Headline>
       <Text>Set values of your CSS Variables in wrapper components</Text>
-      <CodeExampleWithPreview preview={`
+      <CodeExampleWithPreview title="css variables" preview={`
 import { Button, color, hoverColor } from './Button'
 
 export const Teaser = styled.button\`
   background: #C2E7DA;
 
-  --1isaui4-0: #3a5779;
-  --1isaui4-1: #23374e;
+  --1isauia0: #3a5779;
+  --1isauia1: #23374e;
 
   @media (prefers-color-scheme: dark) {
     background: #23374e;
-    --1isaui4-0: #5886bb;
-    --1isaui4-1: #679cda;
+    --1isauia0: #5886bb;
+    --1isauia1: #679cda;
   }
 \`
 
 export const TeaserDark = styled.button\`
   background: #23374e;
 
-  --1isaui4-0: #5886bb;
-  --1isaui4-1: #679cda;
+  --1isauia0: #5886bb;
+  --1isauia1: #679cda;
 
   @media (prefers-color-scheme: dark) {
     background: #C2E7DA;
-    --1isaui4-0: #3a5779;
-    --1isaui4-1: #23374e;
+    --1isauia0: #3a5779;
+    --1isauia1: #23374e;
   }
 \`
       `}>
@@ -218,22 +224,22 @@ export const TeaserDark = styled.button\`
 
       <Headline>Use CSSVariables for themes</Headline>
       <Text>Set values of your CSS Variables in wrapper components</Text>
-      <CodeExampleWithPreview preview={`
+      <CodeExampleWithPreview title="css variables" preview={`
 import { CSSVariable, serializeThemeValues } from 'css-variable';
 
 export const theme = {
-  primary: new CSSVariable("1isaui4-0"),
-  secondary: new CSSVariable("1isaui4-1"),
+  primary: new CSSVariable("1isauia0"),
+  secondary: new CSSVariable("1isauia1"),
 };
 
 const lightThemeCSS = \`
-  --1isaui4-0: #3a5779;
-  --1isaui4-1: #23374e;
+  --1isauia0: #3a5779;
+  --1isauia1: #23374e;
 \`;
 
 const darkThemeCSS = \`
-  --1isaui4-0: #6191c9;
-  --1isaui4-1: #4d79aa;
+  --1isauia0: #6191c9;
+  --1isauia1: #4d79aa;
 \`;
         `}>
         {`
@@ -269,6 +275,54 @@ const darkThemeCSS = serializeThemeValues(theme, {
   ]
 }`}
       </CodeExample>
+
+      <Text>
+        For better DX the variable name will be used as prefix for the css variable name unlesss either BABEL_ENV or NODE_ENV is set to "production" 
+      </Text>
+
+      <CodeExampleWithPreview title="transpiled" preview={`
+import { CSSVariable } from 'css-variable';
+
+export const theme = {
+  primary: new /*@__PURE__*/CSSVariable("primary--1isauia0"),
+  secondary: new /*@__PURE__*/CSSVariable("secondary--1isauia1"),
+};
+        `}>
+        {`
+import { CSSVariable } from 'css-variable';
+
+export const theme = {
+  primary: new CSSVariable(),
+  secondary: new CSSVariable(),
+};
+        `}
+      </CodeExampleWithPreview>
+
+      <Text>
+        In case that the name is passed as a variable the prefix will be concatinated to provide a unique name.
+      </Text>
+
+      <CodeExampleWithPreview title="transpiled" preview={`
+import { CSSVariable } from 'css-variable';
+
+export const values = ['primary', 'secondary']
+  .map((name) => new /*@__PURE__*/CSSVariable("1isauia0", name));
+
+console.log(values[0].val); // -> var(--1isauia0-primary)
+        `}>
+        {`
+import { CSSVariable } from 'css-variable';
+
+export const values = ['primary', 'secondary']
+  .map((name) => new CSSVariable(name));
+
+console.log(values[0].val); // -> var(--1isauia0-primary)
+        `}
+      </CodeExampleWithPreview>
+
+      <Outro>
+        MIT License
+      </Outro>
     </Main>
   </>
 );

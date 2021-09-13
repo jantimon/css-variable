@@ -49,7 +49,7 @@ module.exports = function (babel) {
         if (!("name" in callee) || callee.name !== VARIABLE_NAME) {
           return;
         }
-        const devName = this.isDev && getNameByUsage(path);
+        const devName = this.isDev && dashed(getNameByUsage(path));
         const devPrefix = devName ? `${devName}--` : "";
         //
         // Inject the variable prefix
@@ -100,6 +100,11 @@ function getNameByUsage(path) {
     }
   }
   return "";
+}
+
+/** @param {string} val */
+function dashed(val) {
+  return val.replace(/([A-Z])/g, (_, c) => `-${c.toLowerCase()}`) 
 }
 
 /** @type {WeakMap<import('@babel/core').PluginPass, string>} */

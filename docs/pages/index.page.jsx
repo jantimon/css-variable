@@ -129,8 +129,8 @@ export const Headline = styled.h1\`
       <CodeExampleWithPreview preview={`
 import { CSSVariable } from 'css-variable';
 
-export const color = new CSSVariable("--1isaui4-0", {value: "#3a5779"});
-export const hoverColor = new CSSVariable("--1isaui4-1", {value: "#23374e"});
+export const color = new CSSVariable("1isaui4-0", {value: "#3a5779"});
+export const hoverColor = new CSSVariable("1isaui4-1", {value: "#23374e"});
 
 export const Button = styled.button\`
   color: var(--1isaui4-0, #3a5779);
@@ -222,8 +222,8 @@ export const TeaserDark = styled.button\`
 import { CSSVariable, serializeThemeValues } from 'css-variable';
 
 export const theme = {
-  primary: new CSSVariable("--1isaui4-0"),
-  secondary: new CSSVariable("--1isaui4-1"),
+  primary: new CSSVariable("1isaui4-0"),
+  secondary: new CSSVariable("1isaui4-1"),
 };
 
 const lightThemeCSS = \`

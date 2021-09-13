@@ -59,7 +59,7 @@ const invisble = css`
 export const CodeExampleWithPreview = ({children, preview}) => {
   const [isPreviewVisible, setPrviewVisible] = useState(false);
   return <CodeExampleWithPreviewWrapper>
-    <CodeSwitchButton onClick={() => setPrviewVisible(!isPreviewVisible)}>{isPreviewVisible ? 'hide' : 'show'}{" preview"}</CodeSwitchButton>
+    <CodeSwitchButton onClick={() => setPrviewVisible(!isPreviewVisible)}>{isPreviewVisible ? 'hide' : 'show'}{" css variables"}</CodeSwitchButton>
     <CodeExample className={classnames(gridOverlay, isPreviewVisible && invisble)}>{children}</CodeExample>
     <CodeExample className={classnames(gridOverlay, !isPreviewVisible && invisble)}>{preview}</CodeExample>
   </CodeExampleWithPreviewWrapper>

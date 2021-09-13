@@ -41,7 +41,7 @@ export const Base = css`
   }
 `;
 
-const lightTheme = serializeThemeValues(theme, {
+const lightTheme = /*@__PURE__*/serializeThemeValues(theme, {
   fontSize: "12px",
   spacings: {
     s: "10px",
@@ -56,7 +56,7 @@ const lightTheme = serializeThemeValues(theme, {
     backgroundSecondary: "#e8e8e7",
   },
 });
-const darkTheme = serializeThemeValues(theme, {
+const darkTheme = /*@__PURE__*/serializeThemeValues(theme, {
   fontSize: "12px",
   spacings: {
     s: "10px",

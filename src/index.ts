@@ -69,7 +69,7 @@ export class CSSVariable<TValue = string> extends (
     );
     const name =
       "--" +
-      (args.filter((arg): arg is string => typeof arg === "string").join('-') ||
+      (args.filter((arg): arg is string => typeof arg === "string").join('-').toLowerCase() ||
         // Fallback if babel plugin is missing
         Math.round(Math.random() * 10000).toString(16));
     super(`var(${name}${optionArg ? `, ${optionArg.value}` : ""})`);

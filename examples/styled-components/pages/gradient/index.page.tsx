@@ -8,8 +8,8 @@ import {
 const Link = styled.a`
   font-family: Arial, Helvetica, sans-serif;
   font-size: 20px;
-  ${gradientStartColor.createStyle("#5610a5")};
-  ${gradientEndColor.createStyle("#2286ad")};
+  ${gradientStartColor.toStyle("#5610a5")};
+  ${gradientEndColor.toStyle("#2286ad")};
   ${gradientHover};
 `;
 

@@ -60,7 +60,7 @@ const StyledHeadline = styled.h1`
 
 const FancyComponent: React.FunctionComponent<{color?:string}> = ({ color, children }) => {
   return (
-    <StyledHeadline style={color && colorVar.createStyle(color)}>
+    <StyledHeadline style={color && colorVar.toStyle(color)}>
       {children}
     </StyledHeadline>
   );
@@ -70,18 +70,18 @@ const BigBox = styled.div`
   background: ${theme.colors.secondary.val};
   padding: ${theme.spacings.m.val};
 
-  ${colorVar.createStyle("grey")}
-  ${xVar.createStyle('20px')}
+  ${colorVar.toStyle("grey")}
+  ${xVar.toStyle('20px')}
 
   @media (min-width: 500px) {
-    ${xVar.createStyle('250px')};
+    ${xVar.toStyle('250px')};
   }
 `;
 
 const Demo = () => (
   <>
     <FancyComponent color="orange">Demo</FancyComponent>
-    <div style={xVar.createStyle(`200px`)}>
+    <div style={xVar.toStyle(`200px`)}>
       <FancyComponent>xOffset</FancyComponent>
     </div>
     <BigBox>

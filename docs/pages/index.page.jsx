@@ -191,26 +191,26 @@ import { Button, color, hoverColor } from './Button'
 export const Teaser = styled.button\`
   background: #C2E7DA;
 
-  \${color.createStyle("#3a5779")};
-  \${hoverColor.createStyle("#23374e")};
+  \${color.toStyle("#3a5779")};
+  \${hoverColor.toStyle("#23374e")};
 
   @media (prefers-color-scheme: dark) {
     background: #23374e;
-    \${color.createStyle("#5886bb")};
-    \${hoverColor.createStyle("#679cda")};
+    \${color.toStyle("#5886bb")};
+    \${hoverColor.toStyle("#679cda")};
   }
 \`
 
 export const TeaserDark = styled.button\`
   background: #23374e;
 
-  \${color.createStyle("#5886bb")};
-  \${hoverColor.createStyle("#679cda")};
+  \${color.toStyle("#5886bb")};
+  \${hoverColor.toStyle("#679cda")};
 
   @media (prefers-color-scheme: dark) {
     background: #C2E7DA;
-    \${color.createStyle("#3a5779")};
-    \${hoverColor.createStyle("#23374e")};
+    \${color.toStyle("#3a5779")};
+    \${hoverColor.toStyle("#23374e")};
   }
 \`
         `}

@@ -10,8 +10,8 @@ import {
 const StyledLink = styled.a`
   font-family: Arial, Helvetica, sans-serif;
   font-size: ${theme.fontSize.val};
-  ${gradientStartColor.createStyle("orange")};
-  ${gradientEndColor.createStyle("purple")};
+  ${gradientStartColor.toStyle("orange")};
+  ${gradientEndColor.toStyle("purple")};
 `;
 
 export const Link = (props) => <StyledLink className={gradientHover} {...props} />

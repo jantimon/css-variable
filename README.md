@@ -41,19 +41,19 @@ const Headline = styled.h1`
 `
 ```
 
-The `createStyle` method allows to modify a CSS Variables inside a block:
+The `toStyle` method allows to modify a CSS Variables inside a block:
 
 ```jsx
 const Section = styled.section`
-  ${baseSize.createStyle("12px")}
+  ${baseSize.toStyle("12px")}
 `
 ```
 
-Additionally the he `createStyle` method allows to set a css variable dynamically inline:
+Additionally the he `toStyle` method allows to set a css variable dynamically inline:
 
 ```jsx
 const Wrapper = ({children, large}) => (
-    <div style={baseSize.createStyle(large ? "24px" : "12px")}>
+    <div style={baseSize.toStyle(large ? "24px" : "12px")}>
         {children}
     </div>
 )

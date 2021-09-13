@@ -5,8 +5,8 @@ import { gradientEndColor, gradientHover, gradientStartColor } from './text-grad
 const baseLink = css`
   font-family: Arial, Helvetica, sans-serif;
   font-size: 20px;
-  ${gradientStartColor.createStyle("orange")};
-  ${gradientEndColor.createStyle("purple")};
+  ${gradientStartColor.toStyle("orange")};
+  ${gradientEndColor.toStyle("purple")};
 `
 
 const Link = (props) => <a {...props} className={classnames(props.className, baseLink, gradientHover)} /> 

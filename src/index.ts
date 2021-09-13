@@ -81,12 +81,12 @@ export class CSSVariable<TValue = string> extends (
   getName() {
     return this.name;
   }
-  /** Create a CSSObject e.g. `{ "--baseSize": '12px' }` */
-  createStyle(newValue: TValue | CSSVariable<TValue>) {
+  /** Create a CSS Object e.g. `{ "--baseSize": '12px' }` */
+  toStyle(newValue: TValue | CSSVariable<TValue>) {
     return { [this.name]: (`${newValue}` as unknown as TValue) };
   }
-  /** Create a CSSString e.g. `--baseSize:12px;` */
-  createCSS(newValue: TValue | CSSVariable<TValue> ) {
+  /** Create a CSS String e.g. `--baseSize:12px;` */
+  toCSS(newValue: TValue | CSSVariable<TValue> ) {
     return `${this.name}:${newValue};`;
   }
   /** Returns the variable value e.g. `var(--baseSize, 12px)` */
@@ -155,7 +155,7 @@ export const serializeThemeValues = <TTheme extends ThemeStructure>(
   Object.keys(cssVariables)
     .map((key) =>
       typeof cssVariableValues[key] === "string"
-        ? (cssVariables[key] as CSSVariable).createCSS(cssVariableValues[key] as string)
+        ? (cssVariables[key] as CSSVariable).toCSS(cssVariableValues[key] as string)
         : serializeThemeValues(
           cssVariables[key] as ThemeStructure,
           cssVariableValues[key] as ThemeValues<ThemeStructure>

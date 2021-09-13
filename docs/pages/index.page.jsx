@@ -165,6 +165,7 @@ export const Button = styled.button\`
       <CodeExampleWithPreview title="css variables" preview={`
 import { Button, color, hoverColor } from './Button'
 
+// A light Teaser with light buttons inside
 export const Teaser = styled.button\`
   background: #C2E7DA;
 
@@ -178,7 +179,8 @@ export const Teaser = styled.button\`
   }
 \`
 
-export const TeaserDark = styled.button\`
+// A dark Teaser with dark buttons inside
+export const TeaserDark = styled.div\`
   background: #23374e;
 
   --1isauia0: #5886bb;
@@ -194,7 +196,8 @@ export const TeaserDark = styled.button\`
         {`
 import { Button, color, hoverColor } from './Button'
 
-export const Teaser = styled.button\`
+// A light Teaser with light buttons inside
+export const Teaser = styled.div\`
   background: #C2E7DA;
 
   \${color.toStyle("#3a5779")};
@@ -207,7 +210,8 @@ export const Teaser = styled.button\`
   }
 \`
 
-export const TeaserDark = styled.button\`
+// A dark Teaser with dark buttons inside
+export const TeaserDark = styled.div\`
   background: #23374e;
 
   \${color.toStyle("#5886bb")};

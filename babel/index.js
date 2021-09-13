@@ -2,11 +2,12 @@
 const PACKAGE_NAME = "css-variable";
 const VARIABLE_NAME = "CSSVariable";
 const hash = require("./hash");
-const path = require("path");
+const pathRelative = require("path").relative;
 
 /**
  * @param {import('@babel/core')} babel
  * @returns {import('@babel/core').PluginObj<{
+ *  isDev: boolean,
  *  varCount: number,
  *  varPrefix: string,
  *  isImportedInCurrentFile: boolean
@@ -22,16 +23,7 @@ module.exports = function (babel) {
     pre() {
       this.isImportedInCurrentFile = false;
       this.varCount = 0;
-      // Variables should keep the same generated name for
-      // multiple builds.
-      //
-      // This is possible by hashing the source filename
-      // which includes the CSSVariable.
-      // 
-      // As an absolute file might be different from system to system
-      // the relative filename is used instead
-      const relativeFileName = path.relative(__dirname, this.file.opts.filename).replace(/\\/g, '/')
-      this.varPrefix = hash(this.file.opts.filename || "weruz");
+      this.isDev = this.file.opts.envName === "development";
     },
     visitor: {
       ImportDeclaration({ node }) {
@@ -57,8 +49,10 @@ module.exports = function (babel) {
         if (!("name" in callee) || callee.name !== VARIABLE_NAME) {
           return;
         }
+        const devName = this.isDev && getNameByUsage(path);
+        const devPrefix = devName ? `${devName}--` : "";
         //
-        // Inject the variable prefix 
+        // Inject the variable prefix
         //
         // E.g. CSSVariable() -> CSSVariable("1isaui4-0")
         // E.g. CSSVariable({value: "10px"}) -> CSSVariable("1isaui4-0", {value: "10px"})
@@ -68,16 +62,71 @@ module.exports = function (babel) {
         const secondArg = constructorArguments[1];
         if (!secondArg && (!firstArg || firstArg.type !== "StringLiteral")) {
           constructorArguments.unshift(
-            stringLiteral(this.varPrefix + "-" + this.varCount++)
+            stringLiteral(devPrefix + getVarPrefix(this) + this.varCount++)
           );
         }
         //
         // Inject @__PURE__ comment to tell terser that
-        // creating s CSSVariable class instance will cause no 
+        // creating s CSSVariable class instance will cause no
         // side effects and is save to be removed
         //
-        path.addComment('leading', "@__PURE__");
+        path.addComment("leading", "@__PURE__");
       },
     },
   };
 };
+
+/**
+ * Tries to extract the name for readable names in developments
+ * e.g.:
+ *
+ * `const fontSize = new CSSVariable()` -> fontSize
+ * `const theme = { primary: new CSSVariable() }` -> primary
+ *
+ * @param {import('@babel/core').NodePath} path
+ */
+function getNameByUsage(path) {
+  const parent = path.parent;
+  if (!parent) return;
+  if (parent.type === "ObjectProperty") {
+    const key = parent.key;
+    if (key && key.type === "Identifier" && key.name) {
+      return key.name;
+    }
+  }
+  if (parent.type === "VariableDeclarator") {
+    const id = parent.id;
+    if (id && id.type === "Identifier" && id.name) {
+      return id.name;
+    }
+  }
+  return "";
+}
+
+/** @type {WeakMap<import('@babel/core').PluginPass, string>} */
+const prefixCache = new WeakMap();
+/**
+ * Returns a unique name based on the processed filename
+ * 
+ * @param {import('@babel/core').PluginPass} pass
+ */
+function getVarPrefix(pass) {
+    const fromCache = prefixCache.get(pass);
+    if (fromCache) {
+      return fromCache;
+    }
+    // Variables should keep the same generated name for
+    // multiple builds.
+    //
+    // This is possible by hashing the source filename
+    // which includes the CSSVariable.
+    //
+    // As an absolute file might be different from system to system
+    // the relative filename is used instead
+    const relativeFileName = pass.file.opts.filename
+      ? pathRelative(__dirname, pass.file.opts.filename).replace(/\\/g, "/")
+      : "jantimon";
+    const prefix = hash(relativeFileName);
+    prefixCache.set(pass, prefix);
+    return prefix;
+}

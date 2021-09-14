@@ -278,7 +278,7 @@ export const Button = styled.button\`
         <SectionContent>
           <Headline>Unique and consistent variable names</Headline>
           <Text>
-            The optional babel plugin generates unique variable names during
+            The recommended babel plugin generates unique variable names during
             build time
           </Text>
         </SectionContent>
@@ -290,7 +290,8 @@ export const Button = styled.button\`
   "plugins": [
       "css-variable/babel"
   ]
-}`,
+}
+`,
             }}
           </CodeExamples>
         </SectionExample>

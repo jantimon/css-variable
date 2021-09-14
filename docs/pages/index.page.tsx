@@ -321,16 +321,16 @@ export const theme = {
 import { CSSVariable } from 'css-variable';
 
 export const theme = {
-primary: new /*@__PURE__*/CSSVariable("primary--1isauia0"),
-secondary: new /*@__PURE__*/CSSVariable("secondary--1isauia1"),
+  primary: new /*@__PURE__*/CSSVariable("primary--1isauia0"),
+  secondary: new /*@__PURE__*/CSSVariable("secondary--1isauia1"),
 };
 `,
 "transpiled prod": `
 import { CSSVariable } from 'css-variable';
 
 export const theme = {
-primary: new /*@__PURE__*/CSSVariable("1isauia0"),
-secondary: new /*@__PURE__*/CSSVariable("1isauia1"),
+  primary: new /*@__PURE__*/CSSVariable("1isauia0"),
+  secondary: new /*@__PURE__*/CSSVariable("1isauia1"),
 };
 `,
             }}

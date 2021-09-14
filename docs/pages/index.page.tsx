@@ -38,14 +38,14 @@ const HeaderLink = styled.a`
 
 const Main = styled.main`
   padding: 80px 50px 0px;
-  width: max-content;
+  width: 100%;
   max-width: 900px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: ${theme.spacings.m.val};
 
-  @media (min-width: 800px) {
+  @media (min-width: 860px) {
     padding-left: 10px;
     padding-right: 10px;
   }
@@ -56,7 +56,7 @@ const Section = styled.section<{ reverse?: boolean }>`
   gap: 30px;
   flex-wrap: wrap;
   flex-direction: ${({ reverse }) => (reverse ? "row-reverse" : "row")};
-  @media (min-width: 800px) {
+  @media (min-width: 860px) {
     flex-wrap: nowrap;
     margin-bottom: 120px;
   }
@@ -80,7 +80,7 @@ const SectionExample = styled.div`
   flex-grow: 0;
   flex-shrink: 0;
   width: 100%;
-  @media (min-width: 800px) {
+  @media (min-width: 860px) {
     width: 65%;
   }
 `;
@@ -113,11 +113,18 @@ const Footer = styled.footer`
 
 const FooterContent = styled.div`
   max-width: 1200px;
-  width: min-content;
+  width: 100%;
   margin: 0 auto;
-  display: flex;
-  gap: 8px;
+  text-align: center;
 `;
+
+const Badges = styled.div`
+  display: inline-flex;
+  gap: 8px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  line-height: 0;
+`
 
 const Index = () => (
   <>
@@ -331,6 +338,7 @@ export const theme = {
     </Main>
     <Footer>
       <FooterContent>
+        <Badges>
         <a href="https://www.npmjs.com/package/css-variable" target="_blank">
           <img
             alt="npm"
@@ -349,6 +357,8 @@ export const theme = {
             alt="Github"
           />
         </a>
+        </Badges>
+        <Badges>
         <a
           href="https://github.com/jantimon/css-variable/actions/workflows/e2e-test.yml"
           target="_blank"
@@ -367,6 +377,7 @@ export const theme = {
             src="https://img.shields.io/npm/l/css-variable?style=for-the-badge"
           />
         </a>
+        </Badges>
       </FooterContent>
     </Footer>
   </>

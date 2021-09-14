@@ -56,6 +56,7 @@ const Section = styled.section<{ reverse?: boolean }>`
   gap: 30px;
   flex-wrap: wrap;
   flex-direction: ${({ reverse }) => (reverse ? "row-reverse" : "row")};
+  margin-bottom: 80px;
   @media (min-width: 860px) {
     flex-wrap: nowrap;
     margin-bottom: 120px;
@@ -65,12 +66,16 @@ const Section = styled.section<{ reverse?: boolean }>`
 const SectionContent = styled.div`
   display: flex;
   max-width: 600px;
-  margin: 0 auto 40px;
+  margin: 0 auto;
   gap: ${theme.spacings.m.val};
   flex-direction: column;
   flex-grow: 0;
   flex-shrink: 1;
   width: 100%;
+  @media (min-width: 860px) {
+    flex-wrap: nowrap;
+    margin-bottom: 40px;
+  }
 `;
 
 const SectionExample = styled.div`

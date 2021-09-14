@@ -136,7 +136,7 @@ const Index = () => (
     </HeaderWrapper>
     <Main>
       <Intro>
-        Typesafe CSS Variable definitions for your CSS-in-JS solution
+        CSS Variables for your CSS-in-JS solution
       </Intro>
 
       <Section>
@@ -332,10 +332,11 @@ export const theme = {
     </Main>
     <Footer>
       <FooterContent>
-        <a href="https://github.com/jantimon/css-variable/blob/main/license" target="_blank"><img alt="MIT License" src="https://img.shields.io/npm/l/css-variable?style=for-the-badge" /></a>
+      <a href="https://www.npmjs.com/package/css-variable" target="_blank"><img alt="npm" src="https://img.shields.io/npm/v/css-variable?style=for-the-badge" /></a>
         <a href="https://bundlephobia.com/package/css-variable" target="_blank"><img alt="BundleSize" src="https://img.shields.io/bundlephobia/minzip/css-variable?style=for-the-badge" /></a>
+        <a href="https://github.com/jantimon/css-variable/" target="_blank"><img src="https://img.shields.io/badge/github-OSS-brightgreen?style=for-the-badge&logo=GitHub" alt="Github" /></a>
         <a href="https://github.com/jantimon/css-variable/actions/workflows/e2e-test.yml" target="_blank"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/jantimon/css-variable/e2e%20test/main?style=for-the-badge" /></a>
-        <a href="https://www.npmjs.com/package/css-variable" target="_blank"><img alt="npm" src="https://img.shields.io/npm/v/css-variable?style=for-the-badge" /></a>
+        <a href="https://github.com/jantimon/css-variable/blob/main/license" target="_blank"><img alt="MIT License" src="https://img.shields.io/npm/l/css-variable?style=for-the-badge" /></a>
       </FooterContent>
     </Footer>
   </>

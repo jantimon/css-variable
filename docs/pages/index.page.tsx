@@ -302,14 +302,14 @@ export const Button = styled.button\`
           <Headline>Automatic DX</Headline>
 
           <Text>
-            All generated variable names will have human readable names during development
+            All babel generated variable names will have human readable names during development
           </Text>
         </SectionContent>
 
         <SectionExample>
           <CodeExamples>
             {{
-              "show code": `
+              "original": `
 import { CSSVariable } from 'css-variable';
 
 export const theme = {
@@ -317,12 +317,20 @@ export const theme = {
   secondary: new CSSVariable(),
 };
 `,
-              "show transpiled": `
+"transpiled dev": `
 import { CSSVariable } from 'css-variable';
 
 export const theme = {
-  primary: new /*@__PURE__*/CSSVariable("primary--1isauia0"),
-  secondary: new /*@__PURE__*/CSSVariable("secondary--1isauia1"),
+primary: new /*@__PURE__*/CSSVariable("primary--1isauia0"),
+secondary: new /*@__PURE__*/CSSVariable("secondary--1isauia1"),
+};
+`,
+"transpiled prod": `
+import { CSSVariable } from 'css-variable';
+
+export const theme = {
+primary: new /*@__PURE__*/CSSVariable("1isauia0"),
+secondary: new /*@__PURE__*/CSSVariable("1isauia1"),
 };
 `,
             }}

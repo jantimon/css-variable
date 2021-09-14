@@ -42,7 +42,7 @@
   "bugs": {
     "url": "https://github.com/jantimon/css-variable/issues"
   },
-  "homepage": "https://github.com/jantimon/css-variable#readme",
+  "homepage": "https://css-variable.js.org/",
   "devDependencies": {
     "@babel/cli": "^7.15.4",
     "@babel/core": "^7.15.5",

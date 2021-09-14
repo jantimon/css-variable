@@ -37,7 +37,7 @@ const HeaderLink = styled.a`
 `;
 
 const Main = styled.main`
-  padding: 80px 50px 50px;
+  padding: 80px 50px 0px;
   width: max-content;
   max-width: 900px;
   margin: 0 auto;
@@ -95,13 +95,13 @@ const Intro = styled.h2`
 const Headline = styled.h2`
   font-size: 18px;
   color: ${theme.colors.base.val};
-  margin: 0 0 ${theme.spacings.s.val} 0;
+  margin: 0 0 5px 0;
 `;
 
 const Text = styled.p`
   font-size: 16px;
   color: ${theme.colors.base.val};
-  margin: 0;
+  margin: 0 0 15px 0;
 `;
 
 const Footer = styled.footer`
@@ -109,7 +109,7 @@ const Footer = styled.footer`
   background: ${theme.colors.backgroundSecondary.val};
   color: ${theme.colors.base.val};
   padding: 20px;
-`
+`;
 
 const FooterContent = styled.div`
   max-width: 1200px;
@@ -117,7 +117,7 @@ const FooterContent = styled.div`
   margin: 0 auto;
   display: flex;
   gap: 8px;
-`
+`;
 
 const Index = () => (
   <>
@@ -135,13 +135,11 @@ const Index = () => (
       </Header>
     </HeaderWrapper>
     <Main>
-      <Intro>
-        CSS Variables for your CSS-in-JS solution
-      </Intro>
+      <Intro>CSS Variables for your CSS-in-JS solution</Intro>
 
       <Section>
         <SectionContent>
-          <Text>CSS Variables allow you:</Text>
+          <Text>Built with high focus on performance</Text>
           <Text>
             ✨ <b>better</b> minification of your css
           </Text>
@@ -227,8 +225,8 @@ export const Headline = styled.h1\`
 
       <Section reverse>
         <SectionContent>
-          <Headline>Build themable CSS Snippets</Headline>
-          <Text>Define which part of your reusable css can be customized.</Text>
+          <Headline>Create themable CSS Snippets</Headline>
+          <Text>Define which parts of your reusable css are customizable without overwrites</Text>
         </SectionContent>
         <SectionExample>
           <CodeExamples>
@@ -281,6 +279,11 @@ export const Button = styled.button\`
             The recommended babel plugin generates unique variable names during
             build time
           </Text>
+          <Headline>Automatic DX</Headline>
+          <Text>
+            All babel generated variable names will have human readable names
+            during development
+          </Text>
         </SectionContent>
         <SectionExample>
           <CodeExamples>
@@ -294,22 +297,9 @@ export const Button = styled.button\`
 `,
             }}
           </CodeExamples>
-        </SectionExample>
-      </Section>
-
-      <Section reverse>
-        <SectionContent>
-          <Headline>Automatic DX</Headline>
-
-          <Text>
-            All babel generated variable names will have human readable names during development
-          </Text>
-        </SectionContent>
-
-        <SectionExample>
           <CodeExamples>
             {{
-              "original": `
+              original: `
 import { CSSVariable } from 'css-variable';
 
 export const theme = {
@@ -317,7 +307,7 @@ export const theme = {
   secondary: new CSSVariable(),
 };
 `,
-"transpiled dev": `
+              "transpiled dev": `
 import { CSSVariable } from 'css-variable';
 
 export const theme = {
@@ -325,7 +315,7 @@ export const theme = {
   secondary: new /*@__PURE__*/CSSVariable("secondary--1isauia1"),
 };
 `,
-"transpiled prod": `
+              "transpiled prod": `
 import { CSSVariable } from 'css-variable';
 
 export const theme = {
@@ -341,11 +331,42 @@ export const theme = {
     </Main>
     <Footer>
       <FooterContent>
-      <a href="https://www.npmjs.com/package/css-variable" target="_blank"><img alt="npm" src="https://img.shields.io/npm/v/css-variable?style=for-the-badge" /></a>
-        <a href="https://bundlephobia.com/package/css-variable" target="_blank"><img alt="BundleSize" src="https://img.shields.io/bundlephobia/minzip/css-variable?style=for-the-badge" /></a>
-        <a href="https://github.com/jantimon/css-variable/" target="_blank"><img src="https://img.shields.io/badge/github-OSS-brightgreen?style=for-the-badge&logo=GitHub" alt="Github" /></a>
-        <a href="https://github.com/jantimon/css-variable/actions/workflows/e2e-test.yml" target="_blank"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/jantimon/css-variable/e2e%20test/main?style=for-the-badge" /></a>
-        <a href="https://github.com/jantimon/css-variable/blob/main/license" target="_blank"><img alt="MIT License" src="https://img.shields.io/npm/l/css-variable?style=for-the-badge" /></a>
+        <a href="https://www.npmjs.com/package/css-variable" target="_blank">
+          <img
+            alt="npm"
+            src="https://img.shields.io/npm/v/css-variable?style=for-the-badge"
+          />
+        </a>
+        <a href="https://bundlephobia.com/package/css-variable" target="_blank">
+          <img
+            alt="BundleSize"
+            src="https://img.shields.io/bundlephobia/minzip/css-variable?style=for-the-badge"
+          />
+        </a>
+        <a href="https://github.com/jantimon/css-variable/" target="_blank">
+          <img
+            src="https://img.shields.io/badge/github-OSS-brightgreen?style=for-the-badge&logo=GitHub"
+            alt="Github"
+          />
+        </a>
+        <a
+          href="https://github.com/jantimon/css-variable/actions/workflows/e2e-test.yml"
+          target="_blank"
+        >
+          <img
+            alt="GitHub Workflow Status"
+            src="https://img.shields.io/github/workflow/status/jantimon/css-variable/e2e%20test/main?style=for-the-badge"
+          />
+        </a>
+        <a
+          href="https://github.com/jantimon/css-variable/blob/main/license"
+          target="_blank"
+        >
+          <img
+            alt="MIT License"
+            src="https://img.shields.io/npm/l/css-variable?style=for-the-badge"
+          />
+        </a>
       </FooterContent>
     </Footer>
   </>

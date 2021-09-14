@@ -51,6 +51,7 @@ const CodeButtonWrapper = styled.div`
   grid-row-end: 1;
   justify-self: end;
   white-space: nowrap;
+  margin-top: -5px;
 `;
 
 const MultiCodeButton = styled.button<{active?: boolean}>`

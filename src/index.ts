@@ -150,7 +150,7 @@ export const serializeThemeValues = <TTheme extends ThemeStructure>(
   cssVariables: TTheme,
   cssVariableValues: ThemeValues<TTheme>
 ): string =>
-  Object.keys(cssVariables)
+  Object.keys(cssVariableValues)
     .map((key) =>
       typeof cssVariableValues[key] === "string"
         ? (cssVariables[key] as CSSVariable).toCSS(cssVariableValues[key] as string)
@@ -160,3 +160,31 @@ export const serializeThemeValues = <TTheme extends ThemeStructure>(
         )
     )
     .join("");
+
+
+type DeepPartial<T> = T extends Function ? T : (T extends object ? { [P in keyof T]?: DeepPartial<T[P]>; } : T);
+/**
+ * Generate CSS for a subset of a Theme
+ * 
+ * @example
+ * ```js
+ * const theme = {
+ *   colors: {
+ *    primary: new CSSVariable(),
+ *    secondary: new CSSVariable(),
+ *  }
+ * }
+ * 
+ * const brightThemeCSS = serializePartialValues(theme, {
+ *   colors: {
+ *    primary: "#6290C3",
+ *  }
+ * }) 
+ * 
+ * console.log(brightThemeCSS) // -> `--1isaui4-0:#6290C3;`
+ * ```
+ */
+export const serializePartialThemeValues = serializeThemeValues as (<TTheme extends ThemeStructure>(
+  cssVariables: TTheme,
+  cssVariableValues: DeepPartial<ThemeValues<TTheme>>
+)=> string);

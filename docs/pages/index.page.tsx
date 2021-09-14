@@ -178,7 +178,7 @@ import { CSSVariable } from 'css-variable';
 import { createGlobalStyle } from 'styled-components';
 import { tokens } from './tokens' 
 
-export const GlobalStyles = \`:root {
+export const GlobalStyles = createGlobalStyle\`:root {
   $\{serializeThemeValues(tokens, {
     primary: '#3a5779',
     secondary: '#23374e',

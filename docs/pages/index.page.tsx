@@ -171,7 +171,7 @@ import { createVar } from 'css-variable';
 export const tokens = {
   primary: createVar(),
   secondary: createVar(),
-}
+};
 `,
             }}
           </CodeExamples>
@@ -181,19 +181,20 @@ export const tokens = {
               "styled-components": `
 import { createGlobalTheme } from 'css-variable';
 import { createGlobalStyle } from 'styled-components';
-import { tokens } from './tokens' 
+import { tokens } from './tokens';
 
 export const GlobalStyles = createGlobalStyle\`
   $\{createGlobalTheme(":root", tokens, {
     primary: '#3a5779',
     secondary: '#23374e',
   })}
+\`;
 `,
 
               emotion: `
 import { createGlobalTheme } from 'css-variable';
-import { Global, css } from '@emotion/react'
-import { tokens } from './tokens' 
+import { Global, css } from '@emotion/react';
+import { tokens } from './tokens';
 
 export const GlobalStyles = () =>
   <Global styles={css\`
@@ -201,20 +202,20 @@ export const GlobalStyles = () =>
       primary: '#3a5779',
       secondary: '#23374e',
     })}}\`
-  } />
+  } />;
 `,
 
               linaria: `
 import { createGlobalTheme } from 'css-variable';
-import { css } from 'linaria'
-import { tokens } from './tokens' 
+import { css } from 'linaria';
+import { tokens } from './tokens'; 
 
 export const globalStyles = css\`:global() {
     $\{createGlobalTheme(":root", tokens, {
     primary: '#3a5779',
     secondary: '#23374e',
   })
-}\` 
+}\`;
 `,
             }}
           </CodeExamples>
@@ -222,7 +223,7 @@ export const globalStyles = css\`:global() {
           <CodeExamples>
             {{
               'js source': `
-import { tokens } from './tokens' 
+import { tokens } from './tokens'; 
 
 export const Headline = styled.h1\`
   color: \${tokens.primary};

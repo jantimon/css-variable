@@ -85,6 +85,8 @@ const ThemeSwitchButton = styled.button`
   padding: 0;
   position: relative;
   overflow: hidden;
+  font-size: 80%;
+  cursor: pointer;
   :before {
     transition: transform 300ms ease-in-out;
     content: "🌙";
@@ -109,6 +111,7 @@ const ThemeSwitchButton = styled.button`
 export const ThemeSwitch = () => (
   <ThemeSwitchButton
     onClick={() => document.body.classList.toggle(invertedTheme)}
+    title="Toggle Light/Dark Mode"
   />
 );
 

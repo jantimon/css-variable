@@ -64,6 +64,7 @@ const MultiCodeButton = styled.button<{active?: boolean}>`
   position: relative;
   top: 5px;
   border: 0;
+  margin: 0;
   padding: 5px 20px;
   cursor: pointer;
   & + & {
@@ -76,10 +77,7 @@ export const CodeExamples = ({ children }) => {
   const [activeKey, setActiveKeys] = useState(keys[0]);
   return <CodeExampleWrapper>
     <CodeButtonWrapper>
-      {keys.length === 2 && keys.map((key) => key !== activeKey && (
-        <MultiCodeButton key={key} onClick={() => setActiveKeys(key)}>{key}</MultiCodeButton>
-      ))}
-      {keys.length > 2 && keys.map((key) => (
+      {keys.length > 1 && keys.map((key) => (
         <MultiCodeButton key={key} active={activeKey === key} onClick={() => setActiveKeys(key)}>{key}</MultiCodeButton>
       ))}
     </CodeButtonWrapper>

@@ -221,13 +221,18 @@ export const globalStyles = css\`:global() {
 
           <CodeExamples>
             {{
-              base: `
+              'js source': `
 import { tokens } from './tokens' 
 
 export const Headline = styled.h1\`
   color: \${tokens.primary};
 \`;
-        `,
+`,
+        'css result': `
+.se7gjt0-headline {
+  color: var(--primary--1isauia0);
+}
+`,
             }}
           </CodeExamples>
         </SectionExample>
@@ -337,6 +342,34 @@ export const theme = {
           </CodeExamples>
         </SectionExample>
       </Section>
+
+      <Section reverse>
+        <SectionContent>
+          <Headline>Typed Contracts</Headline>
+          <Text>By default any string value is a valid CSSVariable.<br /><br />But it doesn't end here - the generic interface allows to define explicitly which values are assignable</Text>
+        </SectionContent>
+        <SectionExample>
+          <CodeExamples>
+            {{
+              base: `
+import { createVar } from 'css-variable';
+import type { CSSHexColor, CSSPixelValue } from 'css-variable';
+
+export const tokens = {
+  colors: {
+    primary: createVar<CSSHexColor>(),
+    secondary: createVar<CSSHexColor>(),
+  },
+  spacing: {
+    large: createVar<CSSPixelValue>()
+  }
+};
+`,
+            }}
+          </CodeExamples>
+        </SectionExample>
+      </Section>
+
 
     </Main>
     <Footer>

@@ -1,11 +1,11 @@
-import { CSSVariable, CSSHexColor } from "css-variable";
+import { createVar, CSSHexColor } from "css-variable";
 import { css } from "styled-components";
 
-export const fontColor = new CSSVariable<CSSHexColor | 'currentColor'>({value: "currentColor"});
+export const fontColor = createVar<CSSHexColor | 'currentColor'>({value: "currentColor"});
 /** The linear gradient start color during hover */
-export const gradientStartColor = new CSSVariable<CSSHexColor>();
+export const gradientStartColor = createVar<CSSHexColor>();
 /** The linear gradient end color during hover */
-export const gradientEndColor = new CSSVariable<CSSHexColor>();
+export const gradientEndColor = createVar<CSSHexColor>();
 
 export const gradientHover = css`
     color: ${fontColor.val}; 

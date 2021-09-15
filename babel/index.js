@@ -1,22 +1,65 @@
 // @ts-check
 const PACKAGE_NAME = "css-variable";
-const VARIABLE_NAME = "CSSVariable";
 const hash = require("./hash");
 const pathRelative = require("path").relative;
 
-/**
- * @param {import('@babel/core')} babel
- * @returns {import('@babel/core').PluginObj<{
+/** @typedef {import("@babel/core")} babel */
+
+/** 
+ * The context of a babel plugin run
+ * @typedef {{
  *  isDev: boolean,
  *  varCount: number,
  *  varPrefix: string,
- *  isImportedInCurrentFile: boolean
- * } & babel.PluginPass>}
+ *  isImportedInCurrentFile: boolean,
+ *  localVarNames: string[]
+ * } & babel.PluginPass} PluginPass 
+ */
+
+/**
+ * @param {babel} babel
+ * @returns {babel.PluginObj<PluginPass>}
  */
 module.exports = function (babel) {
   const {
     types: { stringLiteral },
   } = babel;
+
+  /**
+   * @param {babel.NodePath<babel.types.NewExpression> | babel.NodePath<babel.types.CallExpression>} path;
+   * @param {PluginPass} pluginPass
+   */
+  const injectVariableName = (path, pluginPass) => {
+    // Skip if no import statements where found
+    if (!pluginPass.localVarNames.length) {
+      return;
+    }
+    const callee = path.node.callee;
+    if (!("name" in callee) || !pluginPass.localVarNames.includes(callee.name)) {
+      return;
+    }
+    const devName = pluginPass.isDev && dashed(getNameByUsage(path));
+    const devPrefix = devName ? `${devName}--` : "";
+    //
+    // Inject the variable prefix
+    //
+    // E.g. CSSVariable() -> CSSVariable("1isaui4-0")
+    // E.g. CSSVariable({value: "10px"}) -> CSSVariable("1isaui4-0", {value: "10px"})
+    //
+    const constructorArguments = path.node.arguments;
+    const firstArg = constructorArguments[0];
+    if (!firstArg || firstArg.type !== "StringLiteral") {
+      constructorArguments.unshift(
+        stringLiteral(devPrefix + getVarPrefix(pluginPass) + pluginPass.varCount++)
+      );
+    }
+    //
+    // Inject @__PURE__ comment to tell terser that
+    // creating s CSSVariable class instance will cause no
+    // side effects and is save to be removed
+    //
+    path.addComment("leading", "@__PURE__");
+  }
 
   return {
     name: `${PACKAGE_NAME} unique variable name injector`,
@@ -24,65 +67,51 @@ module.exports = function (babel) {
       this.isImportedInCurrentFile = false;
       this.varCount = 0;
       this.isDev = this.file.opts.envName === "development";
+      this.localVarNames = [];
     },
     visitor: {
       ImportDeclaration({ node }) {
         // Search for `import {CSSVariable} from "css-variable";`
+        // Search for `import {CSSVariable as CustomName} from "css-variable";`
         const isLib = node.source.value === PACKAGE_NAME;
         if (!isLib) {
           return;
         }
-        this.isImportedInCurrentFile =
-          this.isImportedInCurrentFile ||
-          node.specifiers.some(
-            (specifier) =>
-              "imported" in specifier &&
-              "name" in specifier.imported &&
-              specifier.imported.name === VARIABLE_NAME
-          );
+        node.specifiers.forEach((specifier) => {
+          const importSpecifier = "imported" in specifier && specifier.imported;
+          if (!importSpecifier || !("name" in importSpecifier)) {
+            return;
+          }
+          const localSpecifier =
+            ("local" in specifier && specifier.local) || importSpecifier;
+          if (
+            importSpecifier.name === "CSSVariable" ||
+            importSpecifier.name === "createVar"
+          ) {
+            this.localVarNames.push(localSpecifier.name);
+          }
+        });
+        this.isImportedInCurrentFile = this.localVarNames.length > 0;
+      },
+      CallExpression(path) {
+        return injectVariableName(path, this);
       },
       NewExpression(path) {
-        if (!this.isImportedInCurrentFile) {
-          return;
-        }
-        const callee = path.node.callee;
-        if (!("name" in callee) || callee.name !== VARIABLE_NAME) {
-          return;
-        }
-        const devName = this.isDev && dashed(getNameByUsage(path));
-        const devPrefix = devName ? `${devName}--` : "";
-        //
-        // Inject the variable prefix
-        //
-        // E.g. CSSVariable() -> CSSVariable("1isaui4-0")
-        // E.g. CSSVariable({value: "10px"}) -> CSSVariable("1isaui4-0", {value: "10px"})
-        //
-        const constructorArguments = path.node.arguments;
-        const firstArg = constructorArguments[0];
-        if (!firstArg || firstArg.type !== "StringLiteral") {
-          constructorArguments.unshift(
-            stringLiteral(devPrefix + getVarPrefix(this) + this.varCount++)
-          );
-        }
-        //
-        // Inject @__PURE__ comment to tell terser that
-        // creating s CSSVariable class instance will cause no
-        // side effects and is save to be removed
-        //
-        path.addComment("leading", "@__PURE__");
+        return injectVariableName(path, this);
       },
     },
   };
 };
 
+
 /**
  * Tries to extract the name for readable names in developments
  * e.g.:
  *
- * `const fontSize = new CSSVariable()` -> fontSize
- * `const theme = { primary: new CSSVariable() }` -> primary
+ * `const fontSize = createVar()` -> fontSize
+ * `const theme = { primary: createVar() }` -> primary
  *
- * @param {import('@babel/core').NodePath} path
+ * @param {babel.NodePath} path
  */
 function getNameByUsage(path) {
   const parent = path.parent;
@@ -104,33 +133,33 @@ function getNameByUsage(path) {
 
 /** @param {string} val */
 function dashed(val) {
-  return val.replace(/([A-Z])/g, (_, c) => `-${c.toLowerCase()}`) 
+  return val.replace(/([A-Z])/g, (_, c) => `-${c.toLowerCase()}`);
 }
 
-/** @type {WeakMap<import('@babel/core').PluginPass, string>} */
+/** @type {WeakMap<babel.PluginPass, string>} */
 const prefixCache = new WeakMap();
 /**
  * Returns a unique name based on the processed filename
- * 
- * @param {import('@babel/core').PluginPass} pass
+ *
+ * @param {babel.PluginPass} pass
  */
 function getVarPrefix(pass) {
-    const fromCache = prefixCache.get(pass);
-    if (fromCache) {
-      return fromCache;
-    }
-    // Variables should keep the same generated name for
-    // multiple builds.
-    //
-    // This is possible by hashing the source filename
-    // which includes the CSSVariable.
-    //
-    // As an absolute file might be different from system to system
-    // the relative filename is used instead
-    const relativeFileName = pass.file.opts.filename
-      ? pathRelative(__dirname, pass.file.opts.filename).replace(/\\/g, "/")
-      : "jantimon";
-    const prefix = hash(relativeFileName);
-    prefixCache.set(pass, prefix);
-    return prefix;
+  const fromCache = prefixCache.get(pass);
+  if (fromCache) {
+    return fromCache;
+  }
+  // Variables should keep the same generated name for
+  // multiple builds.
+  //
+  // This is possible by hashing the source filename
+  // which includes the CSSVariable.
+  //
+  // As an absolute file might be different from system to system
+  // the relative filename is used instead
+  const relativeFileName = pass.file.opts.filename
+    ? pathRelative(__dirname, pass.file.opts.filename).replace(/\\/g, "/")
+    : "jantimon";
+  const prefix = hash(relativeFileName);
+  prefixCache.set(pass, prefix);
+  return prefix;
 }

@@ -166,11 +166,11 @@ const Index = () => (
           <CodeExamples>
             {{
               base: `
-import { CSSVariable } from 'css-variable';
+import { createVar } from 'css-variable';
 
 export const tokens = {
-  primary: new CSSVariable(),
-  secondary: new CSSVariable(),
+  primary: createVar(),
+  secondary: createVar(),
 }
 `,
             }}
@@ -179,26 +179,25 @@ export const tokens = {
           <CodeExamples>
             {{
               "styled-components": `
-import { CSSVariable } from 'css-variable';
+import { createGlobalTheme } from 'css-variable';
 import { createGlobalStyle } from 'styled-components';
 import { tokens } from './tokens' 
 
-export const GlobalStyles = createGlobalStyle\`:root {
-  $\{serializeThemeValues(tokens, {
+export const GlobalStyles = createGlobalStyle\`
+  $\{createGlobalTheme(":root", tokens, {
     primary: '#3a5779',
     secondary: '#23374e',
   })}
-}\`;
 `,
 
               emotion: `
-import { CSSVariable } from 'css-variable';
+import { createGlobalTheme } from 'css-variable';
 import { Global, css } from '@emotion/react'
 import { tokens } from './tokens' 
 
 export const GlobalStyles = () =>
-  <Global styles={css\`:root {
-    $\{serializeThemeValues(tokens, {
+  <Global styles={css\`
+    $\{createGlobalTheme(":root", tokens, {
       primary: '#3a5779',
       secondary: '#23374e',
     })}}\`
@@ -206,16 +205,15 @@ export const GlobalStyles = () =>
 `,
 
               linaria: `
-import { CSSVariable } from 'css-variable';
+import { createGlobalTheme } from 'css-variable';
 import { css } from 'linaria'
 import { tokens } from './tokens' 
 
 export const globalStyles = css\`:global() {
-  :root {
-    $\{serializeThemeValues(tokens, {
+    $\{createGlobalTheme(":root", tokens, {
     primary: '#3a5779',
     secondary: '#23374e',
-  })}
+  })
 }\` 
 `,
             }}
@@ -244,8 +242,8 @@ export const Headline = styled.h1\`
           <CodeExamples>
             {{
               base: `
-export const startColor = new CSSVariable({value: '#238f97'});
-export const endColor = new CSSVariable({value: '#5442bb'});
+export const startColor = createVar({value: '#238f97'});
+export const endColor = createVar({value: '#5442bb'});
 
 export const gradientHover = css\`
   background: linear-gradient(to right, 
@@ -312,27 +310,27 @@ export const Button = styled.button\`
           <CodeExamples>
             {{
               original: `
-import { CSSVariable } from 'css-variable';
+import { createVar } from 'css-variable';
 
 export const theme = {
-  primary: new CSSVariable(),
-  secondary: new CSSVariable(),
+  primary: createVar(),
+  secondary: createVar(),
 };
 `,
               "transpiled dev": `
-import { CSSVariable } from 'css-variable';
+import { createVar } from 'css-variable';
 
 export const theme = {
-  primary: new /*@__PURE__*/CSSVariable("primary--1isauia0"),
-  secondary: new /*@__PURE__*/CSSVariable("secondary--1isauia1"),
+  primary: new /*@__PURE__*/createVar("primary--1isauia0"),
+  secondary: new /*@__PURE__*/createVar("secondary--1isauia1"),
 };
 `,
               "transpiled prod": `
-import { CSSVariable } from 'css-variable';
+import { createVar } from 'css-variable';
 
 export const theme = {
-  primary: new /*@__PURE__*/CSSVariable("1isauia0"),
-  secondary: new /*@__PURE__*/CSSVariable("1isauia1"),
+  primary: new /*@__PURE__*/createVar("1isauia0"),
+  secondary: new /*@__PURE__*/createVar("1isauia1"),
 };
 `,
             }}

@@ -1,11 +1,11 @@
-import { CSSVariable } from "css-variable";
+import { createVar } from "css-variable";
 import { css } from "linaria";
 
-export const fontColor = new CSSVariable({value: "currentColor"});
+export const fontColor = createVar({value: "currentColor"});
 /** The linear gradient start color during hover */
-export const gradientStartColor = new CSSVariable();
+export const gradientStartColor = createVar();
 /** The linear gradient end color during hover */
-export const gradientEndColor = new CSSVariable();
+export const gradientEndColor = createVar();
 
 export const gradientHover = css`
     color: ${fontColor.val}; 

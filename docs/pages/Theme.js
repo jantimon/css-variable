@@ -1,21 +1,21 @@
 /// @ts-check
-import { CSSVariable, serializeThemeValues } from "css-variable";
+import { createVar, createGlobalTheme } from "css-variable";
 import { css } from "linaria";
 import { styled } from "linaria/react";
 
 export const theme = {
-  fontSize: new CSSVariable("FontSize"),
+  fontSize: createVar("FontSize"),
   spacings: {
-    s: new CSSVariable(),
-    m: new CSSVariable(),
-    l: new CSSVariable(),
+    s: createVar(),
+    m: createVar(),
+    l: createVar(),
   },
   colors: {
-    base: new CSSVariable("base"),
-    primary: new CSSVariable("primary"),
-    secondary: new CSSVariable("secondary"),
-    backgroundPrimary: new CSSVariable(),
-    backgroundSecondary: new CSSVariable(),
+    base: createVar("base"),
+    primary: createVar("primary"),
+    secondary: createVar("secondary"),
+    backgroundPrimary: createVar(),
+    backgroundSecondary: createVar(),
   },
 };
 
@@ -41,7 +41,7 @@ export const Base = css`
   }
 `;
 
-const lightTheme = /*@__PURE__*/serializeThemeValues(theme, {
+const lightTheme = /*@__PURE__*/createGlobalTheme("", theme, {
   fontSize: "12px",
   spacings: {
     s: "10px",
@@ -56,7 +56,7 @@ const lightTheme = /*@__PURE__*/serializeThemeValues(theme, {
     backgroundSecondary: "#e8e8e7",
   },
 });
-const darkTheme = /*@__PURE__*/serializeThemeValues(theme, {
+const darkTheme = /*@__PURE__*/createGlobalTheme("", theme, {
   fontSize: "12px",
   spacings: {
     s: "10px",

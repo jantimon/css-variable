@@ -347,7 +347,7 @@ export const theme = {
       <Section reverse>
         <SectionContent>
           <Headline>Typed Contracts</Headline>
-          <Text>By default any string value is a valid CSSVariable.<br /><br />But it doesn't end here - the generic interface allows to define explicitly which values are assignable</Text>
+          <Text>By default any string is a valid CSSVariable value.<br /><br />But it doesn't end here - the generic interface allows to define explicitly which values are assignable</Text>
         </SectionContent>
         <SectionExample>
           <CodeExamples>

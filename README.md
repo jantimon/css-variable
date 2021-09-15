@@ -21,15 +21,15 @@ The constructor has an optional name property.
 If omitted a unique css variable will be auto generated:
 
 ```jsx
-import { CSSVariable } from 'css-variable';
-export const baseSize = new CSSVariable();
+import { createVar } from 'css-variable';
+export const baseSize = createVar();
 ```
 
 Should you prefer a specific name just use it instead:
 
 ```jsx
-import { CSSVariable } from 'css-variable';
-export const baseSize = new CSSVariable("base-size");
+import { createVar } from 'css-variable';
+export const baseSize = createVar("base-size");
 ```
 
 Once defined the CSSVariable can be used in your css-in-js code.  
@@ -75,29 +75,29 @@ The optional recommended babel plugin guarantees consistent variable names on SS
 
 With the plugin in place babel will inject the variable name during build time:
 
-  - `new CSSVariable()` -> `/*@__PURE__ */ new CSSVariable("1isaui4-0")`
-  - `new CSSVariable({value: '10px'})` -> `/*@__PURE__ */ new CSSVariable("1isaui4-0", {value: '10px'})`
+  - `createVar()` -> `/*@__PURE__ */ createVar("1isaui4-0")`
+  - `createVar({value: '10px'})` -> `/*@__PURE__ */ createVar("1isaui4-0", {value: '10px'})`
 
-### Theming with `serializeThemeValues`
+### Theming with `createGlobalTheme` and `assignVars`
 
-The optional `serializeThemeValues` helper allows to combine multiple CSSVariables into a theme.
+The optional `createGlobalTheme` helper allows to combine multiple CSSVariables into a theme.
 
 The following example is using styled components however the approach is compatible with most CSS-in-JS libraries:
 
 ```js
 import styled, { createGlobalStyle } from 'styled-components';
-import { CSSVariable, serializeThemeValues } from 'css-variable';
+import { CSSVariable, createGlobalTheme, assignVars } from 'css-variable';
 
 // Define a theme structure
 const theme = {
   colors: {
-   primary: new CSSVariable(),
-   secondary: new CSSVariable(),
+   primary: createVar(),
+   secondary: createVar(),
  }
 }
 
 // Set theme values
-const themeCSS = serializeThemeValues(theme, {
+const themeCSS = createGlobalTheme(":root", theme, {
   colors: {
     primary: "#6290C3",
     secondary: "#C2E7DA",
@@ -105,7 +105,10 @@ const themeCSS = serializeThemeValues(theme, {
 
 // Render theme
 // (this step depends on your css solution)
-const BrightTheme = createGlobalStyle`:root { ${themeCSS} }`;
+const BrightTheme = createGlobalStyle`${themeCSS}`;
+
+// Overwrite parts of the theme for a certain scope
+const themeOverwrites = css`${assignVars(theme, { colors: { primary: '#C2E7DA' }})}`;
 
 // Use the theme in your components
 const Button = styled.button`

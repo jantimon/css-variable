@@ -1,6 +1,6 @@
 {
   "name": "css-variable",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "define CSS custom properties (variables) in JS",
   "main": "./dist/index.js",
   "exports": {
@@ -20,11 +20,13 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "build": "npm run build:types && npm run build:commonjs && npm run build:module && npm run build:modulemin",
-    "build:commonjs": "babel --config-file=./babel.commonjs.js src/index.ts > dist/index.js",
-    "build:module": "babel --config-file=./babel.config.js src/index.ts > dist/index.mjs",
-    "build:types": "tsc --emitDeclarationOnly --declaration --target ESNext --outDir dist src/index.ts",
+    "build:commonjs": "babel --config-file=./babel.commonjs.js -o dist/index.js src/index.ts",
+    "build:module": "babel --config-file=./babel.config.js -o dist/index.mjs src/index.ts",
+    "build:types": "tsc --skipLibCheck --emitDeclarationOnly --declaration --target ESNext --outDir dist src/index.ts",
     "build:modulemin": "terser ./dist/index.mjs -o ./dist/index.min.mjs -m --ecma 2017 --module --toplevel -b -c",
-    "test": "node ./test/examples.js",
+    "test": "npm run test:e2e && npm run test:jest",
+    "test:e2e": "node ./test/examples.js",
+    "test:jest": "jest",
     "docs": "node ./docs/build.js"
   },
   "repository": {
@@ -32,7 +34,9 @@
     "url": "git+https://github.com/jantimon/css-variable.git"
   },
   "release": {
-    "branches": ["main"]
+    "branches": [
+      "main"
+    ]
   },
   "keywords": [
     "css"
@@ -44,12 +48,14 @@
   },
   "homepage": "https://css-variable.js.org/",
   "devDependencies": {
-    "@babel/cli": "^7.15.4",
-    "@babel/core": "^7.15.5",
+    "@babel/cli": "7.15.4",
+    "@babel/core": "7.15.5",
     "@babel/plugin-transform-modules-commonjs": "^7.15.4",
     "@babel/preset-typescript": "^7.15.0",
     "@babel/runtime": "^7.15.4",
     "@babel/types": "^7.15.4",
+    "@types/jest": "^27.0.1",
+    "jest": "^27.2.0",
     "terser": "5.7.2",
     "typescript": "^4.4.2"
   }

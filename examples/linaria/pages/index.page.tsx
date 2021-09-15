@@ -1,24 +1,23 @@
 /// @ts-check
-import { CSSPixelValue, CSSVariable, serializeThemeValues } from "css-variable";
+import { CSSPixelValue, createVar, createGlobalTheme } from "css-variable";
 import { styled } from "linaria/react";
 
-
 const theme = {
-  fontSize: new CSSVariable(),
+  fontSize: createVar(),
   spacings: {
-    s: new CSSVariable(),
-    m: new CSSVariable(),
-    l: new CSSVariable(),
+    s: createVar(),
+    m: createVar(),
+    l: createVar(),
   },
   colors: {
-    primary: new CSSVariable(),
-    secondary: new CSSVariable(),
+    primary: createVar(),
+    secondary: createVar(),
   },
 };
 
 
 const ThemeA = styled.div`
-  ${serializeThemeValues(theme, {
+  ${createGlobalTheme("", theme, {
     fontSize: "12px",
     spacings: {
       s: "10px",
@@ -33,7 +32,7 @@ const ThemeA = styled.div`
 `;
 
 const ThemeB = styled.div`
-  ${serializeThemeValues(theme, {
+  ${createGlobalTheme("",theme, {
     fontSize: "24px",
     spacings: {
       s: "20px",
@@ -47,8 +46,8 @@ const ThemeB = styled.div`
   })}
 `;
 
-const colorVar = new CSSVariable({ value: theme.colors.primary });
-const xVar = new CSSVariable<CSSPixelValue>({ value: "0" });
+const colorVar = createVar({ value: theme.colors.primary });
+const xVar = createVar<CSSPixelValue>({ value: "0" });
 
 const StyledHeadline = styled.h1`
   font-family: Arial, Helvetica, sans-serif;

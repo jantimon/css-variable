@@ -382,10 +382,10 @@ export const tokens = {
             src="https://img.shields.io/npm/v/css-variable?style=for-the-badge"
           />
         </a>
-        <a href="https://bundlephobia.com/package/css-variable" target="_blank">
+        <a href="https://bundle.js.org/?q=css-variable&treeshake=[createVar]" target="_blank">
           <img
-            alt="BundleSize"
-            src="https://img.shields.io/bundlephobia/minzip/css-variable?style=for-the-badge"
+            alt="Minified Gziped Size"
+            src="https://img.shields.io/badge/minzip-301b-blue?style=for-the-badge"
           />
         </a>
         <a href="https://github.com/jantimon/css-variable/" target="_blank">

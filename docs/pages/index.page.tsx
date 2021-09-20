@@ -274,15 +274,22 @@ export const gradientHover = css\`
           </CodeExamples>
           <CodeExamples>
             {{
-              base: `
+              'js source': `
 import { startColor, endColor, gradientHover } from './gradient';
 
 export const Button = styled.button\`
-  \${startColor.toStyle('#f5ab35');
+  \${startColor.toStyle('#f5ab35')
   \${endColor.toStyle('#8d1d1d')}
   \${gradientHover}
 \`;
 `,
+        'css result': `
+.se7gjt0-button {
+  --1isauia0: #f5ab35;
+  --1isauia1: #8d1d1d;
+  /* the css from gradientHover */
+}
+        `
             }}
           </CodeExamples>
         </SectionExample>

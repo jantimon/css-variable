@@ -392,7 +392,7 @@ export const tokens = {
         <a href="https://bundle.js.org/?q=css-variable&treeshake=[createVar]" target="_blank">
           <img
             alt="Minified Gziped Size"
-            src="https://img.shields.io/badge/minzip-295b-blue?style=for-the-badge"
+            src="https://img.shields.io/badge/minzip-288b-blue?style=for-the-badge"
           />
         </a>
         <a href="https://github.com/jantimon/css-variable/" target="_blank">

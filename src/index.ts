@@ -24,6 +24,16 @@ export type CSSHexColor = `#${string}`;
 
 type CSSVariableOptions<TValue> = { value: TValue | CSSVariable<TValue> };
 
+/** 
+ * Usually css-variable should always be used with its babel plugin
+ * 
+ * However in some scenarios e.g. storybook / jest it might be difficult
+ * to setup.
+ * For those cases this counter provides a very basic fallback to generate 
+ * different ids.
+ */
+let fallbackId = (-2)>>>0;
+
 export class CSSVariable<TValue = string> extends (
   // Inherit from String to be compatible to most CSS-in-JS solutions
   // Hacky cast to any for reduced autocomplete
@@ -69,7 +79,7 @@ export class CSSVariable<TValue = string> extends (
       "--" +
       (args.filter((arg): arg is string => typeof arg === "string").join('-').toLowerCase() ||
         // Fallback if babel plugin is missing
-        Math.round(Math.random() * 10000).toString(16));
+        (fallbackId++).toString(16));
     super(`var(${name}${optionArg ? `, ${optionArg.value}` : ""})`);
     this.name = name;
   }

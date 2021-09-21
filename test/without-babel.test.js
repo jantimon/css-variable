@@ -5,14 +5,14 @@ describe("createVar", () => {
       const foo = createVar();
       const bar = createVar();
       const baz = createVar();
-      expect(foo.name).toMatch("--fffffffe");
-      expect(bar.name).toMatch("--ffffffff");
-      expect(baz.name).toMatch("--100000000");
+      expect(foo.name).toMatch("--17179149");
+      expect(bar.name).toMatch("--1717914a");
+      expect(baz.name).toMatch("--1717914b");
     });
 
     it("allows to define a fallback variable", () => {
       const foo = createVar({value: "red"});
-      expect(foo.val).toMatch("var(--100000001, red)");
+      expect(foo.val).toMatch("var(--1717914c, red)");
     });
 
   });

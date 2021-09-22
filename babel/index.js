@@ -8,11 +8,12 @@ const pathRelative = require("path").relative;
 /** 
  * The context of a babel plugin run
  * @typedef {{
- *  isDev: boolean,
+ *  minifyVariables: boolean,
  *  varCount: number,
  *  varPrefix: string,
  *  isImportedInCurrentFile: boolean,
- *  localVarNames: string[]
+ *  localVarNames: string[],
+ *  opts: babel.PluginOptions & { displayName?: boolean }
  * } & babel.PluginPass} PluginPass 
  */
 
@@ -38,8 +39,8 @@ module.exports = function (babel) {
     if (!("name" in callee) || !pluginPass.localVarNames.includes(callee.name)) {
       return;
     }
-    const devName = pluginPass.isDev && dashed(getNameByUsage(path));
-    const devPrefix = devName ? `${devName}--` : "";
+    const readableName = !pluginPass.minifyVariables && dashed(getNameByUsage(path));
+    const readablePrefix = readableName ? `${readableName}--` : "";
     //
     // Inject the variable prefix
     //
@@ -50,7 +51,7 @@ module.exports = function (babel) {
     const firstArg = constructorArguments[0];
     if (!firstArg || firstArg.type !== "StringLiteral") {
       constructorArguments.unshift(
-        stringLiteral(devPrefix + getVarPrefix(pluginPass) + pluginPass.varCount++)
+        stringLiteral(readablePrefix + getUniqueHash(pluginPass) + pluginPass.varCount++)
       );
     }
     //
@@ -66,7 +67,9 @@ module.exports = function (babel) {
     pre() {
       this.isImportedInCurrentFile = false;
       this.varCount = 0;
-      this.isDev = this.file.opts.envName === "development";
+      this.minifyVariables = this.opts.displayName !== undefined ?
+        !this.opts.displayName
+        : this.file.opts.envName !== "development";
       this.localVarNames = [];
     },
     visitor: {
@@ -143,7 +146,7 @@ const prefixCache = new WeakMap();
  *
  * @param {babel.PluginPass} pass
  */
-function getVarPrefix(pass) {
+function getUniqueHash(pass) {
   const fromCache = prefixCache.get(pass);
   if (fromCache) {
     return fromCache;

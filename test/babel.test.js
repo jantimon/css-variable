@@ -7,7 +7,7 @@ describe("production transform", () => {
       const { code } = transformFileSync(
         path.join(__dirname, "fixtures/CSSVariable.js"),
         {
-          plugins: [[plugin, test.options]],
+          plugins: [[plugin]],
           babelrc: false,
         }
       );
@@ -17,7 +17,7 @@ describe("production transform", () => {
       const { code } = transformFileSync(
         path.join(__dirname, "fixtures/createVar.js"),
         {
-          plugins: [[plugin, test.options]],
+          plugins: [[plugin]],
           babelrc: false,
         }
       );
@@ -27,7 +27,7 @@ describe("production transform", () => {
       const { code } = transformFileSync(
         path.join(__dirname, "fixtures/renamed.js"),
         {
-          plugins: [[plugin, test.options]],
+          plugins: [[plugin]],
           babelrc: false,
         }
       );
@@ -40,7 +40,7 @@ describe("production transform", () => {
       const { code } = transformFileSync(
         path.join(__dirname, "fixtures/CSSVariable.js"),
         {
-          plugins: [[plugin, test.options]],
+          plugins: [[plugin]],
           babelrc: false,
           envName: "development"
         }
@@ -51,7 +51,7 @@ describe("production transform", () => {
       const { code } = transformFileSync(
         path.join(__dirname, "fixtures/createVar.js"),
         {
-          plugins: [[plugin, test.options]],
+          plugins: [[plugin]],
           babelrc: false,
           envName: "development"
         }
@@ -62,9 +62,42 @@ describe("production transform", () => {
       const { code } = transformFileSync(
         path.join(__dirname, "fixtures/renamed.js"),
         {
-          plugins: [[plugin, test.options]],
+          plugins: [[plugin]],
           babelrc: false,
           envName: "development"
+        }
+      );
+      expect(code).toMatchSnapshot();
+    });
+  });
+
+  describe("production transform with displayName", () => {
+    it("CSSVariable", () => {
+      const { code } = transformFileSync(
+        path.join(__dirname, "fixtures/CSSVariable.js"),
+        {
+          plugins: [[plugin, { displayName: true }]],
+          babelrc: false,
+        }
+      );
+      expect(code).toMatchSnapshot();
+    });
+    it("createVar", () => {
+      const { code } = transformFileSync(
+        path.join(__dirname, "fixtures/createVar.js"),
+        {
+          plugins: [[plugin, { displayName: true }]],
+          babelrc: false,
+        }
+      );
+      expect(code).toMatchSnapshot();
+    });
+    it("renamed", () => {
+      const { code } = transformFileSync(
+        path.join(__dirname, "fixtures/renamed.js"),
+        {
+          plugins: [[plugin, { displayName: true }]],
+          babelrc: false,
         }
       );
       expect(code).toMatchSnapshot();

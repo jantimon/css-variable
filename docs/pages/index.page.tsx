@@ -317,7 +317,18 @@ export const Button = styled.button\`
       "css-variable/babel"
   ]
 }
-`,
+`,withOptions: `
+{
+  "plugins": [
+      ["css-variable/babel", {
+        // Prefix vairables with a readable name e.g. 'primary--1isauia0'
+        // Default for production: false
+        // Default for development: true
+        displayName: true 
+      }]
+  ]
+}
+`
             }}
           </CodeExamples>
           <CodeExamples>

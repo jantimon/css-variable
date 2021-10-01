@@ -149,14 +149,16 @@ export const createVar: ICreateVar = (...args: any[]) => new (CSSVariable as any
  * ```
  */
 type ThemeStructure = { [key: string]: CSSVariable | ThemeStructure };
-type Tstring<T> = T extends CSSVariable<infer U> ? U : T
+
+/** The allowed value type for the given CSSVariable */
+export type CSSVariableValueArgument<T> = T extends CSSVariable<infer U> ? U : T
 /**
  * The ThemeValues type is a helper to map a ThemeStructure to a value type
  * to guarantee that the structure and values in createGlobalTheme match 
  */
 type ThemeValues<TThemeStructure extends ThemeStructure> = {
   [Property in keyof TThemeStructure]: TThemeStructure[Property] extends CSSVariable
-  ? Tstring<TThemeStructure[Property]> | CSSVariable<Tstring<TThemeStructure[Property]>>
+  ? CSSVariableValueArgument<TThemeStructure[Property]> | CSSVariable<CSSVariableValueArgument<TThemeStructure[Property]>>
   : TThemeStructure[Property] extends ThemeStructure
   ? ThemeValues<TThemeStructure[Property]>
   : never;

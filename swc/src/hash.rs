@@ -1,14 +1,13 @@
 use base64::encode_config;
 use sha3::{Digest, Sha3_256};
 
-/**
- * Creates a CSS identifier of the given length using SHA3
- *
- * In CSS, identifiers (including element names, classes, and IDs in selectors)
- * can contain only the characters [a-zA-Z0-9] and ISO 10646 characters U+00A0 and higher,
- * plus the hyphen (-) and the underscore (_); they cannot start with a digit, two hyphens,
- * or a hyphen followed by a digit.
-*/
+/// Creates a CSS identifier of the given length using SHA3.
+///
+/// In CSS, identifiers (including element names, classes, and IDs in
+/// selectors) can contain only the characters \[a-zA-Z0-9\] and ISO 10646
+/// characters U+00A0 and higher, plus the hyphen (-) and the underscore (_);
+/// they cannot start with a digit, two hyphens, or a hyphen followed by a
+/// digit.
 pub fn hash(data: impl AsRef<[u8]>, length: usize) -> String {
     let mut hasher = Sha3_256::new();
     hasher.update(data);

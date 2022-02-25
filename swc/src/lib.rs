@@ -52,13 +52,14 @@ impl TransformVisitor {
 impl VisitMut for TransformVisitor {
     noop_visit_mut_type!();
 
-    /**
-     * Search for all local names for createVar
-     * E.g.:
-     *  import { createVar } from "css-variable";
-     *  import { createVar as x} from "css-variable";
-     *  import { foo as x, createVar as y } from "css-variable";
-     */
+    /// Searches all local names for `createVar`.
+    ///
+    /// For example:
+    /// ```javascript
+    ///  import { createVar } from "css-variable";
+    ///  import { createVar as x} from "css-variable";
+    ///  import { foo as x, createVar as y } from "css-variable";
+    /// ```
     fn visit_mut_import_decl(&mut self, import_decl: &mut ImportDecl) {
         if &import_decl.src.value != "css-variable" {
             return;

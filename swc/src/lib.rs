@@ -87,11 +87,12 @@ impl VisitMut for TransformVisitor {
     }
 
     fn visit_mut_var_declarator(&mut self, var_declarator: &mut VarDeclarator) {
-        self.current_var_declarator = if let Pat::Ident(BindingIdent { id, .. }) = &var_declarator.name {
-            Some(id.sym.to_string())
-        } else {
-            None
-        };
+        self.current_var_declarator =
+            if let Pat::Ident(BindingIdent { id, .. }) = &var_declarator.name {
+                Some(id.sym.to_string())
+            } else {
+                None
+            };
         var_declarator.visit_mut_children_with(self);
         self.current_var_declarator = None;
     }
@@ -106,7 +107,6 @@ impl VisitMut for TransformVisitor {
         self.current_object_prop_declarator = None;
     }
 
-
     fn visit_mut_call_expr(&mut self, call_expr: &mut CallExpr) {
         // Skip entire execution if no import call was found
         // @see visit_mut_import_decl
@@ -117,7 +117,6 @@ impl VisitMut for TransformVisitor {
         if let Callee::Expr(expr) = &call_expr.callee {
             if let Expr::Ident(e) = &**expr {
                 if self.local_indents.contains(&String::from(&*e.sym)) {
-
                     let variable_hash_name = {
                         let variable_count = self.variable_count;
                         let mut variable_hash_name = self.hash.to_owned();
@@ -126,14 +125,23 @@ impl VisitMut for TransformVisitor {
                         variable_hash_name
                     };
 
-                    let  mut variable_name = String::from(variable_hash_name);
+                    let mut variable_name = String::from(variable_hash_name);
 
                     if self.config.display_name {
                         if self.current_var_declarator.is_some() {
-                            variable_name.insert_str(0, &format!("{}--", self.current_var_declarator.clone().unwrap()));
+                            variable_name.insert_str(
+                                0,
+                                &format!("{}--", self.current_var_declarator.clone().unwrap()),
+                            );
                         }
                         if self.current_object_prop_declarator.is_some() {
-                            variable_name.insert_str(0, &format!("{}--", self.current_object_prop_declarator.clone().unwrap()));
+                            variable_name.insert_str(
+                                0,
+                                &format!(
+                                    "{}--",
+                                    self.current_object_prop_declarator.clone().unwrap()
+                                ),
+                            );
                         }
                     }
 
@@ -205,9 +213,9 @@ mod transform_visitor_tests {
         ::swc_ecma_parser::Syntax::default(),
         |_| transform_visitor(Default::default()),
         adds_variable_name,
-        r#"import {createVar} from "css-variable"; 
+        r#"import {createVar} from "css-variable";
         createVar();"#,
-        r#"import {createVar} from "css-variable"; 
+        r#"import {createVar} from "css-variable";
         createVar("hashed0");"#
     );
 
@@ -215,11 +223,11 @@ mod transform_visitor_tests {
         ::swc_ecma_parser::Syntax::default(),
         |_| transform_visitor(Default::default()),
         adds_multiple_variable_names,
-        r#"import {createVar} from "css-variable"; 
+        r#"import {createVar} from "css-variable";
         createVar();
         createVar();
         createVar();"#,
-        r#"import {createVar} from "css-variable"; 
+        r#"import {createVar} from "css-variable";
         createVar("hashed0");
         createVar("hashed1");
         createVar("hashed2");"#
@@ -229,9 +237,9 @@ mod transform_visitor_tests {
         ::swc_ecma_parser::Syntax::default(),
         |_| transform_visitor(Default::default()),
         ignores_unknwon_modules,
-        r#"import {createVar} from "unknown"; 
+        r#"import {createVar} from "unknown";
         createVar();"#,
-        r#"import {createVar} from "unknown"; 
+        r#"import {createVar} from "unknown";
         createVar();"#
     );
 
@@ -239,9 +247,9 @@ mod transform_visitor_tests {
         ::swc_ecma_parser::Syntax::default(),
         |_| transform_visitor(Default::default()),
         adds_variable_name_with_value,
-        r#"import {createVar} from "css-variable"; 
+        r#"import {createVar} from "css-variable";
         createVar({ value: '0px' });"#,
-        r#"import {createVar} from "css-variable"; 
+        r#"import {createVar} from "css-variable";
         createVar("hashed0", { value: '0px' });"#
     );
 
@@ -249,9 +257,9 @@ mod transform_visitor_tests {
         ::swc_ecma_parser::Syntax::default(),
         |_| transform_visitor(Default::default()),
         adds_variable_name_for_renamed,
-        r#"import {createVar as create} from "css-variable"; 
+        r#"import {createVar as create} from "css-variable";
         create("hello world");"#,
-        r#"import {createVar as create} from "css-variable"; 
+        r#"import {createVar as create} from "css-variable";
         create("hashed0", "hello world");"#
     );
 }

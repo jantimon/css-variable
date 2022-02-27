@@ -1,4 +1,4 @@
-use anyhow::Context;
+use anyhow::Context as _;
 use serde::{Deserialize, Serialize};
 use swc_plugin::{ast::*, plugin_transform, syntax_pos::DUMMY_SP};
 mod hash;
@@ -8,7 +8,7 @@ use hash::hash;
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
-pub struct Config {
+pub struct PluginConfig {
     /// Prefix variables with a readable name, e.g. `primary--1isauia0`.
     #[serde(default = "bool::default")]
     pub display_name: bool,
@@ -18,20 +18,20 @@ pub struct Config {
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
-pub struct PluginContext {
+pub struct Context {
     /// The name of the current file.
     #[serde(default)]
     pub filename: Option<String>,
 }
 
-impl Default for Config {
+impl Default for PluginConfig {
     fn default() -> Self {
         serde_json::from_str("{}").unwrap()
     }
 }
 
 struct TransformVisitor {
-    config: Config,
+    plugin_config: PluginConfig,
     hash: String,
     local_indents: Vec<String>,
     variable_count: i16,
@@ -40,11 +40,11 @@ struct TransformVisitor {
 }
 
 impl TransformVisitor {
-    pub fn new(config: Config, hash: String) -> Self {
+    pub fn new(plugin_config: PluginConfig, hash: String) -> Self {
         let local_indents: Vec<String> = Vec::new();
         let variable_count = 0;
         Self {
-            config,
+            plugin_config,
             hash,
             local_indents,
             variable_count,
@@ -132,7 +132,7 @@ impl VisitMut for TransformVisitor {
 
                     let mut variable_name = variable_hash_name;
 
-                    if self.config.display_name {
+                    if self.plugin_config.display_name {
                         if self.current_var_declarator.is_some() {
                             variable_name.insert_str(
                                 0,
@@ -173,15 +173,15 @@ impl VisitMut for TransformVisitor {
 /// # Arguments
 ///
 /// - `program` - The SWC [`Program`] to transform.
-/// - `plugin_config` - [`Config`] as JSON.
-/// - `context` - [`PluginContext`] as JSON.
+/// - `plugin_config` - [`PluginConfig`] as JSON.
+/// - `context` - [`Context`] as JSON.
 #[plugin_transform]
 pub fn process_transform(program: Program, plugin_config: String, context: String) -> Program {
-    let config: Config = serde_json::from_str(&plugin_config)
+    let config: PluginConfig = serde_json::from_str(&plugin_config)
         .context("failed to parse plugin config")
         .unwrap();
 
-    let context: PluginContext = serde_json::from_str(&context)
+    let context: Context = serde_json::from_str(&context)
         .context("failed to parse plugin context")
         .unwrap();
 
@@ -199,7 +199,7 @@ mod transform_visitor_tests {
 
     use super::*;
 
-    fn transform_visitor(config: Config) -> impl 'static + Fold + VisitMut {
+    fn transform_visitor(config: PluginConfig) -> impl 'static + Fold + VisitMut {
         as_folder(TransformVisitor::new(config, String::from("hashed")))
     }
 

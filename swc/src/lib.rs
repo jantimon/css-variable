@@ -125,7 +125,7 @@ impl VisitMut for TransformVisitor {
                         variable_hash_name
                     };
 
-                    let mut variable_name = String::from(variable_hash_name);
+                    let mut variable_name = variable_hash_name;
 
                     if self.config.display_name {
                         if self.current_var_declarator.is_some() {

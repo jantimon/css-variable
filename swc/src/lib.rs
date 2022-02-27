@@ -191,7 +191,7 @@ pub fn process_transform(program: Program, plugin_config: String, context: Strin
         .context("failed to parse plugin context")
         .unwrap();
 
-    let hashed_filename = hash(context.filename.unwrap_or("jantimon".to_owned()), 5);
+    let hashed_filename = hash(context.filename.unwrap_or_else(|| "jantimon".to_owned()), 5);
 
     program.fold_with(&mut as_folder(TransformVisitor::new(
         config,

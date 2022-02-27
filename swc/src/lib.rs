@@ -4,17 +4,22 @@ use swc_plugin::{ast::*, plugin_transform, syntax_pos::DUMMY_SP};
 mod hash;
 use hash::hash;
 
+/// Static plugin configuration.
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct Config {
+    /// Prefix variables with a readable name, e.g. `primary--1isauia0`.
     #[serde(default = "bool::default")]
-    display_name: bool,
+    pub display_name: bool,
 }
 
+/// Additional context for the plugin.
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+#[serde(deny_unknown_fields)]
 pub struct PluginContext {
+    /// The name of the current file.
     #[serde(default)]
     pub filename: Option<String>,
 }
@@ -163,24 +168,13 @@ impl VisitMut for TransformVisitor {
     }
 }
 
-/// An entrypoint to the SWC's transform plugin.
-/// `plugin_transform` macro handles necessary interop to communicate with the host,
-/// and entrypoint function name (`process_transform`) can be anything else.
+/// Transforms a [`Program`].
 ///
-/// If plugin need to handle low-level ptr directly,
-/// it is possible to opt out from macro by writing transform fn manually via raw interface
+/// # Arguments
 ///
-/// `__plugin_process_impl(
-///     ast_ptr: *const u8,
-///     ast_ptr_len: i32,
-///     config_str_ptr: *const u8,
-///     config_str_ptr_len: i32) ->
-///     i32 /*  0 for success, fail otherwise.
-///             Note this is only for internal pointer interop result,
-///             not actual transform result */
-///
-/// However, this means plugin author need to handle all of serialization/deserialization
-/// steps with communicating with host. Refer `swc_plugin_macro` for more details.
+/// - `program` - The SWC [`Program`] to transform.
+/// - `plugin_config` - [`Config`] as JSON.
+/// - `context` - [`PluginContext`] as JSON.
 #[plugin_transform]
 pub fn process_transform(program: Program, plugin_config: String, context: String) -> Program {
     let config: Config = serde_json::from_str(&plugin_config)

@@ -29,7 +29,7 @@ pub struct Context {
 
 struct TransformVisitor {
     plugin_config: PluginConfig,
-    hash: String,
+    filename_hash: String,
     local_idents: HashSet<String>,
     variable_count: u32,
     current_var_declarator: Option<String>,
@@ -37,10 +37,10 @@ struct TransformVisitor {
 }
 
 impl TransformVisitor {
-    pub fn new(plugin_config: PluginConfig, hash: String) -> Self {
+    pub fn new(plugin_config: PluginConfig, filename_hash: String) -> Self {
         Self {
             plugin_config,
-            hash,
+            filename_hash,
             local_idents: HashSet::new(),
             variable_count: 0,
             current_var_declarator: None,
@@ -128,7 +128,12 @@ impl VisitMut for TransformVisitor {
                     };
 
                     // Append hash and counter
-                    write!(&mut variable_name, "{}{}", self.hash, self.variable_count).unwrap();
+                    write!(
+                        &mut variable_name,
+                        "{}{}",
+                        self.filename_hash, self.variable_count
+                    )
+                    .unwrap();
                     self.variable_count += 1;
 
                     call_expr.args.insert(

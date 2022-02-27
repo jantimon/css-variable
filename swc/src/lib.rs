@@ -64,21 +64,15 @@ impl VisitMut for TransformVisitor {
         if &import_decl.src.value != "css-variable" {
             return;
         }
-        let specifiers = &import_decl.specifiers;
-        for specifier in specifiers {
-            if let ImportSpecifier::Named(local) = &specifier {
+
+        for specifier in &import_decl.specifiers {
+            if let ImportSpecifier::Named(local) = specifier {
                 let imported_ident = match &local.imported {
+                    Some(ModuleExportName::Ident(module_export)) => &module_export.sym,
                     // import {createVar} from "css-variable";
-                    None => &local.local.sym,
-                    Some(ref module_exports) => {
-                        // import {createVar as x} from "css-variable";
-                        if let ModuleExportName::Ident(module_export) = module_exports {
-                            &module_export.sym
-                        } else {
-                            &local.local.sym
-                        }
-                    }
+                    _ => &local.local.sym,
                 };
+
                 if imported_ident == "createVar" {
                     self.local_idents.insert(String::from(&*local.local.sym));
                 }
@@ -93,7 +87,9 @@ impl VisitMut for TransformVisitor {
             } else {
                 None
             };
+
         var_declarator.visit_mut_children_with(self);
+
         self.current_var_declarator = None;
     }
 
@@ -103,45 +99,33 @@ impl VisitMut for TransformVisitor {
         } else {
             None
         };
+
         key_value.visit_mut_children_with(self);
+
         self.current_object_prop_declarator = None;
     }
 
     fn visit_mut_call_expr(&mut self, call_expr: &mut CallExpr) {
-        // Skip entire execution if no import call was found
-        // @see visit_mut_import_decl
+        // Skip entire execution if no import call was found, see visit_mut_import_decl
         if self.local_idents.is_empty() {
             return;
         }
-        call_expr.visit_mut_children_with(self);
-        if let Callee::Expr(expr) = &call_expr.callee {
-            if let Expr::Ident(e) = &**expr {
-                if self.local_idents.contains(&String::from(&*e.sym)) {
-                    let variable_hash_name = {
-                        let variable_count = self.variable_count;
-                        let mut variable_hash_name = self.hash.to_owned();
-                        variable_hash_name.push_str(&variable_count.to_owned().to_string());
-                        self.variable_count = variable_count + 1;
-                        variable_hash_name
-                    };
 
-                    let mut variable_name = variable_hash_name;
+        call_expr.visit_mut_children_with(self);
+
+        if let Callee::Expr(expr) = &call_expr.callee {
+            if let Expr::Ident(id) = &**expr {
+                if self.local_idents.contains(&*id.sym) {
+                    let mut variable_name = format!("{}{}", self.hash, self.variable_count);
+                    self.variable_count += 1;
 
                     if self.plugin_config.display_name {
-                        if self.current_var_declarator.is_some() {
-                            variable_name.insert_str(
-                                0,
-                                &format!("{}--", self.current_var_declarator.clone().unwrap()),
-                            );
+                        if let Some(var_declarator) = &self.current_var_declarator {
+                            variable_name.insert_str(0, &format!("{}--", var_declarator));
                         }
-                        if self.current_object_prop_declarator.is_some() {
-                            variable_name.insert_str(
-                                0,
-                                &format!(
-                                    "{}--",
-                                    self.current_object_prop_declarator.clone().unwrap()
-                                ),
-                            );
+
+                        if let Some(object_prop_declarator) = &self.current_object_prop_declarator {
+                            variable_name.insert_str(0, &format!("{}--", object_prop_declarator));
                         }
                     }
 
@@ -153,7 +137,7 @@ impl VisitMut for TransformVisitor {
                                 span: DUMMY_SP,
                                 has_escape: false,
                                 kind: StrKind::Synthesized,
-                                value: JsWord::from(variable_name),
+                                value: variable_name.into(),
                             }))),
                         },
                     );

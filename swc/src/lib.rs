@@ -116,18 +116,18 @@ impl VisitMut for TransformVisitor {
         if let Callee::Expr(expr) = &call_expr.callee {
             if let Expr::Ident(id) = &**expr {
                 if self.local_idents.contains(&*id.sym) {
-                    // Initialize the variable name with prefix or empty
-                    let mut variable_name = if self.plugin_config.display_name {
-                        self.current_object_prop_declarator
-                            .as_ref()
-                            .or(self.current_var_declarator.as_ref())
-                            .map(|name| format!("{name}--"))
-                            .unwrap_or_else(String::new)
-                    } else {
-                        String::new()
-                    };
+                    let mut variable_name = String::new();
 
-                    // Append hash and counter
+                    if self.plugin_config.display_name {
+                        if let Some(object_prop_declarator) = &self.current_object_prop_declarator {
+                            write!(&mut variable_name, "{object_prop_declarator}--").unwrap();
+                        }
+
+                        if let Some(var_declarator) = &self.current_var_declarator {
+                            write!(&mut variable_name, "{var_declarator}--").unwrap();
+                        }
+                    }
+
                     write!(
                         &mut variable_name,
                         "{}{}",
@@ -258,7 +258,7 @@ mod tests {
         const primary = createVar("primary--hashed0");
         const theme = {
             colors: {
-                primary: createVar("primary--hashed1")
+                primary: createVar("primary--colors--hashed1")
             }
         };"#
     );

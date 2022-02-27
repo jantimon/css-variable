@@ -110,7 +110,7 @@ impl VisitMut for TransformVisitor {
     fn visit_mut_call_expr(&mut self, call_expr: &mut CallExpr) {
         // Skip entire execution if no import call was found
         // @see visit_mut_import_decl
-        if self.local_indents.len() == 0 {
+        if self.local_indents.is_empty() {
             return;
         }
         call_expr.visit_mut_children_with(self);

@@ -31,11 +31,11 @@ mod hash_tests {
 
     #[test]
     fn test_hey() {
-        assert_eq!(hash(String::from("hey"), 5), "XldIH");
+        assert_eq!(hash("hey", 5), "XldIH");
     }
 
     #[test]
     fn test_long() {
-        assert_eq!(hash(String::from("hey"), 15), "XldIHZZJaTy1TcB");
+        assert_eq!(hash("hey", 15), "XldIHZZJaTy1TcB");
     }
 }

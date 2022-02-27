@@ -28,7 +28,7 @@ struct TransformVisitor {
     plugin_config: PluginConfig,
     hash: String,
     local_indents: Vec<String>,
-    variable_count: i16,
+    variable_count: u32,
     current_var_declarator: Option<String>,
     current_object_prop_declarator: Option<String>,
 }

@@ -26,16 +26,16 @@ pub fn hash(data: impl AsRef<[u8]>, length: usize) -> String {
 }
 
 #[cfg(test)]
-mod hash_tests {
+mod tests {
     use super::*;
 
     #[test]
-    fn test_hey() {
+    fn hey() {
         assert_eq!(hash("hey", 5), "XldIH");
     }
 
     #[test]
-    fn test_long() {
+    fn hey_long() {
         assert_eq!(hash("hey", 15), "XldIHZZJaTy1TcB");
     }
 }

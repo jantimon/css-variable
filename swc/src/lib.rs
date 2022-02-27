@@ -1,6 +1,6 @@
 use anyhow::Context as _;
 use serde::{Deserialize, Serialize};
-use std::collections::HashSet;
+use std::{collections::HashSet, fmt::Write};
 use swc_plugin::{ast::*, plugin_transform, syntax_pos::DUMMY_SP};
 
 mod hash;
@@ -116,18 +116,20 @@ impl VisitMut for TransformVisitor {
         if let Callee::Expr(expr) = &call_expr.callee {
             if let Expr::Ident(id) = &**expr {
                 if self.local_idents.contains(&*id.sym) {
-                    let mut variable_name = format!("{}{}", self.hash, self.variable_count);
+                    // Initialize the variable name with prefix or empty
+                    let mut variable_name = if self.plugin_config.display_name {
+                        self.current_object_prop_declarator
+                            .as_ref()
+                            .or(self.current_var_declarator.as_ref())
+                            .map(|name| format!("{name}--"))
+                            .unwrap_or_else(String::new)
+                    } else {
+                        String::new()
+                    };
+
+                    // Append hash and counter
+                    write!(&mut variable_name, "{}{}", self.hash, self.variable_count).unwrap();
                     self.variable_count += 1;
-
-                    if self.plugin_config.display_name {
-                        if let Some(var_declarator) = &self.current_var_declarator {
-                            variable_name.insert_str(0, &format!("{}--", var_declarator));
-                        }
-
-                        if let Some(object_prop_declarator) = &self.current_object_prop_declarator {
-                            variable_name.insert_str(0, &format!("{}--", object_prop_declarator));
-                        }
-                    }
 
                     call_expr.args.insert(
                         0,
@@ -173,7 +175,7 @@ pub fn process_transform(program: Program, plugin_config: String, context: Strin
 }
 
 #[cfg(test)]
-mod transform_visitor_tests {
+mod tests {
     use swc_ecma_transforms_testing::test;
 
     use super::*;
@@ -183,7 +185,7 @@ mod transform_visitor_tests {
     }
 
     test!(
-        ::swc_ecma_parser::Syntax::default(),
+        swc_ecma_parser::Syntax::default(),
         |_| transform_visitor(Default::default()),
         adds_variable_name,
         r#"import {createVar} from "css-variable";
@@ -193,7 +195,7 @@ mod transform_visitor_tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::default(),
+        swc_ecma_parser::Syntax::default(),
         |_| transform_visitor(Default::default()),
         adds_multiple_variable_names,
         r#"import {createVar} from "css-variable";
@@ -207,7 +209,7 @@ mod transform_visitor_tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::default(),
+        swc_ecma_parser::Syntax::default(),
         |_| transform_visitor(Default::default()),
         ignores_unknwon_modules,
         r#"import {createVar} from "unknown";
@@ -217,7 +219,7 @@ mod transform_visitor_tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::default(),
+        swc_ecma_parser::Syntax::default(),
         |_| transform_visitor(Default::default()),
         adds_variable_name_with_value,
         r#"import {createVar} from "css-variable";
@@ -227,12 +229,32 @@ mod transform_visitor_tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::default(),
+        swc_ecma_parser::Syntax::default(),
         |_| transform_visitor(Default::default()),
         adds_variable_name_for_renamed,
         r#"import {createVar as create} from "css-variable";
         create("hello world");"#,
         r#"import {createVar as create} from "css-variable";
         create("hashed0", "hello world");"#
+    );
+
+    test!(
+        swc_ecma_parser::Syntax::default(),
+        |_| transform_visitor(PluginConfig { display_name: true }),
+        adds_variable_name_with_display_name,
+        r#"import {createVar} from "css-variable";
+        const primary = createVar();
+        const theme = {
+            colors: {
+                primary: createVar()
+            }
+        };"#,
+        r#"import {createVar} from "css-variable";
+        const primary = createVar("primary--hashed0");
+        const theme = {
+            colors: {
+                primary: createVar("primary--hashed1")
+            }
+        };"#
     );
 }

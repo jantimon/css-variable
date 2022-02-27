@@ -15,12 +15,13 @@ pub fn hash(data: impl AsRef<[u8]>, length: usize) -> String {
 
     let first_char = hash_base64.chars().nth(0).unwrap();
     // Ensure that the identifier starts with [_a-zA-Z]
-    let valid_first_char = if first_char.is_digit(10) || first_char == '-' {
+    let first_char = if first_char.is_digit(10) || first_char == '-' {
         '_'
     } else {
         first_char
     };
-    let mut css_safe_string: String = String::from(valid_first_char);
+
+    let mut css_safe_string: String = String::from(first_char);
     css_safe_string.push_str(&hash_base64[1..length]);
     css_safe_string
 }

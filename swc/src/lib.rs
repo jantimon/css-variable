@@ -35,13 +35,11 @@ struct TransformVisitor {
 
 impl TransformVisitor {
     pub fn new(plugin_config: PluginConfig, hash: String) -> Self {
-        let local_indents: Vec<String> = Vec::new();
-        let variable_count = 0;
         Self {
             plugin_config,
             hash,
-            local_indents,
-            variable_count,
+            local_indents: vec![],
+            variable_count: 0,
             current_var_declarator: None,
             current_object_prop_declarator: None,
         }

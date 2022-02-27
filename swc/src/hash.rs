@@ -20,9 +20,8 @@ pub fn hash(data: impl AsRef<[u8]>, length: usize) -> String {
     } else {
         first_char
     };
+    let css_safe_string = format!("{first_char}{}", &hash_base64[1..length]);
 
-    let mut css_safe_string: String = String::from(first_char);
-    css_safe_string.push_str(&hash_base64[1..length]);
     css_safe_string
 }
 

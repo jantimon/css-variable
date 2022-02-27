@@ -13,7 +13,7 @@ pub fn hash(data: impl AsRef<[u8]>, length: usize) -> String {
     hasher.update(data);
     let hash_base64 = encode_config(hasher.finalize(), base64::URL_SAFE_NO_PAD);
 
-    let first_char = hash_base64.chars().nth(0).unwrap();
+    let first_char = hash_base64.chars().next().unwrap();
     // Ensure that the identifier starts with [_a-zA-Z]
     let first_char = if first_char.is_digit(10) || first_char == '-' {
         '_'

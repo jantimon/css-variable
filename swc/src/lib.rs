@@ -5,7 +5,7 @@ mod hash;
 use hash::hash;
 
 /// Static plugin configuration.
-#[derive(Serialize, Deserialize)]
+#[derive(Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct PluginConfig {
@@ -22,12 +22,6 @@ pub struct Context {
     /// The name of the current file.
     #[serde(default)]
     pub filename: Option<String>,
-}
-
-impl Default for PluginConfig {
-    fn default() -> Self {
-        serde_json::from_str("{}").unwrap()
-    }
 }
 
 struct TransformVisitor {

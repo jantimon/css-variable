@@ -1,7 +1,10 @@
 use anyhow::Context as _;
 use serde::{Deserialize, Serialize};
+use std::collections::HashSet;
 use swc_plugin::{ast::*, plugin_transform, syntax_pos::DUMMY_SP};
+
 mod hash;
+
 use hash::hash;
 
 /// Static plugin configuration.
@@ -27,7 +30,7 @@ pub struct Context {
 struct TransformVisitor {
     plugin_config: PluginConfig,
     hash: String,
-    local_indents: Vec<String>,
+    local_idents: HashSet<String>,
     variable_count: u32,
     current_var_declarator: Option<String>,
     current_object_prop_declarator: Option<String>,
@@ -38,7 +41,7 @@ impl TransformVisitor {
         Self {
             plugin_config,
             hash,
-            local_indents: vec![],
+            local_idents: HashSet::new(),
             variable_count: 0,
             current_var_declarator: None,
             current_object_prop_declarator: None,
@@ -77,7 +80,7 @@ impl VisitMut for TransformVisitor {
                     }
                 };
                 if imported_ident == "createVar" {
-                    self.local_indents.push(String::from(&*local.local.sym));
+                    self.local_idents.insert(String::from(&*local.local.sym));
                 }
             }
         }
@@ -107,13 +110,13 @@ impl VisitMut for TransformVisitor {
     fn visit_mut_call_expr(&mut self, call_expr: &mut CallExpr) {
         // Skip entire execution if no import call was found
         // @see visit_mut_import_decl
-        if self.local_indents.is_empty() {
+        if self.local_idents.is_empty() {
             return;
         }
         call_expr.visit_mut_children_with(self);
         if let Callee::Expr(expr) = &call_expr.callee {
             if let Expr::Ident(e) = &**expr {
-                if self.local_indents.contains(&String::from(&*e.sym)) {
+                if self.local_idents.contains(&String::from(&*e.sym)) {
                     let variable_hash_name = {
                         let variable_count = self.variable_count;
                         let mut variable_hash_name = self.hash.to_owned();

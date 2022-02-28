@@ -20,7 +20,6 @@ pub struct PluginConfig {
 /// Additional context for the plugin.
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-#[serde(deny_unknown_fields)]
 pub struct Context {
     /// The name of the current file.
     #[serde(default)]

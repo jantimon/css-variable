@@ -2,6 +2,7 @@ node_modules
 .next
 .linaria-cache
 dist
+target
 package-lock.json
 yarn.lock
 yarn-error.log

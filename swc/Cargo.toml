@@ -1,0 +1,30 @@
+[package]
+name = "swc-plugin-css-variable"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[profile.release]
+# Uncomment to achieve smallest possible binary size (may require more experimentation).
+# Disclaimer: measure effects on runtime, results can be surprising.
+# strip = "debuginfo"
+# codegen-units = 1
+# lto = true
+# opt-level = "z"
+
+[dependencies]
+anyhow = "1.0.53"
+serde = "1.0.136"
+serde_json = "1.0.79"
+swc_plugin = "0.27.0"
+sha3 = "0.10.1"
+base64 = "0.13.0"
+
+[dev-dependencies]
+js-sys = "0.3.51"
+swc = { version = "0.127.1", features = ["plugin"] }
+swc_common = { version = "0.17.5", features = ["tty-emitter"] }
+swc_ecma_parser = "0.88.3"
+swc_ecma_transforms_testing = "0.60.0"

@@ -8,22 +8,26 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./babel": "./babel/index.js"
+    "./babel": "./babel/index.js",
+    "./swc": "./swc/target/wasm32-wasi/release/swc_plugin_console_prefix.wasm"
   },
   "types": "./dist/index.d.ts",
   "files": [
     "src",
     "dist",
-    "babel"
+    "babel",
+    "swc/src",
+    "swc/target/wasm32-wasi/release/swc_plugin_console_prefix.wasm"
   ],
   "sideEffects": false,
   "scripts": {
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "npm run build && npm run build:swc",
     "build": "npm run build:types && npm run build:commonjs && npm run build:module && npm run build:modulemin",
     "build:commonjs": "babel --config-file=./babel.commonjs.js -o dist/index.js src/index.ts",
     "build:module": "babel --config-file=./babel.config.js -o dist/index.mjs src/index.ts",
     "build:types": "tsc --skipLibCheck --emitDeclarationOnly --declaration --target ESNext --outDir dist src/index.ts",
     "build:modulemin": "terser ./dist/index.mjs -o ./dist/index.min.mjs -m --ecma 2017 --module --toplevel -b -c",
+    "build:swc": "cargo build --manifest-path ./swc/Cargo.toml --release --target=wasm32-wasi",
     "test": "npm run test:e2e && npm run test:jest",
     "test:e2e": "node ./test/examples.js",
     "test:jest": "jest",

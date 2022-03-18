@@ -31,7 +31,7 @@ struct TransformVisitor {
     local_idents: HashSet<String>,
     variable_count: u32,
     current_var_declarator: Option<String>,
-    current_object_prop_declarator: Option<String>,
+    current_object_prop_declarators: Vec<String>,
 }
 
 impl TransformVisitor {
@@ -42,7 +42,7 @@ impl TransformVisitor {
             local_idents: HashSet::new(),
             variable_count: 0,
             current_var_declarator: None,
-            current_object_prop_declarator: None,
+            current_object_prop_declarators: vec![],
         }
     }
 }
@@ -90,15 +90,14 @@ impl VisitMut for TransformVisitor {
     }
 
     fn visit_mut_key_value_prop(&mut self, key_value: &mut KeyValueProp) {
-        self.current_object_prop_declarator = if let PropName::Ident(id) = &key_value.key {
-            Some(id.sym.to_string())
-        } else {
-            None
-        };
+        if let PropName::Ident(id) = &key_value.key {
+            self.current_object_prop_declarators
+                .push(id.sym.to_string());
+        }
 
         key_value.visit_mut_children_with(self);
 
-        self.current_object_prop_declarator = None;
+        self.current_object_prop_declarators.pop();
     }
 
     fn visit_mut_call_expr(&mut self, call_expr: &mut CallExpr) {
@@ -115,12 +114,12 @@ impl VisitMut for TransformVisitor {
                     let mut variable_name = String::new();
 
                     if self.config.display_name {
-                        if let Some(object_prop_declarator) = &self.current_object_prop_declarator {
-                            write!(&mut variable_name, "{object_prop_declarator}--").unwrap();
-                        }
-
                         if let Some(var_declarator) = &self.current_var_declarator {
                             write!(&mut variable_name, "{var_declarator}--").unwrap();
+                        }
+
+                        for object_prop_declarator in &self.current_object_prop_declarators {
+                            write!(&mut variable_name, "{object_prop_declarator}--").unwrap();
                         }
                     }
 
@@ -242,14 +241,20 @@ mod tests {
         const primary = createVar();
         const theme = {
             colors: {
-                primary: createVar()
+                primary: createVar(),
+                secondary: {
+                    inner: createVar()
+                }
             }
         };"#,
         r#"import {createVar} from "css-variable";
         const primary = createVar("primary--hashed0");
         const theme = {
             colors: {
-                primary: createVar("primary--colors--hashed1")
+                primary: createVar("theme--colors--primary--hashed1"),
+                secondary: {
+                    inner: createVar("theme--colors--secondary--inner--hashed2")
+                }
             }
         };"#
     );

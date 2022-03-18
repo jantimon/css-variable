@@ -1,4 +1,3 @@
-use anyhow::Context as _;
 use serde::{Deserialize, Serialize};
 use std::{collections::HashSet, fmt::Write};
 use swc_plugin::{ast::*, plugin_transform, syntax_pos::DUMMY_SP};
@@ -162,14 +161,10 @@ impl VisitMut for TransformVisitor {
 /// - `context` - [`Context`] as JSON.
 #[plugin_transform]
 pub fn process_transform(program: Program, plugin_config: String, context: String) -> Program {
-    let config: PluginConfig = serde_json::from_str(&plugin_config)
-        .context("failed to parse plugin config")
-        .unwrap();
+    let config: PluginConfig =
+        serde_json::from_str(&plugin_config).expect("failed to parse plugin config");
 
-    let context: Context = serde_json::from_str(&context)
-        .context("failed to parse plugin context")
-        .unwrap();
-
+    let context: Context = serde_json::from_str(&context).expect("failed to parse plugin context");
     let hashed_filename = hash(context.filename.unwrap_or_else(|| "jantimon".to_owned()), 5);
 
     program.fold_with(&mut as_folder(TransformVisitor::new(

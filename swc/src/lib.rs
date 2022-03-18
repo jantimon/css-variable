@@ -48,8 +48,6 @@ impl TransformVisitor {
 }
 
 impl VisitMut for TransformVisitor {
-    noop_visit_mut_type!();
-
     /// Searches all local names for `createVar`.
     ///
     /// For example:

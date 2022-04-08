@@ -114,12 +114,14 @@ impl VisitMut for TransformVisitor {
                     let mut variable_name = String::new();
 
                     if self.config.display_name {
-                        if let Some(var_declarator) = &self.current_var_declarator {
-                            write!(&mut variable_name, "{var_declarator}--").unwrap();
+                        for object_prop_declarator in
+                            self.current_object_prop_declarators.iter().rev()
+                        {
+                            write!(&mut variable_name, "{object_prop_declarator}--").unwrap();
                         }
 
-                        for object_prop_declarator in &self.current_object_prop_declarators {
-                            write!(&mut variable_name, "{object_prop_declarator}--").unwrap();
+                        if let Some(var_declarator) = &self.current_var_declarator {
+                            write!(&mut variable_name, "{var_declarator}--").unwrap();
                         }
                     }
 
@@ -251,9 +253,9 @@ mod tests {
         const primary = createVar("primary--hashed0");
         const theme = {
             colors: {
-                primary: createVar("theme--colors--primary--hashed1"),
+                primary: createVar("primary--colors--theme--hashed1"),
                 secondary: {
-                    inner: createVar("theme--colors--secondary--inner--hashed2")
+                    inner: createVar("inner--secondary--colors--theme--hashed2")
                 }
             }
         };"#

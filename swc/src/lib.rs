@@ -1,4 +1,3 @@
-use anyhow::Context as _;
 use serde::{Deserialize, Serialize};
 use std::{collections::HashSet, fmt::Write};
 use swc_plugin::{ast::*, plugin_transform, syntax_pos::DUMMY_SP};
@@ -11,7 +10,7 @@ use hash::hash;
 #[derive(Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
-pub struct PluginConfig {
+pub struct Config {
     /// Prefix variables with a readable name, e.g. `primary--1isauia0`.
     #[serde(default = "bool::default")]
     pub display_name: bool,
@@ -27,30 +26,28 @@ pub struct Context {
 }
 
 struct TransformVisitor {
-    plugin_config: PluginConfig,
+    config: Config,
     filename_hash: String,
     local_idents: HashSet<String>,
     variable_count: u32,
     current_var_declarator: Option<String>,
-    current_object_prop_declarator: Option<String>,
+    current_object_prop_declarators: Vec<String>,
 }
 
 impl TransformVisitor {
-    pub fn new(plugin_config: PluginConfig, filename_hash: String) -> Self {
+    pub fn new(config: Config, filename_hash: String) -> Self {
         Self {
-            plugin_config,
+            config,
             filename_hash,
             local_idents: HashSet::new(),
             variable_count: 0,
             current_var_declarator: None,
-            current_object_prop_declarator: None,
+            current_object_prop_declarators: vec![],
         }
     }
 }
 
 impl VisitMut for TransformVisitor {
-    noop_visit_mut_type!();
-
     /// Searches all local names for `createVar`.
     ///
     /// For example:
@@ -93,15 +90,14 @@ impl VisitMut for TransformVisitor {
     }
 
     fn visit_mut_key_value_prop(&mut self, key_value: &mut KeyValueProp) {
-        self.current_object_prop_declarator = if let PropName::Ident(id) = &key_value.key {
-            Some(id.sym.to_string())
-        } else {
-            None
-        };
+        if let PropName::Ident(id) = &key_value.key {
+            self.current_object_prop_declarators
+                .push(id.sym.to_string());
+        }
 
         key_value.visit_mut_children_with(self);
 
-        self.current_object_prop_declarator = None;
+        self.current_object_prop_declarators.pop();
     }
 
     fn visit_mut_call_expr(&mut self, call_expr: &mut CallExpr) {
@@ -117,8 +113,10 @@ impl VisitMut for TransformVisitor {
                 if self.local_idents.contains(&*id.sym) {
                     let mut variable_name = String::new();
 
-                    if self.plugin_config.display_name {
-                        if let Some(object_prop_declarator) = &self.current_object_prop_declarator {
+                    if self.config.display_name {
+                        for object_prop_declarator in
+                            self.current_object_prop_declarators.iter().rev()
+                        {
                             write!(&mut variable_name, "{object_prop_declarator}--").unwrap();
                         }
 
@@ -158,18 +156,13 @@ impl VisitMut for TransformVisitor {
 /// # Arguments
 ///
 /// - `program` - The SWC [`Program`] to transform.
-/// - `plugin_config` - [`PluginConfig`] as JSON.
+/// - `config` - [`Config`] as JSON.
 /// - `context` - [`Context`] as JSON.
 #[plugin_transform]
-pub fn process_transform(program: Program, plugin_config: String, context: String) -> Program {
-    let config: PluginConfig = serde_json::from_str(&plugin_config)
-        .context("failed to parse plugin config")
-        .unwrap();
+pub fn process_transform(program: Program, config: String, context: String) -> Program {
+    let config: Config = serde_json::from_str(&config).expect("failed to parse plugin config");
 
-    let context: Context = serde_json::from_str(&context)
-        .context("failed to parse plugin context")
-        .unwrap();
-
+    let context: Context = serde_json::from_str(&context).expect("failed to parse plugin context");
     let hashed_filename = hash(context.filename.unwrap_or_else(|| "jantimon".to_owned()), 5);
 
     program.fold_with(&mut as_folder(TransformVisitor::new(
@@ -184,7 +177,7 @@ mod tests {
 
     use super::*;
 
-    fn transform_visitor(config: PluginConfig) -> impl 'static + Fold + VisitMut {
+    fn transform_visitor(config: Config) -> impl 'static + Fold + VisitMut {
         as_folder(TransformVisitor::new(config, String::from("hashed")))
     }
 
@@ -244,20 +237,26 @@ mod tests {
 
     test!(
         swc_ecma_parser::Syntax::default(),
-        |_| transform_visitor(PluginConfig { display_name: true }),
+        |_| transform_visitor(Config { display_name: true }),
         adds_variable_name_with_display_name,
         r#"import {createVar} from "css-variable";
         const primary = createVar();
         const theme = {
             colors: {
-                primary: createVar()
+                primary: createVar(),
+                secondary: {
+                    inner: createVar()
+                }
             }
         };"#,
         r#"import {createVar} from "css-variable";
         const primary = createVar("primary--hashed0");
         const theme = {
             colors: {
-                primary: createVar("primary--colors--hashed1")
+                primary: createVar("primary--colors--theme--hashed1"),
+                secondary: {
+                    inner: createVar("inner--secondary--colors--theme--hashed2")
+                }
             }
         };"#
     );

@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 use std::{collections::HashSet, fmt::Write};
-use swc_plugin::{ast::*, plugin_transform, syntax_pos::DUMMY_SP};
+use swc_plugin::{ast::*, plugin_transform, syntax_pos::DUMMY_SP, TransformPluginProgramMetadata};
 
 mod hash;
 
@@ -139,9 +139,8 @@ impl VisitMut for TransformVisitor {
                             spread: None,
                             expr: Box::new(Expr::Lit(Lit::Str(Str {
                                 span: DUMMY_SP,
-                                has_escape: false,
-                                kind: StrKind::Synthesized,
                                 value: variable_name.into(),
+                                raw: None,
                             }))),
                         },
                     );
@@ -152,17 +151,13 @@ impl VisitMut for TransformVisitor {
 }
 
 /// Transforms a [`Program`].
-///
-/// # Arguments
-///
-/// - `program` - The SWC [`Program`] to transform.
-/// - `config` - [`Config`] as JSON.
-/// - `context` - [`Context`] as JSON.
 #[plugin_transform]
-pub fn process_transform(program: Program, config: String, context: String) -> Program {
-    let config: Config = serde_json::from_str(&config).expect("failed to parse plugin config");
+pub fn process_transform(program: Program, metadata: TransformPluginProgramMetadata) -> Program {
+    let config: Config =
+        serde_json::from_str(&metadata.plugin_config).expect("failed to parse plugin config");
 
-    let context: Context = serde_json::from_str(&context).expect("failed to parse plugin context");
+    let context: Context =
+        serde_json::from_str(&metadata.transform_context).expect("failed to parse plugin context");
     let hashed_filename = hash(context.filename.unwrap_or_else(|| "jantimon".to_owned()), 5);
 
     program.fold_with(&mut as_folder(TransformVisitor::new(

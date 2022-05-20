@@ -233,6 +233,16 @@ mod tests {
     test!(
         swc_ecma_parser::Syntax::default(),
         |_| transform_visitor(Config { display_name: true }),
+        adds_camel_case_variable_name_with_display_name,
+        r#"import {createVar} from "css-variable";
+        const camelCase = createVar();"#,
+        r#"import {createVar} from "css-variable";
+        const camelCase = createVar("camelCase--hashed0");"#
+    );
+
+    test!(
+        swc_ecma_parser::Syntax::default(),
+        |_| transform_visitor(Config { display_name: true }),
         adds_variable_name_with_display_name,
         r#"import {createVar} from "css-variable";
         const primary = createVar();

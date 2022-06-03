@@ -165,8 +165,6 @@ pub fn process_transform(program: Program, metadata: TransformPluginProgramMetad
     let context: Context =
         serde_json::from_str(&metadata.transform_context).expect("failed to parse plugin context");
 
-    println!("{:#}",config.base_path);
-
     let hashed_filename = hash(relative_posix_path(&config.base_path, &context.filename.unwrap_or_else(|| "jantimon".to_owned())), 5);
 
     program.fold_with(&mut as_folder(TransformVisitor::new(
@@ -183,7 +181,6 @@ pub fn process_transform(program: Program, metadata: TransformPluginProgramMetad
 fn relative_posix_path(base_path: &String, filename: &String) -> String {
     let relative_filename = diff_paths(filename, base_path).expect("Could not create relative path");
     let path_parts = relative_filename.components().map(|component| component.as_os_str().to_str().unwrap()).collect::<Vec<&str>>();
-    println!("{:#?}", path_parts);
     return path_parts.join("/");
 }
 

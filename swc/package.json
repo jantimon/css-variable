@@ -1,0 +1,15 @@
+{
+  "name": "swc-plugin-css-variable",
+  "version": "0.1.0",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "keywords": [
+    "swc-plugin"
+  ],
+  "main": "target/wasm32-wasi/release/swc_plugin_css_variable.wasm",
+  "scripts": {
+    "prepublishOnly": "cargo build --release"
+  },
+  "files": []
+}

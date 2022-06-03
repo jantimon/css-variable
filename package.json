@@ -1,6 +1,6 @@
 {
   "name": "css-variable",
-  "version": "3.4.0",
+  "version": "3.6.0",
   "description": "define CSS custom properties (variables) in JS",
   "main": "./dist/index.js",
   "exports": {
@@ -9,7 +9,7 @@
       "import": "./dist/index.mjs"
     },
     "./babel": "./babel/index.js",
-    "./swc": "./swc/target/wasm32-wasi/release/swc_plugin_console_prefix.wasm"
+    "./swc": "./swc/target/wasm32-wasi/release/swc_plugin_css_variable.wasm"
   },
   "types": "./dist/index.d.ts",
   "files": [
@@ -17,7 +17,7 @@
     "dist",
     "babel",
     "swc/src",
-    "swc/target/wasm32-wasi/release/swc_plugin_console_prefix.wasm"
+    "swc/target/wasm32-wasi/release/swc_plugin_css_variable.wasm"
   ],
   "sideEffects": false,
   "scripts": {

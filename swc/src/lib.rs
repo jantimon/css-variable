@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::{collections::HashSet, fmt::Write};
-use swc_plugin::{ast::*, plugin_transform, syntax_pos::DUMMY_SP};
+use swc_plugin::{ast::*, plugin_transform, syntax_pos::DUMMY_SP, TransformPluginProgramMetadata};
+use pathdiff::diff_paths;
 
 mod hash;
 
@@ -14,6 +15,11 @@ pub struct Config {
     /// Prefix variables with a readable name, e.g. `primary--1isauia0`.
     #[serde(default = "bool::default")]
     pub display_name: bool,
+    /// The hash for a css-variable depends on the file name including createVar().
+    /// To ensure that the hash is consistent accross multiple systems the relative path 
+    /// from the base dir to the source file is used.
+    #[serde()]
+    pub base_path: String,
 }
 
 /// Additional context for the plugin.
@@ -139,9 +145,8 @@ impl VisitMut for TransformVisitor {
                             spread: None,
                             expr: Box::new(Expr::Lit(Lit::Str(Str {
                                 span: DUMMY_SP,
-                                has_escape: false,
-                                kind: StrKind::Synthesized,
                                 value: variable_name.into(),
+                                raw: None,
                             }))),
                         },
                     );
@@ -152,23 +157,34 @@ impl VisitMut for TransformVisitor {
 }
 
 /// Transforms a [`Program`].
-///
-/// # Arguments
-///
-/// - `program` - The SWC [`Program`] to transform.
-/// - `config` - [`Config`] as JSON.
-/// - `context` - [`Context`] as JSON.
 #[plugin_transform]
-pub fn process_transform(program: Program, config: String, context: String) -> Program {
-    let config: Config = serde_json::from_str(&config).expect("failed to parse plugin config");
+pub fn process_transform(program: Program, metadata: TransformPluginProgramMetadata) -> Program {
+    let config: Config =
+        serde_json::from_str(&metadata.plugin_config).expect("failed to parse plugin config");
 
-    let context: Context = serde_json::from_str(&context).expect("failed to parse plugin context");
-    let hashed_filename = hash(context.filename.unwrap_or_else(|| "jantimon".to_owned()), 5);
+    let context: Context =
+        serde_json::from_str(&metadata.transform_context).expect("failed to parse plugin context");
+
+    println!("{:#}",config.base_path);
+
+    let hashed_filename = hash(relative_posix_path(&config.base_path, &context.filename.unwrap_or_else(|| "jantimon".to_owned())), 5);
 
     program.fold_with(&mut as_folder(TransformVisitor::new(
         config,
         hashed_filename,
     )))
+}
+
+/// Returns a relative posix path from the base_path to the filename
+/// e.g. "/foo/", "/bar/baz.txt" -> "../bar/baz.txt"
+/// e.g. "C:\foo\", "C:\foo\baz.txt" -> "../bar/baz.txt"
+/// 
+/// The format of base_path and filename must match the current os
+fn relative_posix_path(base_path: &String, filename: &String) -> String {
+    let relative_filename = diff_paths(filename, base_path).expect("Could not create relative path");
+    let path_parts = relative_filename.components().map(|component| component.as_os_str().to_str().unwrap()).collect::<Vec<&str>>();
+    println!("{:#?}", path_parts);
+    return path_parts.join("/");
 }
 
 #[cfg(test)]
@@ -237,7 +253,17 @@ mod tests {
 
     test!(
         swc_ecma_parser::Syntax::default(),
-        |_| transform_visitor(Config { display_name: true }),
+        |_| transform_visitor(Config { display_name: true, base_path: "/".to_owned() }),
+        adds_camel_case_variable_name_with_display_name,
+        r#"import {createVar} from "css-variable";
+        const camelCase = createVar();"#,
+        r#"import {createVar} from "css-variable";
+        const camelCase = createVar("camelCase--hashed0");"#
+    );
+
+    test!(
+        swc_ecma_parser::Syntax::default(),
+        |_| transform_visitor(Config { display_name: true, base_path: "/".to_owned() }),
         adds_variable_name_with_display_name,
         r#"import {createVar} from "css-variable";
         const primary = createVar();
@@ -260,4 +286,16 @@ mod tests {
             }
         };"#
     );
+
+    #[test]
+    fn test_hash_filename_unix() {
+        assert_eq!(relative_posix_path(&String::from("/foo/"), &String::from("/bar/baz.txt")), "../bar/baz.txt");
+    }
+    #[test]
+    fn test_hash_filename_windows() {
+        if cfg!(windows) {
+            assert_eq!(relative_posix_path(&String::from("C:\\foo\\"), &String::from("C:\\bar\\baz.txt")), "../bar/baz.txt");
+        }
+    }
+    
 }

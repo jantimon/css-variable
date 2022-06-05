@@ -183,11 +183,13 @@ pub fn process_transform(program: Program, metadata: TransformPluginProgramMetad
     )))
 }
 
-/// Returns a relative posix path from the base_path to the filename
-/// e.g. "/foo/", "/bar/baz.txt" -> "../bar/baz.txt"
-/// e.g. "C:\foo\", "C:\foo\baz.txt" -> "../bar/baz.txt"
+/// Returns a relative POSIX path from the `base_path` to the filename.
 ///
-/// The format of base_path and filename must match the current os
+/// For example:
+/// - "/foo/", "/bar/baz.txt" -> "../bar/baz.txt"
+/// - "C:\foo\", "C:\foo\baz.txt" -> "../bar/baz.txt"
+///
+/// The format of `base_path` and `filename` must match the current OS.
 fn relative_posix_path(base_path: &String, filename: &String) -> String {
     let normalized_base_path = convert_path_to_posix(base_path);
     let normalized_filename = convert_path_to_posix(filename);
@@ -201,9 +203,11 @@ fn relative_posix_path(base_path: &String, filename: &String) -> String {
     return path_parts.join("/");
 }
 
-/// Returns the path converted to a posix path (naive approach)
-/// e.g. "C:\foo\bar" -> "c/foo/bar"
-/// e.g. "/foo/bar" -> "/foo/bar"
+/// Returns the path converted to a POSIX path (naive approach).
+///
+/// For example:
+/// - "C:\foo\bar" -> "c/foo/bar"
+/// - "/foo/bar" -> "/foo/bar"
 fn convert_path_to_posix(path: &String) -> String {
     lazy_static! {
         static ref PATH_REPLACEMENT_REGEX: Regex = Regex::new(r":\\|\\").unwrap();

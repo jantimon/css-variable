@@ -1,7 +1,11 @@
+use pathdiff::diff_paths;
 use serde::{Deserialize, Serialize};
 use std::{collections::HashSet, fmt::Write};
 use swc_plugin::{ast::*, plugin_transform, syntax_pos::DUMMY_SP, TransformPluginProgramMetadata};
-use pathdiff::diff_paths;
+
+use regex::Regex;
+#[macro_use]
+extern crate lazy_static;
 
 mod hash;
 
@@ -176,12 +180,33 @@ pub fn process_transform(program: Program, metadata: TransformPluginProgramMetad
 /// Returns a relative posix path from the base_path to the filename
 /// e.g. "/foo/", "/bar/baz.txt" -> "../bar/baz.txt"
 /// e.g. "C:\foo\", "C:\foo\baz.txt" -> "../bar/baz.txt"
-/// 
+///
 /// The format of base_path and filename must match the current os
 fn relative_posix_path(base_path: &String, filename: &String) -> String {
-    let relative_filename = diff_paths(filename, base_path).expect("Could not create relative path");
-    let path_parts = relative_filename.components().map(|component| component.as_os_str().to_str().unwrap()).collect::<Vec<&str>>();
+    let normalized_base_path = convert_path_to_posix(base_path);
+    let normalized_filename = convert_path_to_posix(filename);
+    let relative_filename = diff_paths(normalized_filename, normalized_base_path)
+        .expect("Could not create relative path");
+    let path_parts = relative_filename
+        .components()
+        .map(|component| component.as_os_str().to_str().unwrap())
+        .collect::<Vec<&str>>();
+
     return path_parts.join("/");
+}
+
+/// Returns the path converted to a posix path (naive approach)
+/// e.g. "C:\foo\bar" -> "c/foo/bar"
+/// e.g. "/foo/bar" -> "/foo/bar"
+fn convert_path_to_posix(path: &String) -> String {
+    lazy_static! {
+        static ref PATH_REPLACEMENT_REGEX: Regex = Regex::new(r":\\|\\").unwrap();
+    }
+
+    return PATH_REPLACEMENT_REGEX
+        .replace_all(path, "/")
+        .to_string()
+        .to_owned();
 }
 
 #[cfg(test)]
@@ -285,14 +310,25 @@ mod tests {
     );
 
     #[test]
-    fn test_hash_filename_unix() {
-        assert_eq!(relative_posix_path(&String::from("/foo/"), &String::from("/bar/baz.txt")), "../bar/baz.txt");
+    fn test_relative_path() {
+        assert_eq!(
+            relative_posix_path(&String::from("/foo/"), &String::from("/bar/baz.txt")),
+            "../bar/baz.txt"
+        );
     }
     #[test]
-    fn test_hash_filename_windows() {
-        if cfg!(windows) {
-            assert_eq!(relative_posix_path(&String::from("C:\\foo\\"), &String::from("C:\\bar\\baz.txt")), "../bar/baz.txt");
-        }
+    fn test_convert_unix_path() {
+        assert_eq!(
+            convert_path_to_posix(&String::from(r"/foo/bar")),
+            "/foo/bar"
+        );
     }
-    
+
+    #[test]
+    fn test_convert_windows_path() {
+        assert_eq!(
+            convert_path_to_posix(&String::from(r"C:\foo\bar")),
+            "C/foo/bar"
+        );
+    }
 }

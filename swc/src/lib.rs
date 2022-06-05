@@ -190,7 +190,7 @@ pub fn process_transform(program: Program, metadata: TransformPluginProgramMetad
 /// - "C:\foo\", "C:\foo\baz.txt" -> "../bar/baz.txt"
 ///
 /// The format of `base_path` and `filename` must match the current OS.
-fn relative_posix_path(base_path: &String, filename: &String) -> String {
+fn relative_posix_path(base_path: &str, filename: &str) -> String {
     let normalized_base_path = convert_path_to_posix(base_path);
     let normalized_filename = convert_path_to_posix(filename);
     let relative_filename = diff_paths(normalized_filename, normalized_base_path)
@@ -200,7 +200,7 @@ fn relative_posix_path(base_path: &String, filename: &String) -> String {
         .map(|component| component.as_os_str().to_str().unwrap())
         .collect::<Vec<&str>>();
 
-    return path_parts.join("/");
+    path_parts.join("/")
 }
 
 /// Returns the path converted to a POSIX path (naive approach).
@@ -208,15 +208,12 @@ fn relative_posix_path(base_path: &String, filename: &String) -> String {
 /// For example:
 /// - "C:\foo\bar" -> "c/foo/bar"
 /// - "/foo/bar" -> "/foo/bar"
-fn convert_path_to_posix(path: &String) -> String {
+fn convert_path_to_posix(path: &str) -> String {
     lazy_static! {
         static ref PATH_REPLACEMENT_REGEX: Regex = Regex::new(r":\\|\\").unwrap();
     }
 
-    return PATH_REPLACEMENT_REGEX
-        .replace_all(path, "/")
-        .to_string()
-        .to_owned();
+    PATH_REPLACEMENT_REGEX.replace_all(path, "/").to_string()
 }
 
 #[cfg(test)]
@@ -328,7 +325,7 @@ mod tests {
     #[test]
     fn test_relative_path_unix() {
         assert_eq!(
-            relative_posix_path(&String::from("/foo/"), &String::from("/bar/baz.txt")),
+            relative_posix_path("/foo/", "/bar/baz.txt"),
             "../bar/baz.txt"
         );
     }
@@ -336,24 +333,18 @@ mod tests {
     #[test]
     fn test_relative_path_windows() {
         assert_eq!(
-            relative_posix_path(&String::from(r"C:\foo\"), &String::from(r"C:\bar\baz.txt")),
+            relative_posix_path(r"C:\foo\", r"C:\bar\baz.txt"),
             "../bar/baz.txt"
         );
     }
 
     #[test]
     fn test_convert_unix_path() {
-        assert_eq!(
-            convert_path_to_posix(&String::from(r"/foo/bar")),
-            "/foo/bar"
-        );
+        assert_eq!(convert_path_to_posix(r"/foo/bar"), "/foo/bar");
     }
 
     #[test]
     fn test_convert_windows_path() {
-        assert_eq!(
-            convert_path_to_posix(&String::from(r"C:\foo\bar")),
-            "C/foo/bar"
-        );
+        assert_eq!(convert_path_to_posix(r"C:\foo\bar"), "C/foo/bar");
     }
 }

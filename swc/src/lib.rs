@@ -310,12 +310,21 @@ mod tests {
     );
 
     #[test]
-    fn test_relative_path() {
+    fn test_relative_path_unix() {
         assert_eq!(
             relative_posix_path(&String::from("/foo/"), &String::from("/bar/baz.txt")),
             "../bar/baz.txt"
         );
     }
+
+    #[test]
+    fn test_relative_path_windows() {
+        assert_eq!(
+            relative_posix_path(&String::from(r"C:\foo\"), &String::from(r"C:\bar\baz.txt")),
+            "../bar/baz.txt"
+        );
+    }
+
     #[test]
     fn test_convert_unix_path() {
         assert_eq!(

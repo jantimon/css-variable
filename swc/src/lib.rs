@@ -20,7 +20,7 @@ pub struct Config {
     #[serde(default = "bool::default")]
     pub display_name: bool,
     /// The hash for a css-variable depends on the file name including createVar().
-    /// To ensure that the hash is consistent accross multiple systems the relative path 
+    /// To ensure that the hash is consistent accross multiple systems the relative path
     /// from the base dir to the source file is used.
     #[serde()]
     pub base_path: String,
@@ -169,7 +169,13 @@ pub fn process_transform(program: Program, metadata: TransformPluginProgramMetad
     let context: Context =
         serde_json::from_str(&metadata.transform_context).expect("failed to parse plugin context");
 
-    let hashed_filename = hash(relative_posix_path(&config.base_path, &context.filename.unwrap_or_else(|| "jantimon".to_owned())), 5);
+    let hashed_filename = hash(
+        relative_posix_path(
+            &config.base_path,
+            &context.filename.unwrap_or_else(|| "jantimon".to_owned()),
+        ),
+        5,
+    );
 
     program.fold_with(&mut as_folder(TransformVisitor::new(
         config,
@@ -275,7 +281,10 @@ mod tests {
 
     test!(
         swc_ecma_parser::Syntax::default(),
-        |_| transform_visitor(Config { display_name: true, base_path: "/".to_owned() }),
+        |_| transform_visitor(Config {
+            display_name: true,
+            base_path: "/".to_owned()
+        }),
         adds_camel_case_variable_name_with_display_name,
         r#"import {createVar} from "css-variable";
         const camelCase = createVar();"#,
@@ -285,7 +294,10 @@ mod tests {
 
     test!(
         swc_ecma_parser::Syntax::default(),
-        |_| transform_visitor(Config { display_name: true, base_path: "/".to_owned() }),
+        |_| transform_visitor(Config {
+            display_name: true,
+            base_path: "/".to_owned()
+        }),
         adds_variable_name_with_display_name,
         r#"import {createVar} from "css-variable";
         const primary = createVar();

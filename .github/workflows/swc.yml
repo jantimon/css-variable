@@ -16,6 +16,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Install RustUp
+      run: rustup target add wasm32-wasi
     - name: Build
       run: npm run build:swc
     - name: Run tests

@@ -22,10 +22,11 @@ jobs:
       run: rustup target add wasm32-wasi
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
-    - name: NPM
+    - name: Install NPM Dependencies
       run: npm i
-    - name: Build
+    - name: Build JS
       run: npm run build
+    - name: Build SWC RUST Plugin
       run: npm run build:swc
     - name: Run tests
       run:  npm run test:swc

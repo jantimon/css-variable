@@ -1,5 +1,6 @@
 node_modules
 .next
+.swc
 .linaria-cache
 dist
 target

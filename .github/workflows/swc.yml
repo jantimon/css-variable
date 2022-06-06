@@ -1,0 +1,31 @@
+name: SWC Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  cross-os:
+    strategy:
+      matrix:
+        node-version: [13.x]
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: RustUp
+      run: rustup target add wasm32-wasi
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+    - name: NPM
+      run: npm i
+    - name: Build
+      run: npm run build
+      run: npm run build:swc
+    - name: Run tests
+      run:  npm run test:swc

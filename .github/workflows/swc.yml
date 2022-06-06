@@ -25,6 +25,7 @@ jobs:
     - name: NPM
       run: npm i
     - name: Build
+      run: npm run build
       run: npm run build:swc
     - name: Run tests
       run:  npm run test:swc

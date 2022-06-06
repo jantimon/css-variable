@@ -13,9 +13,9 @@ jobs:
   cross-os:
     strategy:
       matrix:
-        version: [10, 12, 14]
+        node-version: [13.x]
         os: [ubuntu-latest, windows-latest]
-
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
     - name: RustUp

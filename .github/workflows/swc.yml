@@ -10,14 +10,20 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
+  cross-os:
+    strategy:
+      matrix:
+        version: [10, 12, 14]
+        os: [ubuntu-latest, windows-latest]
 
     steps:
     - uses: actions/checkout@v2
-    - name: Install RustUp
+    - name: RustUp
       run: rustup target add wasm32-wasi
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+    - name: NPM
+      run: npm i
     - name: Build
       run: npm run build:swc
     - name: Run tests

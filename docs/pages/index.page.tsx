@@ -278,7 +278,7 @@ export const gradientHover = css\`
 import { startColor, endColor, gradientHover } from './gradient';
 
 export const Button = styled.button\`
-  \${startColor.toStyle('#f5ab35')
+  \${startColor.toStyle('#f5ab35')}
   \${endColor.toStyle('#8d1d1d')}
   \${gradientHover}
 \`;

@@ -61,7 +61,7 @@
     "@babel/preset-typescript": "^7.15.0",
     "@babel/runtime": "^7.15.4",
     "@babel/types": "^7.15.4",
-    "@swc/core": "^1.2.197",
+    "@swc/core": "1.2.204",
     "@swc/jest": "^0.2.21",
     "@types/jest": "^27.0.1",
     "jest": "^27.5.1",

@@ -1,6 +1,6 @@
 {
   "name": "css-variable",
-  "version": "3.6.2",
+  "version": "3.7.0",
   "description": "define CSS custom properties (variables) in JS",
   "main": "./dist/index.js",
   "exports": {
@@ -28,6 +28,7 @@
     "build:types": "tsc --skipLibCheck --emitDeclarationOnly --declaration --target ESNext --outDir dist src/index.ts",
     "build:modulemin": "terser ./dist/index.mjs -o ./dist/index.min.mjs -m --ecma 2017 --module --toplevel -b -c",
     "build:swc": "cargo build --manifest-path ./swc/Cargo.toml --release --target=wasm32-wasi",
+    "changelog": "npx standard-changelog",
     "test": "npm run test:e2e && npm run test:jest",
     "test:e2e": "node ./test/examples.js",
     "test:jest": "jest",

@@ -418,7 +418,7 @@ export const tokens = {
           target="_blank"
         >
           <img
-            alt="GitHub Workflow Status"
+            alt="GitHub Actions Status"
             src="https://img.shields.io/github/workflow/status/jantimon/css-variable/e2e%20test/main?style=for-the-badge"
           />
         </a>

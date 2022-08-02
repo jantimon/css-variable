@@ -129,7 +129,7 @@ const Badges = styled.div`
   margin-right: 8px;
   margin-bottom: 8px;
   line-height: 0;
-`
+`;
 
 const Index = () => (
   <>
@@ -221,14 +221,14 @@ export const globalStyles = css\`:global() {
 
           <CodeExamples>
             {{
-              'js source': `
+              "js source": `
 import { tokens } from './tokens'; 
 
 export const Headline = styled.h1\`
   color: \${tokens.primary};
 \`;
 `,
-        'css result': `
+              "css result": `
 .se7gjt0-headline {
   color: var(--primary--1isauia0);
 }
@@ -241,7 +241,10 @@ export const Headline = styled.h1\`
       <Section reverse>
         <SectionContent>
           <Headline>Create themable CSS Snippets</Headline>
-          <Text>Define which parts of your reusable css are customizable without overwrites</Text>
+          <Text>
+            Define which parts of your reusable css are customizable without
+            overwrites
+          </Text>
         </SectionContent>
         <SectionExample>
           <CodeExamples>
@@ -273,7 +276,7 @@ export const gradientHover = css\`
           </CodeExamples>
           <CodeExamples>
             {{
-              'js source': `
+              "js source": `
 import { startColor, endColor, gradientHover } from './gradient';
 
 export const Button = styled.button\`
@@ -282,13 +285,13 @@ export const Button = styled.button\`
   \${gradientHover}
 \`;
 `,
-        'css result': `
+              "css result": `
 .se7gjt0-button {
   --1isauia0: #f5ab35;
   --1isauia1: #8d1d1d;
   /* the css from gradientHover */
 }
-        `
+        `,
             }}
           </CodeExamples>
         </SectionExample>
@@ -301,6 +304,7 @@ export const Button = styled.button\`
             The recommended babel plugin generates unique variable names during
             build time
           </Text>
+          <br /><br />
           <Headline>Automatic DX</Headline>
           <Text>
             All babel generated variable names will have human readable names
@@ -310,13 +314,21 @@ export const Button = styled.button\`
         <SectionExample>
           <CodeExamples>
             {{
-              base: `
+              babel: `
 {
   "plugins": [
       "css-variable/babel"
   ]
 }
-`,withOptions: `
+`,
+              swc: `
+{
+  "plugins": [
+      "css-variable/swc", { "basePath": __dirname },
+  ]
+}
+`,
+              withOptions: `
 {
   "plugins": [
       ["css-variable/babel", {
@@ -327,7 +339,7 @@ export const Button = styled.button\`
       }]
   ]
 }
-`
+`,
             }}
           </CodeExamples>
           <CodeExamples>
@@ -364,7 +376,13 @@ export const theme = {
       <Section reverse>
         <SectionContent>
           <Headline>Typed Contracts</Headline>
-          <Text>By default any string is a valid CSSVariable value.<br /><br />But it doesn't end here - the generic interface allows to define explicitly which values are assignable</Text>
+          <Text>
+            By default any string is a valid CSSVariable value.
+            <br />
+            <br />
+            But it doesn't end here - the generic interface allows to define
+            explicitly which values are assignable
+          </Text>
         </SectionContent>
         <SectionExample>
           <CodeExamples>
@@ -387,50 +405,51 @@ export const tokens = {
           </CodeExamples>
         </SectionExample>
       </Section>
-
-
     </Main>
     <Footer>
       <FooterContent>
         <Badges>
-        <a href="https://www.npmjs.com/package/css-variable" target="_blank">
-          <img
-            alt="npm"
-            src="https://img.shields.io/npm/v/css-variable?style=for-the-badge"
-          />
-        </a>
-        <a href="https://bundle.js.org/?q=css-variable&treeshake=[createVar]" target="_blank">
-          <img
-            alt="Minified Gziped Size"
-            src="https://img.shields.io/badge/minzip-288b-blue?style=for-the-badge"
-          />
-        </a>
-        <a href="https://github.com/jantimon/css-variable/" target="_blank">
-          <img
-            src="https://img.shields.io/badge/github-OSS-brightgreen?style=for-the-badge&logo=GitHub"
-            alt="Github"
-          />
-        </a>
+          <a href="https://www.npmjs.com/package/css-variable" target="_blank">
+            <img
+              alt="npm"
+              src="https://img.shields.io/npm/v/css-variable?style=for-the-badge"
+            />
+          </a>
+          <a
+            href="https://bundle.js.org/?q=css-variable&treeshake=[createVar]"
+            target="_blank"
+          >
+            <img
+              alt="Minified Gziped Size"
+              src="https://img.shields.io/badge/minzip-288b-blue?style=for-the-badge"
+            />
+          </a>
+          <a href="https://github.com/jantimon/css-variable/" target="_blank">
+            <img
+              src="https://img.shields.io/badge/github-OSS-brightgreen?style=for-the-badge&logo=GitHub"
+              alt="Github"
+            />
+          </a>
         </Badges>
         <Badges>
-        <a
-          href="https://github.com/jantimon/css-variable/actions/workflows/e2e-test.yml"
-          target="_blank"
-        >
-          <img
-            alt="GitHub Actions Status"
-            src="https://img.shields.io/github/workflow/status/jantimon/css-variable/e2e%20test/main?style=for-the-badge"
-          />
-        </a>
-        <a
-          href="https://github.com/jantimon/css-variable/blob/main/license"
-          target="_blank"
-        >
-          <img
-            alt="MIT License"
-            src="https://img.shields.io/npm/l/css-variable?style=for-the-badge"
-          />
-        </a>
+          <a
+            href="https://github.com/jantimon/css-variable/actions/workflows/e2e-test.yml"
+            target="_blank"
+          >
+            <img
+              alt="GitHub Actions Status"
+              src="https://img.shields.io/github/workflow/status/jantimon/css-variable/e2e%20test/main?style=for-the-badge"
+            />
+          </a>
+          <a
+            href="https://github.com/jantimon/css-variable/blob/main/license"
+            target="_blank"
+          >
+            <img
+              alt="MIT License"
+              src="https://img.shields.io/npm/l/css-variable?style=for-the-badge"
+            />
+          </a>
         </Badges>
       </FooterContent>
     </Footer>

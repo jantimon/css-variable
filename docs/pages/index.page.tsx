@@ -139,7 +139,6 @@ const Index = () => (
     <HeaderWrapper>
       <Header>
         <TextLogo>CSS Variable</TextLogo>
-        <HeaderLink href="/documentation">Documentation</HeaderLink>
         <HeaderLink href="https://github.com/jantimon/css-variable">
           Github
         </HeaderLink>

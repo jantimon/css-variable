@@ -25,6 +25,7 @@ jobs:
     - name: RustUp
       run: rustup target add wasm32-wasi
     - run: npm install
+    - run: (cd docks && npm install)
     - run: npm run prepublishOnly
       env:
         CI: true

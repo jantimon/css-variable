@@ -72,7 +72,7 @@ const MultiCodeButton = styled.button<{active?: boolean}>`
   }
 `
 
-export const CodeExamples = ({ children }) => {
+export const CodeExamples = ({ children }: {children: Record<string, string>}) => {
   const keys = Object.keys(children);
   const [activeKey, setActiveKeys] = useState(keys[0]);
   return <CodeExampleWrapper>

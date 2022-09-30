@@ -152,13 +152,16 @@ const Index = () => (
         <SectionContent>
           <Text>Built with high focus on performance</Text>
           <Text>
-            ✨ <b>better</b> minification of your css
+            ✨ <b>better</b> css minification
           </Text>
           <Text>
             ✨ <b>smaller</b> virtual DOM updates
           </Text>
           <Text>
             ✨ <b>less</b> crititcal SSR CSS
+          </Text>
+          <Text>
+            ✨ <b>unique</b> variable names
           </Text>
         </SectionContent>
         <SectionExample>
@@ -356,16 +359,16 @@ export const theme = {
 import { createVar } from 'css-variable';
 
 export const theme = {
-  primary: new /*@__PURE__*/createVar("primary--1isauia0"),
-  secondary: new /*@__PURE__*/createVar("secondary--1isauia1"),
+  primary: /*@__PURE__*/createVar("primary--1isauia0"),
+  secondary: /*@__PURE__*/createVar("secondary--1isauia1"),
 };
 `,
               "transpiled prod": `
 import { createVar } from 'css-variable';
 
 export const theme = {
-  primary: new /*@__PURE__*/createVar("1isauia0"),
-  secondary: new /*@__PURE__*/createVar("1isauia1"),
+  primary: /*@__PURE__*/createVar("1isauia0"),
+  secondary: /*@__PURE__*/createVar("1isauia1"),
 };
 `,
             }}
@@ -377,7 +380,7 @@ export const theme = {
         <SectionContent>
           <Headline>Typed Contracts</Headline>
           <Text>
-            By default any string is a valid CSSVariable value.
+            By default any string is a valid value for a CSSVariable.
             <br />
             <br />
             But it doesn't end here - the generic interface allows to define

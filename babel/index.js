@@ -134,9 +134,13 @@ function getNameByUsage(path) {
   return "";
 }
 
-/** @param {string} val */
+/** @param {string} val*/
 function dashed(val) {
-  return val.replace(/([A-Z])/g, (_, c) => `-${c.toLowerCase()}`);
+  /** handle camelCase and CONSTANT_CASE */
+  return val
+  .replace(/([0-9a-z])([A-Z])/g, "$1-$2")
+  .toLowerCase()
+  .replace(/_/g, "-");
 }
 
 /** @type {WeakMap<babel.PluginPass, string>} */

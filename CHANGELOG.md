@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.9.1](https://github.com/jantimon/css-variable/compare/v3.9.0...v3.9.1) (2022-11-23)
+
+
+### Bug Fixes
+
+* update dev dependencies ([9d6132e](https://github.com/jantimon/css-variable/commit/9d6132e06342d7e4aa17e746d920b5fc5f7d7f1b))
+
 ## [3.9.0](https://github.com/jantimon/css-variable/compare/v3.8.0...v3.9.0) (2022-11-03)
 
 ### Features

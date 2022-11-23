@@ -13,7 +13,7 @@ jobs:
   cross-os:
     strategy:
       matrix:
-        node-version: [13.x]
+        node-version: [18.x]
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:

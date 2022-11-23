@@ -13,7 +13,7 @@ jobs:
   cross-os:
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [16]
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -21,7 +21,9 @@ jobs:
     - name: RustUp
       run: rustup target add wasm32-wasi
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
+        with: ${{ matrix.node-version }}
+    node-version: 16
     - name: Install NPM Dependencies
       run: npm i
     - name: Build JS

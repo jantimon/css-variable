@@ -140,7 +140,7 @@ const Index = () => (
       <Header>
         <TextLogo>CSS Variable</TextLogo>
         <HeaderLink href="https://github.com/jantimon/css-variable">
-          Github
+          GitHub
         </HeaderLink>
         <ThemeSwitch />
       </Header>

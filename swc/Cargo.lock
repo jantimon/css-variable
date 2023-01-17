@@ -115,6 +115,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9e1b586273c5702936fe7b7d6896644d8be71e6314cfe09d3167c95f712589e8"
 
 [[package]]
+name = "base64"
+version = "0.21.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a4a4ddaa51a5bc52a6948f74c06d20aaaddb71924eab79b8c97a8c556e942d6a"
+
+[[package]]
 name = "better_scoped_tls"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1189,7 +1195,7 @@ version = "6.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "aebe057d110ddba043708da3fb010bf562ff6e9d4d60c9ee92860527bcbeccd6"
 dependencies = [
- "base64",
+ "base64 0.13.1",
  "if_chain",
  "rustc_version",
  "serde",
@@ -1287,7 +1293,7 @@ dependencies = [
 name = "swc-plugin-css-variable"
 version = "0.1.0"
 dependencies = [
- "base64",
+ "base64 0.21.0",
  "lazy_static",
  "pathdiff",
  "regex",
@@ -1477,7 +1483,7 @@ checksum = "93f6717a4dc119e57381cca1c9f2f8f71803f950e17a689059b0d957c2a78176"
 dependencies = [
  "ansi_term",
  "anyhow",
- "base64",
+ "base64 0.13.1",
  "hex",
  "serde",
  "serde_json",

@@ -1,4 +1,4 @@
-use base64::encode_config;
+use base64::{engine::general_purpose, Engine as _};
 use sha3::{Digest, Sha3_256};
 
 /// Creates a CSS identifier of the given length using SHA3.
@@ -11,7 +11,7 @@ use sha3::{Digest, Sha3_256};
 pub fn hash(data: impl AsRef<[u8]>, length: usize) -> String {
     let mut hasher = Sha3_256::new();
     hasher.update(data);
-    let hash_base64 = encode_config(hasher.finalize(), base64::URL_SAFE_NO_PAD);
+    let hash_base64: String = general_purpose::URL_SAFE_NO_PAD.encode(hasher.finalize());
 
     let first_char = hash_base64.chars().next().unwrap();
     // Ensure that the identifier starts with [_a-zA-Z]

@@ -1,7 +1,17 @@
 use pathdiff::diff_paths;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use std::{collections::HashSet, fmt::Write};
-use swc_plugin::{ast::*, plugin_transform, syntax_pos::DUMMY_SP, TransformPluginProgramMetadata};
+use swc_core::{
+    common::DUMMY_SP,
+    ecma::{
+        ast::*,
+        visit::{as_folder, FoldWith, VisitMut, VisitMutWith},
+    },
+    plugin::{
+        metadata::TransformPluginMetadataContextKind, plugin_transform,
+        proxies::TransformPluginProgramMetadata,
+    },
+};
 
 use regex::Regex;
 #[macro_use]
@@ -12,7 +22,7 @@ mod hash;
 use hash::hash;
 
 /// Static plugin configuration.
-#[derive(Default, Serialize, Deserialize)]
+#[derive(Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct Config {
@@ -24,15 +34,6 @@ pub struct Config {
     /// from the base dir to the source file is used.
     #[serde()]
     pub base_path: String,
-}
-
-/// Additional context for the plugin.
-#[derive(Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Context {
-    /// The name of the current file.
-    #[serde(default)]
-    pub filename: Option<String>,
 }
 
 struct TransformVisitor {
@@ -163,19 +164,18 @@ impl VisitMut for TransformVisitor {
 /// Transforms a [`Program`].
 #[plugin_transform]
 pub fn process_transform(program: Program, metadata: TransformPluginProgramMetadata) -> Program {
-    let config: Config =
-        serde_json::from_str(&metadata.plugin_config).expect("failed to parse plugin config");
+    let config: Config = serde_json::from_str(
+        &metadata
+            .get_transform_plugin_config()
+            .expect("failed to get plugin config for swc-plugin-css-variable"),
+    )
+    .expect("failed to parse plugin config");
 
-    let context: Context =
-        serde_json::from_str(&metadata.transform_context).expect("failed to parse plugin context");
-
-    let hashed_filename = hash(
-        relative_posix_path(
-            &config.base_path,
-            &context.filename.unwrap_or_else(|| "jantimon".to_owned()),
-        ),
-        5,
-    );
+    let file_name = metadata
+        .get_context(&TransformPluginMetadataContextKind::Filename)
+        .expect("failed to get filename");
+    let deterministic_path = relative_posix_path(&config.base_path, &file_name);
+    let hashed_filename = hash(deterministic_path, 5);
 
     program.fold_with(&mut as_folder(TransformVisitor::new(
         config,
@@ -218,7 +218,7 @@ fn convert_path_to_posix(path: &str) -> String {
 
 #[cfg(test)]
 mod tests {
-    use swc_ecma_transforms_testing::test;
+    use swc_core::ecma::{transforms::testing::test, visit::Fold};
 
     use super::*;
 

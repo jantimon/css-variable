@@ -15,7 +15,7 @@ pub fn hash(data: impl AsRef<[u8]>, length: usize) -> String {
 
     let first_char = hash_base64.chars().next().unwrap();
     // Ensure that the identifier starts with [_a-zA-Z]
-    let first_char = if first_char.is_digit(10) || first_char == '-' {
+    let first_char = if first_char.is_ascii_digit() || first_char == '-' {
         '_'
     } else {
         first_char

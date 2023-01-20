@@ -5,9 +5,8 @@ describe("createVar", () => {
       const foo = createVar();
       const bar = createVar();
       const baz = createVar();
-      expect(foo.name).toMatchInlineSnapshot(`"--foo--_llxb0"`);
-      expect(bar.name).toMatchInlineSnapshot( `"--bar--_llxb1"`);
-      expect(baz.name).toMatchInlineSnapshot( `"--baz--_llxb2"`);
+      expect(foo.name).toMatchInlineSnapshot(`"--foo--2hzhhy0"`);
+      expect(bar.name).toMatchInlineSnapshot( `"--bar--2hzhhy1"`);
+      expect(baz.name).toMatchInlineSnapshot( `"--baz--2hzhhy2"`);
     });
-
   });

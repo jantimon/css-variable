@@ -12,7 +12,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn shor() {
+    fn short() {
         assert_eq!(hash("hey"), "2Hy69D");
     }
 

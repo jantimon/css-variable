@@ -175,7 +175,7 @@ pub fn process_transform(program: Program, metadata: TransformPluginProgramMetad
         .get_context(&TransformPluginMetadataContextKind::Filename)
         .expect("failed to get filename");
     let deterministic_path = relative_posix_path(&config.base_path, &file_name);
-    let hashed_filename = hash(deterministic_path, 5);
+    let hashed_filename = hash(&deterministic_path);
 
     program.fold_with(&mut as_folder(TransformVisitor::new(
         config,

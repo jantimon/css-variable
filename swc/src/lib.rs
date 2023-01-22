@@ -19,7 +19,7 @@ extern crate lazy_static;
 
 mod hash;
 
-use hash::hash;
+pub use hash::hash;
 
 /// Static plugin configuration.
 #[derive(Default, Deserialize)]

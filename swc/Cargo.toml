@@ -4,7 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [lib]
-crate-type = ["cdylib"]
+# cdylib is for dynamic system library and necessary to produce the Wasm plugin
+# rlib is required for criterion benchmark
+crate-type = ["cdylib", "rlib"]
 
 [profile.release]
 # Uncomment to achieve smallest possible binary size (may require more experimentation).
@@ -25,4 +27,9 @@ xxhash-rust = { version = "0.8.6", features = ["xxh32"] }
 base62 = "2.0.2"
 
 [dev-dependencies]
+criterion = { version = "0.4.0", default-features = false }
 swc_core = { version = "0.58.0", features = ["ecma_parser"] }
+
+[[bench]]
+name = "bench_main"
+harness = false

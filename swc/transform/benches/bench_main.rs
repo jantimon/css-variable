@@ -52,6 +52,6 @@ pub fn longer_hash(c: &mut Criterion) {
     });
 }
 
-criterion_group!(hashes, short_hash, longer_hash);
+criterion_group!(hash, short_hash, longer_hash);
 criterion_group!(visitor, transform_visitor);
-criterion_main!(hashes, visitor);
+criterion_main!(hash, visitor);

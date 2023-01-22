@@ -227,7 +227,7 @@ mod tests {
     }
 
     test!(
-        swc_ecma_parser::Syntax::default(),
+        Default::default(),
         |_| transform_visitor(Default::default()),
         adds_variable_name,
         r#"import {createVar} from "css-variable";
@@ -237,7 +237,7 @@ mod tests {
     );
 
     test!(
-        swc_ecma_parser::Syntax::default(),
+        Default::default(),
         |_| transform_visitor(Default::default()),
         adds_multiple_variable_names,
         r#"import {createVar} from "css-variable";
@@ -251,7 +251,7 @@ mod tests {
     );
 
     test!(
-        swc_ecma_parser::Syntax::default(),
+        Default::default(),
         |_| transform_visitor(Default::default()),
         ignores_unknwon_modules,
         r#"import {createVar} from "unknown";
@@ -261,7 +261,7 @@ mod tests {
     );
 
     test!(
-        swc_ecma_parser::Syntax::default(),
+        Default::default(),
         |_| transform_visitor(Default::default()),
         adds_variable_name_with_value,
         r#"import {createVar} from "css-variable";
@@ -271,7 +271,7 @@ mod tests {
     );
 
     test!(
-        swc_ecma_parser::Syntax::default(),
+        Default::default(),
         |_| transform_visitor(Default::default()),
         adds_variable_name_for_renamed,
         r#"import {createVar as create} from "css-variable";
@@ -281,7 +281,7 @@ mod tests {
     );
 
     test!(
-        swc_ecma_parser::Syntax::default(),
+        Default::default(),
         |_| transform_visitor(Config {
             display_name: true,
             base_path: "/".to_owned()
@@ -294,7 +294,7 @@ mod tests {
     );
 
     test!(
-        swc_ecma_parser::Syntax::default(),
+        Default::default(),
         |_| transform_visitor(Config {
             display_name: true,
             base_path: "/".to_owned()

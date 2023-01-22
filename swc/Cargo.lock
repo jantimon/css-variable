@@ -1404,15 +1404,12 @@ dependencies = [
 name = "swc-plugin-css-variable"
 version = "0.1.0"
 dependencies = [
- "base62",
- "criterion",
  "lazy_static",
  "pathdiff",
  "regex",
- "serde",
  "serde_json",
  "swc_core",
- "xxhash-rust",
+ "transform",
 ]
 
 [[package]]
@@ -1988,6 +1985,17 @@ dependencies = [
  "tracing",
  "tracing-core",
  "tracing-log",
+]
+
+[[package]]
+name = "transform"
+version = "0.1.0"
+dependencies = [
+ "base62",
+ "criterion",
+ "serde",
+ "swc_core",
+ "xxhash-rust",
 ]
 
 [[package]]

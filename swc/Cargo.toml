@@ -1,6 +1,7 @@
 [workspace]
 members = [
-    "swc-plugin-css-variable"
+    "swc-plugin-css-variable",
+    "transform",
 ]
 
 [profile.release]

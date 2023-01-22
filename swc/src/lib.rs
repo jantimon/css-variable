@@ -26,7 +26,7 @@ use hash::hash;
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct Config {
-    /// Prefix variables with a readable name, e.g. `primary--1isauia0`.
+    /// Prefix variables with a readable name, e.g. `primary--2Hy69D0`.
     #[serde(default = "bool::default")]
     pub display_name: bool,
     /// The hash for a css-variable depends on the file name including createVar().
@@ -175,7 +175,7 @@ pub fn process_transform(program: Program, metadata: TransformPluginProgramMetad
         .get_context(&TransformPluginMetadataContextKind::Filename)
         .expect("failed to get filename");
     let deterministic_path = relative_posix_path(&config.base_path, &file_name);
-    let hashed_filename = hash(deterministic_path, 5);
+    let hashed_filename = hash(&deterministic_path);
 
     program.fold_with(&mut as_folder(TransformVisitor::new(
         config,

@@ -1,28 +1,10 @@
-use base64::{engine::general_purpose, Engine as _};
-use sha3::{Digest, Sha3_256};
+use xxhash_rust::xxh32::xxh32;
 
-/// Creates a CSS identifier of the given length using SHA3.
-///
-/// In CSS, identifiers (including element names, classes, and IDs in
-/// selectors) can contain only the characters \[a-zA-Z0-9\] and ISO 10646
-/// characters U+00A0 and higher, plus the hyphen (-) and the underscore (_);
-/// they cannot start with a digit, two hyphens, or a hyphen followed by a
-/// digit.
-pub fn hash(data: impl AsRef<[u8]>, length: usize) -> String {
-    let mut hasher = Sha3_256::new();
-    hasher.update(data);
-    let hash_base64 = general_purpose::URL_SAFE_NO_PAD.encode(hasher.finalize());
-
-    let first_char = hash_base64.chars().next().unwrap();
-    // Ensure that the identifier starts with [_a-zA-Z]
-    let first_char = if first_char.is_ascii_digit() || first_char == '-' {
-        '_'
-    } else {
-        first_char
-    };
-    let css_safe_string = format!("{first_char}{}", &hash_base64[1..length]);
-
-    css_safe_string
+/// Creates a CSS identifier using xxHash (https://cyan4973.github.io/xxHash/).
+/// Shortened to base62 (https://en.wikipedia.org/wiki/Base62) to avoid invalid characters.
+pub fn hash(data: &str) -> String {
+    let hash = xxh32(data.as_bytes(), 0);
+    base62::encode(hash)
 }
 
 #[cfg(test)]
@@ -30,12 +12,20 @@ mod tests {
     use super::*;
 
     #[test]
-    fn hey() {
-        assert_eq!(hash("hey", 5), "XldIH");
+    fn short() {
+        assert_eq!(hash("hey"), "2Hy69D");
     }
 
     #[test]
-    fn hey_long() {
-        assert_eq!(hash("hey", 15), "XldIHZZJaTy1TcB");
+    fn longer() {
+        assert_eq!(hash("hey how are you doing?"), "34D1Ek");
+    }
+
+    #[test]
+    fn longest() {
+        assert_eq!(
+            hash("hey how are you doing? I am doing fine, thanks for asking."),
+            "1XQ5hm"
+        );
     }
 }

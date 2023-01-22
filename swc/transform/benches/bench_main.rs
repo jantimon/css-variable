@@ -22,7 +22,7 @@ pub fn styled_page(c: &mut Criterion) {
     )
     .unwrap();
 
-    c.bench_function("styled page default", |b| {
+    c.bench_function("visitor styledPage", |b| {
         b.iter_batched(
             || {
                 (
@@ -35,7 +35,7 @@ pub fn styled_page(c: &mut Criterion) {
         )
     });
 
-    c.bench_function("styled page display_name", |b| {
+    c.bench_function("visitor styledPage display_name", |b| {
         b.iter_batched(
             || {
                 (
@@ -71,7 +71,7 @@ pub fn nested(c: &mut Criterion) {
     )
     .unwrap();
 
-    c.bench_function("nested default", |b| {
+    c.bench_function("visitor nested", |b| {
         b.iter_batched(
             || {
                 (
@@ -84,7 +84,7 @@ pub fn nested(c: &mut Criterion) {
         )
     });
 
-    c.bench_function("nested display_name", |b| {
+    c.bench_function("visitor nested display_name", |b| {
         b.iter_batched(
             || {
                 (

@@ -4,7 +4,7 @@ use swc_core::{
     ecma::{parser, visit::VisitMutWith},
 };
 
-use transform::TransformVisitor;
+use transform::{Config, TransformVisitor};
 
 pub fn styled_page(c: &mut Criterion) {
     let source_map: Lrc<SourceMap> = Default::default();
@@ -22,12 +22,31 @@ pub fn styled_page(c: &mut Criterion) {
     )
     .unwrap();
 
-    c.bench_function("styled page", |b| {
+    c.bench_function("styled page default", |b| {
         b.iter_batched(
             || {
                 (
                     program.clone(),
                     TransformVisitor::new(Default::default(), String::from("hashed")),
+                )
+            },
+            |(mut program, mut visitor)| program.visit_mut_with(&mut visitor),
+            BatchSize::SmallInput,
+        )
+    });
+
+    c.bench_function("styled page display_name", |b| {
+        b.iter_batched(
+            || {
+                (
+                    program.clone(),
+                    TransformVisitor::new(
+                        Config {
+                            display_name: true,
+                            ..Default::default()
+                        },
+                        String::from("hashed"),
+                    ),
                 )
             },
             |(mut program, mut visitor)| program.visit_mut_with(&mut visitor),

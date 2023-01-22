@@ -6,11 +6,11 @@ use swc_core::{
 
 use transform::TransformVisitor;
 
-pub fn transform_visitor(c: &mut Criterion) {
+pub fn styled_page(c: &mut Criterion) {
     let source_map: Lrc<SourceMap> = Default::default();
     let source_file = source_map.new_source_file(
-        FileName::Custom("index.page.tsx".into()),
-        include_str!("index.page.tsx").into(),
+        FileName::Custom("styledPage.tsx".into()),
+        include_str!("styledPage.tsx").into(),
     );
 
     let program = parser::parse_file_as_program(
@@ -22,7 +22,7 @@ pub fn transform_visitor(c: &mut Criterion) {
     )
     .unwrap();
 
-    c.bench_function("visitor", |b| {
+    c.bench_function("styled page", |b| {
         b.iter_batched(
             || {
                 (
@@ -52,6 +52,5 @@ pub fn longer_hash(c: &mut Criterion) {
     });
 }
 
-criterion_group!(hash, short_hash, longer_hash);
-criterion_group!(visitor, transform_visitor);
-criterion_main!(hash, visitor);
+criterion_group!(benches, styled_page, short_hash, longer_hash);
+criterion_main!(benches);

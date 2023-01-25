@@ -5,9 +5,9 @@ members = [
 ]
 
 [profile.release]
-# Uncomment to achieve smallest possible binary size (may require more experimentation).
-# Disclaimer: measure effects on runtime, results can be surprising.
-# strip = "debuginfo"
-# codegen-units = 1
-# lto = true
-# opt-level = "z"
+# This profile results in small binary size with acceptable impact on
+# performance, but there may well be further optimizations to be had.
+strip = "debuginfo"
+codegen-units = 1
+lto = true
+opt-level = "z"

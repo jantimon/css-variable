@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.10.0](https://github.com/jantimon/css-variable/compare/v3.9.0...v3.10.0) (2023-01-26)
+
+### Features
+
+* faster hash generation with more readable hashes ([1a0006f](https://github.com/jantimon/css-variable/commit/1a0006f9f150231b319be74ccaf757eb257da764))
+
+### Bug Fixes
+
+* update dev dependencies ([d3dabe2](https://github.com/jantimon/css-variable/commit/d3dabe2c7ca948f080a67e9439074c40c71d13bc))
+
 ### [3.9.1](https://github.com/jantimon/css-variable/compare/v3.9.0...v3.9.1) (2022-11-23)
 
 ### Features

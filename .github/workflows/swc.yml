@@ -1,33 +1,76 @@
-name: SWC Test
+name: SWC validation
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  cross-os:
+  rust:
+    name: Rust tests & lints
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v3
+      - name: Install stable toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+      - name: Enable caching
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: swc
+      - name: Run cargo check
+        uses: actions-rs/cargo@v1
+        with:
+          command: check
+          args: --manifest-path swc/Cargo.toml
+      - name: Run cargo test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --manifest-path swc/Cargo.toml
+      - name: Run cargo fmt
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --manifest-path swc/Cargo.toml --all -- --check
+      - name: Run cargo clippy
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: --manifest-path swc/Cargo.toml -- -D warnings
+
+  wasm:
+    name: Wasm plugin tests
     strategy:
+      fail-fast: false
       matrix:
-        node-version: [16]
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
-    - name: RustUp
-      run: rustup target add wasm32-wasi
-    - name: Use Node.js ${{ matrix.node-version }}
-      - uses: actions/setup-node@v3
-        with: ${{ matrix.node-version }}
-    - name: Install NPM Dependencies
-      run: npm i
-    - name: Build JS
-      run: npm run build
-    - name: Build SWC RUST Plugin
-      run: npm run build:swc
-    - name: Run tests
-      run:  npm run test:swc
+      - name: Checkout sources
+        uses: actions/checkout@v3
+      - name: Add wasm32-wasi target
+        run: rustup target add wasm32-wasi
+      - name: Enable caching
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: swc
+      - name: Use Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install NPM dependencies
+        run: npm i
+      - name: Build JS
+        run: npm run build
+      - name: Build SWC plugin
+        run: npm run build:swc
+      - name: Run tests
+        run: npm run test:swc:jest

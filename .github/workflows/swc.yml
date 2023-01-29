@@ -48,7 +48,7 @@ jobs:
           args: --manifest-path ./swc/Cargo.toml -- -D warnings
 
   wasm:
-    name: Build & test Wasm plugin
+    name: Wasm plugin tests
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]

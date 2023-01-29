@@ -28,20 +28,22 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: check
+          args: --manifest-path ./swc/Cargo.toml
       - name: Run cargo test
         uses: actions-rs/cargo@v1
         with:
           command: test
+          args: --manifest-path ./swc/Cargo.toml
       - name: Run cargo fmt
         uses: actions-rs/cargo@v1
         with:
           command: fmt
-          args: --all -- --check
+          args: --manifest-path ./swc/Cargo.toml --all -- --check
       - name: Run cargo clippy
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: -- -D warnings
+          args: --manifest-path ./swc/Cargo.toml -- -D warnings
 
   # cross-os:
   #   strategy:

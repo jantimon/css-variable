@@ -25,27 +25,27 @@ jobs:
       - name: Enable caching
         uses: Swatinem/rust-cache@v2
         with:
-          workspaces: "./swc"
+          workspaces: swc
       - name: Run cargo check
         uses: actions-rs/cargo@v1
         with:
           command: check
-          args: --manifest-path ./swc/Cargo.toml
+          args: --manifest-path swc/Cargo.toml
       - name: Run cargo test
         uses: actions-rs/cargo@v1
         with:
           command: test
-          args: --manifest-path ./swc/Cargo.toml
+          args: --manifest-path swc/Cargo.toml
       - name: Run cargo fmt
         uses: actions-rs/cargo@v1
         with:
           command: fmt
-          args: --manifest-path ./swc/Cargo.toml --all -- --check
+          args: --manifest-path swc/Cargo.toml --all -- --check
       - name: Run cargo clippy
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: --manifest-path ./swc/Cargo.toml -- -D warnings
+          args: --manifest-path swc/Cargo.toml -- -D warnings
 
   wasm:
     name: Wasm plugin tests
@@ -67,7 +67,7 @@ jobs:
       - name: Enable caching
         uses: Swatinem/rust-cache@v2
         with:
-          workspaces: "./swc"
+          workspaces: swc
       - name: Use Node.js 16
         uses: actions/setup-node@v3
         with:
@@ -80,6 +80,6 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: build
-          args: --manifest-path ./swc/Cargo.toml --release --target wasm32-wasi
+          args: --manifest-path swc/Cargo.toml --release --target wasm32-wasi
       - name: Run tests
         run: npm run test:swc:jest

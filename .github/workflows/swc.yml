@@ -51,7 +51,6 @@ jobs:
     name: Build & test Wasm plugin
     strategy:
       matrix:
-        node-version: [16]
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -68,9 +67,10 @@ jobs:
         uses: Swatinem/rust-cache@v2
         with:
           workspaces: "./swc"
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 16
         uses: actions/setup-node@v3
-        with: ${{ matrix.node-version }}
+        with:
+          node-version: 16
       - name: Install NPM Dependencies
         run: npm i
       - name: Build JS

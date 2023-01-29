@@ -76,7 +76,7 @@ jobs:
         run: npm i
       - name: Build JS
         run: npm run build
-      - name: Build SWC RUST Plugin
+      - name: Build SWC Plugin
         uses: actions-rs/cargo@v1
         with:
           command: build

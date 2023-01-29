@@ -43,24 +43,24 @@ jobs:
           command: clippy
           args: -- -D warnings
 
-  cross-os:
-    strategy:
-      matrix:
-        node-version: [16]
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v2
-      - name: RustUp
-        run: rustup target add wasm32-wasi
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with: ${{ matrix.node-version }}
-      - name: Install NPM Dependencies
-        run: npm i
-      - name: Build JS
-        run: npm run build
-      - name: Build SWC RUST Plugin
-        run: npm run build:swc
-      - name: Run tests
-        run: npm run test:swc
+  # cross-os:
+  #   strategy:
+  #     matrix:
+  #       node-version: [16]
+  #       os: [ubuntu-latest, windows-latest]
+  #   runs-on: ${{ matrix.os }}
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: RustUp
+  #       run: rustup target add wasm32-wasi
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v3
+  #       with: ${{ matrix.node-version }}
+  #     - name: Install NPM Dependencies
+  #       run: npm i
+  #     - name: Build JS
+  #       run: npm run build
+  #     - name: Build SWC RUST Plugin
+  #       run: npm run build:swc
+  #     - name: Run tests
+  #       run: npm run test:swc

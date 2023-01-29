@@ -56,12 +56,8 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
-      - name: Install stable toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          target: wasm32-wasi
+      - name: Add wasm32-wasi target
+        run: rustup target add wasm32-wasi
       - name: Enable caching
         uses: Swatinem/rust-cache@v2
         with:

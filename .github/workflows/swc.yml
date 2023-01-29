@@ -21,7 +21,6 @@ jobs:
         with:
           profile: minimal
           toolchain: stable
-          override: true
       - name: Enable caching
         uses: Swatinem/rust-cache@v2
         with:
@@ -63,7 +62,6 @@ jobs:
           profile: minimal
           toolchain: stable
           target: wasm32-wasi
-          override: true
       - name: Enable caching
         uses: Swatinem/rust-cache@v2
         with:

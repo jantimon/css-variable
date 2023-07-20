@@ -1,6 +1,6 @@
 {
   "name": "css-variable",
-  "version": "3.10.1",
+  "version": "3.10.2",
   "description": "define CSS custom properties (variables) in JS",
   "main": "./dist/index.js",
   "exports": {

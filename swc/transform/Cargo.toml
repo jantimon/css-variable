@@ -6,7 +6,7 @@ edition = "2021"
 [dependencies]
 base62 = "2.0.2"
 serde = { version = "1.0.173", features = ["derive"] }
-swc_core = { version = "0.79.13", features = ["ecma_ast"] }
+swc_core = "0.79.13"
 xxhash-rust = { version = "0.8.6", features = ["xxh32"] }
 
 [dev-dependencies]

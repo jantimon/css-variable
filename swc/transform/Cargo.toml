@@ -5,13 +5,13 @@ edition = "2021"
 
 [dependencies]
 base62 = "2.0.2"
-serde = { version = "1.0.152", features = ["derive"] }
-swc_core = { version = "0.58.0", features = ["ecma_ast"] }
+serde = { version = "1.0.173", features = ["derive"] }
+swc_core = { version = "0.79.13", features = ["ecma_ast"] }
 xxhash-rust = { version = "0.8.6", features = ["xxh32"] }
 
 [dev-dependencies]
-criterion = { version = "0.4.0", default-features = false }
-swc_core = { version = "0.58.0", features = ["ecma_parser"] }
+criterion = { version = "0.5.1", default-features = false }
+swc_core = { version = "0.79.13", features = ["ecma_parser"] }
 
 [[bench]]
 name = "bench_main"

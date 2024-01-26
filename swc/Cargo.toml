@@ -1,8 +1,6 @@
 [workspace]
-members = [
-    "swc-plugin-css-variable",
-    "transform",
-]
+members = ["swc-plugin-css-variable", "transform"]
+resolver = "2"
 
 [profile.release]
 # This profile results in small binary size with acceptable impact on

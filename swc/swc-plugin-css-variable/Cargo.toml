@@ -10,8 +10,8 @@ crate-type = ["cdylib"]
 [dependencies]
 lazy_static = "1.4.0"
 pathdiff = "0.2.1"
-regex = "1.9.1"
-serde_json = "1.0.103"
-swc_core = { version = "0.79.13", features = ["ecma_plugin_transform"] }
+regex = "1.10.3"
+serde_json = "1.0.111"
+swc_core = { version = "0.89.2", features = ["ecma_plugin_transform"] }
 
 transform = { path = "../transform" }

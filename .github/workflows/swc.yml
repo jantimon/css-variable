@@ -47,10 +47,10 @@ jobs:
         uses: Swatinem/rust-cache@v2
         with:
           workspaces: swc
-      - name: Use Node.js 16
+      - name: Use Node.js 20
         uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
       - name: Install NPM dependencies
         run: npm i
       - name: Build JS

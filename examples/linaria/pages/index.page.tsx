@@ -1,5 +1,5 @@
 /// @ts-check
-import { CSSPixelValue, createVar, createGlobalTheme } from "css-variable";
+import { type CSSPixelValue, createVar, createGlobalTheme } from "css-variable";
 import { styled } from "linaria/react";
 
 const theme = {

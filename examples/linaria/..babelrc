@@ -1,7 +1,6 @@
 {
     "presets": [
-        "next/babel", 
-        "linaria/babel"
+        "next/babel"
     ],
     "plugins": [
         "css-variable/babel"

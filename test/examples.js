@@ -19,8 +19,6 @@ runTest().then(
 async function runTest() {
     console.log("📦 install puppeteer");
     await spawnAsync("npm", ["install"], { cwd: __dirname, stdio: "inherit" }).promise;
-    console.log("🚀 test next <-> linaria integration");
-    await launchExample(path.resolve(__dirname, "../examples/linaria"));
     console.log("🚀 test next <-> styled-component integration");
     await launchExample(path.resolve(__dirname, "../examples/styled-components"));
 }

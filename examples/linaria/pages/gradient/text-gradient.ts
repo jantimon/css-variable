@@ -8,16 +8,15 @@ export const gradientStartColor = createVar();
 export const gradientEndColor = createVar();
 
 export const gradientHover = css`
-    color: ${fontColor.val}; 
-    background: linear-gradient(to right, ${gradientStartColor.val}, ${gradientEndColor.val});
-    background-size: 200% 200%;
-    animation: rainbow 2s ease-in-out infinite;
-    background-clip: text;
-    -webkit-background-clip:text;
-    transition: color .2s ease-in-out;
-  }
-  :focus,
-  :hover{
+  color: ${fontColor.val}; 
+  background: linear-gradient(to right, ${gradientStartColor.val}, ${gradientEndColor.val});
+  background-size: 200% 200%;
+  animation: rainbow 2s ease-in-out infinite;
+  background-clip: text;
+  -webkit-background-clip:text;
+  transition: color .2s ease-in-out;
+  &:focus,
+  &:hover {
     color:rgba(0,0,0,0);
   }
   @keyframes rainbow { 

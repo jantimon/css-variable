@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node ./build.mjs",
+    "build:next": "next build",
     "start": "next start"
   },
   "dependencies": {
@@ -19,6 +20,7 @@
     "@wyw-in-js/webpack-loader": "^0.5.3",
     "classnames": "2.5.1",
     "css-variable": "file:../../",
+    "execa": "^9.1.0",
     "linaria": "6.2.0",
     "next": "^14.2.3",
     "next-linaria": "0.11.0",

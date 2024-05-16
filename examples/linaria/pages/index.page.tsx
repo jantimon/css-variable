@@ -46,7 +46,7 @@ const ThemeB = styled.div`
   })}
 `;
 
-const colorVar = createVar({ value: theme.colors.primary });
+const colorVar = createVar({ value: theme.colors.primary.toString() });
 const xVar = createVar<CSSPixelValue>({ value: "0" });
 
 const StyledHeadline = styled.h1`

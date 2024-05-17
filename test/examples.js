@@ -72,7 +72,7 @@ async function launchExample(cwd) {
 function removeDir(directory) {
   return new Promise((resolve) => {
     require("rimraf")(directory, () => {
-        resolve();
+        resolve(true);
     });
   });
 }

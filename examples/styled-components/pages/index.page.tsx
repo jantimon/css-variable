@@ -49,10 +49,10 @@ const xVar = createVar<CSSPixelValue>({ value: "0" });
 
 const StyledHeadline = styled.h1`
   font-family: Arial, Helvetica, sans-serif;
-  font-size: ${theme.fontSize};
-  color: ${colorVar};
-  transform: translateX(${xVar});
-  width: calc(100% - 1 * ${xVar});
+  font-size: ${theme.fontSize.val};
+  color: ${colorVar.val};
+  transform: translateX(${xVar.val});
+  width: calc(100% - 1 * ${xVar.val});
 `;
 
 const FancyComponent: React.FunctionComponent<{color?:string}> = ({ color, children }) => {
@@ -64,8 +64,8 @@ const FancyComponent: React.FunctionComponent<{color?:string}> = ({ color, child
 };
 
 const BigBox = styled.div`
-  background: ${theme.colors.secondary};
-  padding: ${theme.spacings.m};
+  background: ${theme.colors.secondary.val};
+  padding: ${theme.spacings.m.val};
 
   ${colorVar.toStyle("grey")}
   ${xVar.toStyle('20px')}

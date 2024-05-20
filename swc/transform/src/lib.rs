@@ -170,9 +170,7 @@ mod tests {
         |_| transform_visitor(Default::default()),
         adds_variable_name,
         r#"import {createVar} from "css-variable";
-        createVar();"#,
-        r#"import {createVar} from "css-variable";
-        createVar("hashed0");"#
+        createVar();"#
     );
 
     test!(
@@ -182,19 +180,13 @@ mod tests {
         r#"import {createVar} from "css-variable";
         createVar();
         createVar();
-        createVar();"#,
-        r#"import {createVar} from "css-variable";
-        createVar("hashed0");
-        createVar("hashed1");
-        createVar("hashed2");"#
+        createVar();"#
     );
 
     test!(
         Default::default(),
         |_| transform_visitor(Default::default()),
         ignores_unknwon_modules,
-        r#"import {createVar} from "unknown";
-        createVar();"#,
         r#"import {createVar} from "unknown";
         createVar();"#
     );
@@ -204,9 +196,7 @@ mod tests {
         |_| transform_visitor(Default::default()),
         adds_variable_name_with_value,
         r#"import {createVar} from "css-variable";
-        createVar({ value: '0px' });"#,
-        r#"import {createVar} from "css-variable";
-        createVar("hashed0", { value: '0px' });"#
+        createVar({ value: '0px' });"#
     );
 
     test!(
@@ -214,9 +204,7 @@ mod tests {
         |_| transform_visitor(Default::default()),
         adds_variable_name_for_renamed,
         r#"import {createVar as create} from "css-variable";
-        create("hello world");"#,
-        r#"import {createVar as create} from "css-variable";
-        create("hashed0", "hello world");"#
+        create("hello world");"#
     );
 
     test!(
@@ -227,9 +215,7 @@ mod tests {
         }),
         adds_camel_case_variable_name_with_display_name,
         r#"import {createVar} from "css-variable";
-        const camelCase = createVar();"#,
-        r#"import {createVar} from "css-variable";
-        const camelCase = createVar("camelCase--hashed0");"#
+        const camelCase = createVar();"#
     );
 
     test!(
@@ -246,16 +232,6 @@ mod tests {
                 primary: createVar(),
                 secondary: {
                     inner: createVar()
-                }
-            }
-        };"#,
-        r#"import {createVar} from "css-variable";
-        const primary = createVar("primary--hashed0");
-        const theme = {
-            colors: {
-                primary: createVar("primary--colors--theme--hashed1"),
-                secondary: {
-                    inner: createVar("inner--secondary--colors--theme--hashed2")
                 }
             }
         };"#

@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/jantimon/css-variable/compare/v3.10.2...v4.0.0) (2024-05-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* **swc:** Update to swc_core 0.90.x (compatible with @swc/core@1.4.x) (#34)
+
+### Features
+
+* **swc:** Update to swc_core 0.90.x (compatible with @swc/core@1.4.x) ([#34](https://github.com/jantimon/css-variable/issues/34)) ([5daebad](https://github.com/jantimon/css-variable/commit/5daebadc893b77428da797b300f9037ab7482da6))
+
 ### [3.10.2](https://github.com/jantimon/css-variable/compare/v3.10.1...v3.10.2) (2023-07-20)
 
 ### [3.10.1](https://github.com/jantimon/css-variable/compare/v3.10.0...v3.10.1) (2023-01-26)

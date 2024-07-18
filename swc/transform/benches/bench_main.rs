@@ -9,7 +9,7 @@ use transform::{Config, TransformVisitor};
 pub fn styled_page(c: &mut Criterion) {
     let source_map: Lrc<SourceMap> = Default::default();
     let source_file = source_map.new_source_file(
-        FileName::Custom("styledPage.tsx".into()),
+        FileName::Custom("styledPage.tsx".into()).into(),
         include_str!("styledPage.tsx").into(),
     );
 
@@ -58,7 +58,7 @@ pub fn styled_page(c: &mut Criterion) {
 pub fn nested(c: &mut Criterion) {
     let source_map: Lrc<SourceMap> = Default::default();
     let source_file = source_map.new_source_file(
-        FileName::Custom("nested.js".into()),
+        FileName::Custom("nested.js".into()).into(),
         include_str!("nested.js").into(),
     );
 

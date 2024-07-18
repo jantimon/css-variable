@@ -6,12 +6,12 @@ edition = "2021"
 [dependencies]
 base62 = "2.0.2"
 serde = { version = "1.0.195", features = ["derive"] }
-swc_core = "0.90.37"
+swc_core = "0.99.2"
 xxhash-rust = { version = "0.8.8", features = ["xxh32"] }
 
 [dev-dependencies]
 criterion = { version = "0.5.1", default-features = false }
-swc_core = { version = "0.90.37", features = ["ecma_parser"] }
+swc_core = { version = "0.99.2", features = ["ecma_parser"] }
 
 [[bench]]
 name = "bench_main"

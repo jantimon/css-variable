@@ -124,7 +124,7 @@ module.exports = function (babel) {
  */
 function getNameByUsage(path) {
   const parent = path.parent;
-  if (!parent) return;
+  if (!parent) return "";
   if (parent.type === "ObjectProperty") {
     const key = parent.key;
     if (key && key.type === "Identifier" && key.name) {

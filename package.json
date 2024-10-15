@@ -1,15 +1,17 @@
 {
   "name": "css-variable",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "define CSS custom properties (variables) in JS",
   "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
     },
-    "./babel": "./babel/index.js",
+    "./babel": "./babel/index.cjs",
     "./swc": "./swc/target/wasm32-wasi/release/swc_plugin_css_variable.wasm"
   },
   "types": "./dist/index.d.ts",
@@ -24,8 +26,8 @@
   "scripts": {
     "prepublishOnly": "npm run build && npm run build:swc",
     "build": "npm run build:types && npm run build:commonjs && npm run build:module && npm run build:modulemin",
-    "build:commonjs": "babel --config-file=./babel.commonjs.js -o dist/index.js src/index.ts",
-    "build:module": "babel --config-file=./babel.config.js -o dist/index.mjs src/index.ts",
+    "build:commonjs": "babel --config-file=./babel.commonjs.cjs -o dist/index.js src/index.ts",
+    "build:module": "babel --config-file=./babel.config.cjs -o dist/index.mjs src/index.ts",
     "build:types": "tsc --skipLibCheck --emitDeclarationOnly --declaration --target ESNext --outDir dist src/index.ts",
     "build:modulemin": "terser ./dist/index.mjs -o ./dist/index.min.mjs -m --ecma 2017 --module --toplevel -b -c",
     "build:swc": "cargo build --manifest-path ./swc/Cargo.toml --release --target=wasm32-wasi",
@@ -58,11 +60,11 @@
   "homepage": "https://css-variable.js.org/",
   "devDependencies": {
     "@babel/cli": "7.19.3",
-    "@babel/core": "7.20.2",
+    "@babel/core": "7.22.0",
     "@babel/plugin-transform-modules-commonjs": "^7.19.6",
     "@babel/preset-typescript": "^7.18.6",
     "@babel/runtime": "^7.20.1",
-    "@babel/types": "^7.20.2",
+    "@babel/types": "^7.22.0",
     "@swc/core": "1.4.17",
     "@swc/jest": "^0.2.36",
     "@types/jest": "^29.2.3",

@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@babel/runtime": "^7.22.0",
     "@types/react": "17.0.20",
     "@types/react-dom": "17.0.9",
     "@types/styled-components": "5.1.14",
@@ -18,5 +19,9 @@
     "react-dom": "^18.2.0",
     "styled-components": "^6.1.11",
     "typescript": "5.4.5"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.25.7",
+    "@types/node": "22.7.5"
   }
 }

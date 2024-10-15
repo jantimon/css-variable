@@ -1,11 +1,11 @@
 // @ts-check
 const PACKAGE_NAME = "css-variable";
-const hash = require("./hash");
+const hash = require("./hash.cjs");
 const pathRelative = require("path").relative;
 
 /** @typedef {import("@babel/core")} babel */
 
-/** 
+/**
  * The context of a babel plugin run
  * @typedef {{
  *  minifyVariables: boolean,
@@ -14,7 +14,7 @@ const pathRelative = require("path").relative;
  *  isImportedInCurrentFile: boolean,
  *  localVarNames: string[],
  *  opts: babel.PluginOptions & { displayName?: boolean }
- * } & babel.PluginPass} PluginPass 
+ * } & babel.PluginPass} PluginPass
  */
 
 /**
@@ -36,10 +36,14 @@ module.exports = function (babel) {
       return;
     }
     const callee = path.node.callee;
-    if (!("name" in callee) || !pluginPass.localVarNames.includes(callee.name)) {
+    if (
+      !("name" in callee) ||
+      !pluginPass.localVarNames.includes(callee.name)
+    ) {
       return;
     }
-    const readableName = !pluginPass.minifyVariables && dashed(getNameByUsage(path));
+    const readableName =
+      !pluginPass.minifyVariables && dashed(getNameByUsage(path));
     const readablePrefix = readableName ? `${readableName}--` : "";
     //
     // Inject the variable prefix
@@ -51,7 +55,9 @@ module.exports = function (babel) {
     const firstArg = constructorArguments[0];
     if (!firstArg || firstArg.type !== "StringLiteral") {
       constructorArguments.unshift(
-        stringLiteral(readablePrefix + getUniqueHash(pluginPass) + pluginPass.varCount++)
+        stringLiteral(
+          readablePrefix + getUniqueHash(pluginPass) + pluginPass.varCount++
+        )
       );
     }
     //
@@ -60,16 +66,17 @@ module.exports = function (babel) {
     // side effects and is save to be removed
     //
     path.addComment("leading", "@__PURE__");
-  }
+  };
 
   return {
     name: `${PACKAGE_NAME} unique variable name injector`,
     pre() {
       this.isImportedInCurrentFile = false;
       this.varCount = 0;
-      this.minifyVariables = this.opts.displayName !== undefined ?
-        !this.opts.displayName
-        : this.file.opts.envName !== "development";
+      this.minifyVariables =
+        this.opts.displayName !== undefined
+          ? !this.opts.displayName
+          : this.file.opts.envName !== "development";
       this.localVarNames = [];
     },
     visitor: {
@@ -106,7 +113,6 @@ module.exports = function (babel) {
   };
 };
 
-
 /**
  * Tries to extract the name for readable names in developments
  * e.g.:
@@ -138,9 +144,9 @@ function getNameByUsage(path) {
 function dashed(val) {
   /** handle camelCase and CONSTANT_CASE */
   return val
-  .replace(/([0-9a-z])([A-Z])/g, "$1-$2")
-  .toLowerCase()
-  .replace(/_/g, "-");
+    .replace(/([0-9a-z])([A-Z])/g, "$1-$2")
+    .toLowerCase()
+    .replace(/_/g, "-");
 }
 
 /** @type {WeakMap<babel.PluginPass, string>} */

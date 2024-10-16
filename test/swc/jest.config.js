@@ -1,7 +1,7 @@
 module.exports = {
   rootDir: __dirname,
   moduleNameMapper: {
-    "css-variable$": "../../dist",
+    "css-variable$": "../../",
   },
   transform: {
     "^.+\\.(t|j)sx?$": [

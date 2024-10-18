@@ -2,7 +2,6 @@
 import assert from "assert";
 import path from "path";
 import child_process from "child_process";
-import puppeteer from "puppeteer";
 import rimraf from "rimraf";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -35,6 +34,8 @@ async function runTest() {
 /** @param {string} url */
 async function testExample(url) {
   console.log("💻 start browser and open nextjs app");
+  const puppeteerModule = await import("puppeteer");
+  const puppeteer = puppeteerModule.default;
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto(url, {

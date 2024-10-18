@@ -1,121 +1,121 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`development transform CSSVariable 1`] = `
-"import { CSSVariable } from "css-variable";
-const primary = /*@__PURE__*/new CSSVariable("primary--mobtag0");
-const secondary = /*@__PURE__*/new CSSVariable("secondary--mobtag1", {
+exports[`development transform > CSSVariable 1`] = `
+"import { CSSVariable } from \\"css-variable\\";
+const primary = /*@__PURE__*/new CSSVariable(\\"primary--mobtag0\\");
+const secondary = /*@__PURE__*/new CSSVariable(\\"secondary--mobtag1\\", {
   value: '#fff'
 });
 const theme = {
   colors: {
-    primary: /*@__PURE__*/new CSSVariable("primary--mobtag2")
+    primary: /*@__PURE__*/new CSSVariable(\\"primary--mobtag2\\")
   }
 };
-const generated = allColors.map(color => /*@__PURE__*/new CSSVariable("mobtag3", color));
-const generatedWithFallback = allColors.map(color => /*@__PURE__*/new CSSVariable("mobtag4", color, {
+const generated = allColors.map(color => /*@__PURE__*/new CSSVariable(\\"mobtag3\\", color));
+const generatedWithFallback = allColors.map(color => /*@__PURE__*/new CSSVariable(\\"mobtag4\\", color, {
   value: '#000'
 }));"
 `;
 
-exports[`development transform createVar 1`] = `
-"import { createVar } from "css-variable";
-const primary = /*@__PURE__*/createVar("primary--1c6m1ot0");
-const secondary = /*@__PURE__*/createVar("secondary--1c6m1ot1", {
+exports[`development transform > createVar 1`] = `
+"import { createVar } from \\"css-variable\\";
+const primary = /*@__PURE__*/createVar(\\"primary--1c6m1ot0\\");
+const secondary = /*@__PURE__*/createVar(\\"secondary--1c6m1ot1\\", {
   value: '#fff'
 });
 const theme = {
   colors: {
-    primary: /*@__PURE__*/createVar("primary--1c6m1ot2")
+    primary: /*@__PURE__*/createVar(\\"primary--1c6m1ot2\\")
   }
 };
-const generated = allColors.map(color => /*@__PURE__*/createVar("1c6m1ot3", color));
-const generatedWithFallback = allColors.map(color => /*@__PURE__*/createVar("1c6m1ot4", color, {
+const generated = allColors.map(color => /*@__PURE__*/createVar(\\"1c6m1ot3\\", color));
+const generatedWithFallback = allColors.map(color => /*@__PURE__*/createVar(\\"1c6m1ot4\\", color, {
   value: '#000'
 }));"
 `;
 
-exports[`development transform renamed 1`] = `
-"import { CSSVariable as CSSVar, createVar as createVariable } from "css-variable";
-const primary = /*@__PURE__*/new CSSVar("primary--1ynmbls0");
-const secondary = /*@__PURE__*/createVariable("secondary--1ynmbls1");"
+exports[`development transform > renamed 1`] = `
+"import { CSSVariable as CSSVar, createVar as createVariable } from \\"css-variable\\";
+const primary = /*@__PURE__*/new CSSVar(\\"primary--1ynmbls0\\");
+const secondary = /*@__PURE__*/createVariable(\\"secondary--1ynmbls1\\");"
 `;
 
-exports[`production transform CSSVariable 1`] = `
-"import { CSSVariable } from "css-variable";
-const primary = /*@__PURE__*/new CSSVariable("mobtag0");
-const secondary = /*@__PURE__*/new CSSVariable("mobtag1", {
+exports[`production transform > CSSVariable 1`] = `
+"import { CSSVariable } from \\"css-variable\\";
+const primary = /*@__PURE__*/new CSSVariable(\\"mobtag0\\");
+const secondary = /*@__PURE__*/new CSSVariable(\\"mobtag1\\", {
   value: '#fff'
 });
 const theme = {
   colors: {
-    primary: /*@__PURE__*/new CSSVariable("mobtag2")
+    primary: /*@__PURE__*/new CSSVariable(\\"mobtag2\\")
   }
 };
-const generated = allColors.map(color => /*@__PURE__*/new CSSVariable("mobtag3", color));
-const generatedWithFallback = allColors.map(color => /*@__PURE__*/new CSSVariable("mobtag4", color, {
+const generated = allColors.map(color => /*@__PURE__*/new CSSVariable(\\"mobtag3\\", color));
+const generatedWithFallback = allColors.map(color => /*@__PURE__*/new CSSVariable(\\"mobtag4\\", color, {
   value: '#000'
 }));"
 `;
 
-exports[`production transform createVar 1`] = `
-"import { createVar } from "css-variable";
-const primary = /*@__PURE__*/createVar("1c6m1ot0");
-const secondary = /*@__PURE__*/createVar("1c6m1ot1", {
+exports[`production transform > createVar 1`] = `
+"import { createVar } from \\"css-variable\\";
+const primary = /*@__PURE__*/createVar(\\"1c6m1ot0\\");
+const secondary = /*@__PURE__*/createVar(\\"1c6m1ot1\\", {
   value: '#fff'
 });
 const theme = {
   colors: {
-    primary: /*@__PURE__*/createVar("1c6m1ot2")
+    primary: /*@__PURE__*/createVar(\\"1c6m1ot2\\")
   }
 };
-const generated = allColors.map(color => /*@__PURE__*/createVar("1c6m1ot3", color));
-const generatedWithFallback = allColors.map(color => /*@__PURE__*/createVar("1c6m1ot4", color, {
+const generated = allColors.map(color => /*@__PURE__*/createVar(\\"1c6m1ot3\\", color));
+const generatedWithFallback = allColors.map(color => /*@__PURE__*/createVar(\\"1c6m1ot4\\", color, {
   value: '#000'
 }));"
 `;
 
-exports[`production transform renamed 1`] = `
-"import { CSSVariable as CSSVar, createVar as createVariable } from "css-variable";
-const primary = /*@__PURE__*/new CSSVar("1ynmbls0");
-const secondary = /*@__PURE__*/createVariable("1ynmbls1");"
+exports[`production transform > renamed 1`] = `
+"import { CSSVariable as CSSVar, createVar as createVariable } from \\"css-variable\\";
+const primary = /*@__PURE__*/new CSSVar(\\"1ynmbls0\\");
+const secondary = /*@__PURE__*/createVariable(\\"1ynmbls1\\");"
 `;
 
-exports[`production transform with displayName CSSVariable 1`] = `
-"import { CSSVariable } from "css-variable";
-const primary = /*@__PURE__*/new CSSVariable("primary--mobtag0");
-const secondary = /*@__PURE__*/new CSSVariable("secondary--mobtag1", {
+exports[`production transform with displayName > CSSVariable 1`] = `
+"import { CSSVariable } from \\"css-variable\\";
+const primary = /*@__PURE__*/new CSSVariable(\\"primary--mobtag0\\");
+const secondary = /*@__PURE__*/new CSSVariable(\\"secondary--mobtag1\\", {
   value: '#fff'
 });
 const theme = {
   colors: {
-    primary: /*@__PURE__*/new CSSVariable("primary--mobtag2")
+    primary: /*@__PURE__*/new CSSVariable(\\"primary--mobtag2\\")
   }
 };
-const generated = allColors.map(color => /*@__PURE__*/new CSSVariable("mobtag3", color));
-const generatedWithFallback = allColors.map(color => /*@__PURE__*/new CSSVariable("mobtag4", color, {
+const generated = allColors.map(color => /*@__PURE__*/new CSSVariable(\\"mobtag3\\", color));
+const generatedWithFallback = allColors.map(color => /*@__PURE__*/new CSSVariable(\\"mobtag4\\", color, {
   value: '#000'
 }));"
 `;
 
-exports[`production transform with displayName createVar 1`] = `
-"import { createVar } from "css-variable";
-const primary = /*@__PURE__*/createVar("primary--1c6m1ot0");
-const secondary = /*@__PURE__*/createVar("secondary--1c6m1ot1", {
+exports[`production transform with displayName > createVar 1`] = `
+"import { createVar } from \\"css-variable\\";
+const primary = /*@__PURE__*/createVar(\\"primary--1c6m1ot0\\");
+const secondary = /*@__PURE__*/createVar(\\"secondary--1c6m1ot1\\", {
   value: '#fff'
 });
 const theme = {
   colors: {
-    primary: /*@__PURE__*/createVar("primary--1c6m1ot2")
+    primary: /*@__PURE__*/createVar(\\"primary--1c6m1ot2\\")
   }
 };
-const generated = allColors.map(color => /*@__PURE__*/createVar("1c6m1ot3", color));
-const generatedWithFallback = allColors.map(color => /*@__PURE__*/createVar("1c6m1ot4", color, {
+const generated = allColors.map(color => /*@__PURE__*/createVar(\\"1c6m1ot3\\", color));
+const generatedWithFallback = allColors.map(color => /*@__PURE__*/createVar(\\"1c6m1ot4\\", color, {
   value: '#000'
 }));"
 `;
 
-exports[`production transform with displayName renamed 1`] = `
-"import { CSSVariable as CSSVar, createVar as createVariable } from "css-variable";
-const primary = /*@__PURE__*/new CSSVar("primary--1ynmbls0");
-const secondary = /*@__PURE__*/createVariable("secondary--1ynmbls1");"
+exports[`production transform with displayName > renamed 1`] = `
+"import { CSSVariable as CSSVar, createVar as createVariable } from \\"css-variable\\";
+const primary = /*@__PURE__*/new CSSVar(\\"primary--1ynmbls0\\");
+const secondary = /*@__PURE__*/createVariable(\\"secondary--1ynmbls1\\");"
 `;

@@ -55,7 +55,10 @@ const StyledHeadline = styled.h1`
   width: calc(100% - 1 * ${xVar.val});
 `;
 
-const FancyComponent: React.FunctionComponent<{color?:string}> = ({ color, children }) => {
+const FancyComponent: React.FunctionComponent<{
+  color?: string;
+  children: React.ReactNode;
+}> = ({ color, children }) => {
   return (
     <StyledHeadline style={color && colorVar.toStyle(color)}>
       {children}
@@ -68,10 +71,10 @@ const BigBox = styled.div`
   padding: ${theme.spacings.m.val};
 
   ${colorVar.toStyle("grey")}
-  ${xVar.toStyle('20px')}
+  ${xVar.toStyle("20px")}
 
   @media (min-width: 500px) {
-    ${xVar.toStyle('250px')};
+    ${xVar.toStyle("250px")};
   }
 `;
 

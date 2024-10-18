@@ -1,17 +1,16 @@
 {
   "name": "css-variable",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "define CSS custom properties (variables) in JS",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.js",
   "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
     },
-    "./babel": "./babel/index.cjs",
+    "./babel": "./babel/index.js",
     "./swc": "./swc/target/wasm32-wasi/release/swc_plugin_css_variable.wasm"
   },
   "types": "./dist/index.d.ts",
@@ -26,17 +25,17 @@
   "scripts": {
     "prepublishOnly": "npm run build && npm run build:swc",
     "build": "npm run build:types && npm run build:commonjs && npm run build:module && npm run build:modulemin",
-    "build:commonjs": "babel --config-file=./babel.commonjs.cjs -o dist/index.cjs src/index.ts",
+    "build:commonjs": "babel --config-file=./babel.commonjs.cjs -o dist/index.js src/index.ts",
     "build:module": "babel --config-file=./babel.config.cjs -o dist/index.mjs src/index.ts",
     "build:types": "tsc --skipLibCheck --emitDeclarationOnly --declaration --target ESNext --outDir dist src/index.ts",
     "build:modulemin": "terser ./dist/index.mjs -o ./dist/index.min.mjs -m --ecma 2017 --module --toplevel -b -c",
     "build:swc": "cargo build --manifest-path ./swc/Cargo.toml --release --target=wasm32-wasi",
     "changelog": "npx standard-version",
-    "test": "npm run test:e2e && npm run test:jest",
+    "test": "npm run test:e2e && npm run test:vitest",
     "test:e2e": "node ./test/examples.js",
-    "test:jest": "jest",
-    "test:swc": "npm run test:swc:cargo && npm run build:swc && npm run test:swc:jest",
-    "test:swc:jest": "jest --config test/swc/jest.config.js",
+    "test:vitest": "vitest run",
+    "test:swc": "npm run test:swc:cargo && npm run build:swc && npm run test:swc:vitest",
+    "test:swc:vitest": "vitest run --config test/swc/vitest.config.js",
     "test:swc:cargo": "cargo test --manifest-path ./swc/Cargo.toml",
     "docs": "node ./docs/build.js"
   },
@@ -66,10 +65,9 @@
     "@babel/runtime": "^7.20.1",
     "@babel/types": "^7.22.0",
     "@swc/core": "1.4.17",
-    "@swc/jest": "^0.2.36",
-    "@types/jest": "^29.2.3",
-    "jest": "^29.3.1",
+    "@types/node": "^20.0.0",
     "terser": "5.15.1",
-    "typescript": "^5.4.5"
+    "typescript": "5.4.5",
+    "vitest": "^0.34.0"
   }
 }

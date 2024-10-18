@@ -1,5 +1,9 @@
 import { defineConfig } from "vitest/config";
-import path from "path";
+import { dirname, resolve } from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export default defineConfig({
   test: {
@@ -13,11 +17,14 @@ export default defineConfig({
       "**/.{idea,git,cache,output,temp}/**",
       "**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress}.config.*",
     ],
-    root: path.resolve(__dirname),
+    root: resolve(__dirname),
+    snapshotFormat: {
+      printBasicPrototype: false,
+    },
   },
   resolve: {
     alias: {
-      "css-variable": path.resolve(__dirname, "./"),
+      "css-variable": resolve(__dirname, "./"),
     },
   },
 });

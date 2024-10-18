@@ -1,7 +1,7 @@
 // @ts-check
 const PACKAGE_NAME = "css-variable";
-const hash = require("./hash");
-const pathRelative = require("path").relative;
+import hash from "./hash";
+import { relative as pathRelative } from "path";
 
 /** @typedef {import("@babel/core")} babel */
 

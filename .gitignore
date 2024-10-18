@@ -9,3 +9,4 @@ yarn.lock
 yarn-error.log
 out
 *.tgz
+test/swc/.swcrc

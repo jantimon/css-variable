@@ -6,6 +6,7 @@ export default defineConfig({
     globals: true,
     environment: "node",
     exclude: [
+      "**/test/swc/**",
       "**/node_modules/**",
       "**/dist/**",
       "**/cypress/**",

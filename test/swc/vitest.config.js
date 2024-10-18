@@ -1,7 +1,6 @@
 import { defineConfig } from "vitest/config";
-import path from "path";
+import { dirname, resolve } from "path";
 import { fileURLToPath } from "url";
-import { dirname } from "path";
 import { transformSync } from "@swc/core";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -11,27 +10,31 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "node",
-    root: path.resolve(__dirname),
+    root: resolve(__dirname),
+    silent: false,
   },
   resolve: {
     alias: {
-      "css-variable": path.resolve(__dirname, "../../"),
+      "css-variable": resolve(__dirname, "../../"),
     },
   },
   plugins: [
     {
       name: "swc-plugin",
       transform(code, id) {
+        const pluginPath = resolve(
+          __dirname,
+          "../../swc/target/wasm32-wasi/release/swc_plugin_css_variable.wasm"
+        );
+
         if (id.endsWith(".js") || id.endsWith(".ts") || id.endsWith(".tsx")) {
-          return transformSync(code, {
+          const transformed = transformSync(code, {
             filename: id,
             jsc: {
               experimental: {
                 plugins: [
                   [
-                    require.resolve(
-                      "../../swc/target/wasm32-wasi/release/swc_plugin_css_variable.wasm"
-                    ),
+                    pluginPath,
                     {
                       basePath: __dirname,
                       displayName: true,
@@ -40,7 +43,8 @@ export default defineConfig({
                 ],
               },
             },
-          }).code;
+          });
+          return transformed.code;
         }
       },
     },

@@ -58,4 +58,4 @@ jobs:
       - name: Build SWC plugin
         run: npm run build:swc
       - name: Run tests
-        run: npm run test:swc:jest
+        run: npm run test:swc:vitest

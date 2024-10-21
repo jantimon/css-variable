@@ -2,7 +2,6 @@
 import assert from "assert";
 import path from "path";
 import child_process from "child_process";
-import rimraf from "rimraf";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
@@ -86,7 +85,9 @@ async function launchExample(cwd) {
 }
 
 function removeDir(directory) {
-  return new Promise((resolve) => {
+  return new Promise(async (resolve) => {
+    const rimrafModule = await import("rimraf");
+    const rimraf = rimrafModule.default;
     rimraf(directory, () => {
       resolve(true);
     });

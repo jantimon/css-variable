@@ -152,8 +152,6 @@ impl VisitMut for TransformVisitor {
     }
 }
 
-
-
 #[cfg(test)]
 mod tests {
     use swc_core::ecma::{

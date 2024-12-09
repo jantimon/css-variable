@@ -156,13 +156,13 @@ impl VisitMut for TransformVisitor {
 mod tests {
     use swc_core::ecma::{
         transforms::testing::test,
-        visit::{as_folder, Fold},
+        visit::{visit_mut_pass, VisitMutPass},
     };
 
     use super::*;
 
-    fn transform_visitor(config: Config) -> impl 'static + Fold + VisitMut {
-        as_folder(TransformVisitor::new(config, String::from("hashed")))
+    fn transform_visitor(config: Config) -> VisitMutPass<TransformVisitor> {
+        visit_mut_pass(TransformVisitor::new(config, String::from("hashed")))
     }
 
     test!(

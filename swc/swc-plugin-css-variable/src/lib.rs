@@ -1,9 +1,6 @@
 use pathdiff::diff_paths;
 use swc_core::{
-    ecma::{
-        ast::*,
-        visit::{as_folder, FoldWith},
-    },
+    ecma::{ast::*, visit::visit_mut_pass},
     plugin::{
         metadata::TransformPluginMetadataContextKind, plugin_transform,
         proxies::TransformPluginProgramMetadata,
@@ -32,7 +29,7 @@ pub fn process_transform(program: Program, metadata: TransformPluginProgramMetad
     let deterministic_path = relative_posix_path(&config.base_path, &file_name);
     let hashed_filename = hash(&deterministic_path);
 
-    program.fold_with(&mut as_folder(TransformVisitor::new(
+    program.apply(visit_mut_pass(&mut TransformVisitor::new(
         config,
         hashed_filename,
     )))

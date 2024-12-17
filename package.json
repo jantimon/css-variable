@@ -46,7 +46,7 @@
   },
   "release": {
     "branches": [
-      "main", "release/v4"
+      "main"
     ]
   },
   "keywords": [

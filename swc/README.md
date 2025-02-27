@@ -31,12 +31,12 @@ format and execute it in your runtime of choice. Since SWC internally uses
 just a matter of
 
 ```console
-$ cargo build --bench bench_main --release --target wasm32-wasi
+$ cargo build --bench bench_main --release --target wasm32-wasip1
 # Get the name of the Wasm module we just built
-$ ls -t target/wasm32-wasi/release/deps/*.wasm | head -n 1
-target/wasm32-wasi/release/deps/bench_main-9530540cc15e2e67.wasm
+$ ls -t target/wasm32-wasip1/release/deps/*.wasm | head -n 1
+target/wasm32-wasip1/release/deps/bench_main-9530540cc15e2e67.wasm
 # Execute the benchmark
-$ wasmer target/wasm32-wasi/release/deps/bench_main-9530540cc15e2e67.wasm -- --bench
+$ wasmer target/wasm32-wasip1/release/deps/bench_main-9530540cc15e2e67.wasm -- --bench
 ```
 
 With this you get the most accurate runtime behavior and can observe the

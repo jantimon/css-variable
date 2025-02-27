@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { CSSPixelValue, createVar, createGlobalTheme } from "css-variable";
+import { ReactNode } from "react";
 
 const theme = {
   fontSize: createVar("FontSize"),
@@ -55,7 +56,7 @@ const StyledHeadline = styled.h1`
   width: calc(100% - 1 * ${xVar.val});
 `;
 
-const FancyComponent: React.FunctionComponent<{color?:string}> = ({ color, children }) => {
+const FancyComponent: React.FunctionComponent<{color?:string, children: ReactNode}> = ({ color, children }) => {
   return (
     <StyledHeadline style={color && colorVar.toStyle(color)}>
       {children}

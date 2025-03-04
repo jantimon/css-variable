@@ -12,7 +12,7 @@ module.exports = {
             plugins: [
               [
                 require.resolve(
-                  "../../swc/target/wasm32-wasi/release/swc_plugin_css_variable.wasm"
+                  "../../swc/target/wasm32-wasip1/release/swc_plugin_css_variable.wasm"
                 ),
                 {
                   basePath: __dirname,

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 6.0.0 (2025-02-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* **swc:** Update to swc_core 16.0.0 (compatible with @swc/core@1.11.1)
+
 ## 5.0.0 (2024-12-10)
 
 

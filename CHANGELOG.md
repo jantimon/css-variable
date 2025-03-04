@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### ⚠ BREAKING CHANGES
 
-* **swc:** Update to swc_core 14.0.1 (compatible with @swc/core@1.10.18)
+* **swc:** Update to swc_core 16.0.0 (compatible with @swc/core@1.11.1)
 
 ## 5.0.0 (2024-12-10)
 

@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20]
+        node-version: [22]
 
     steps:
       - uses: actions/checkout@v4
@@ -22,4 +22,5 @@ jobs:
         env:
           CI: true
           NODE_OPTIONS: --openssl-legacy-provider
+          PUPPETEER_ARGS: --no-sandbox
       - run: npx bundlesize -f dist/index.min.mjs

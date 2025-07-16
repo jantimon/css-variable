@@ -28,7 +28,8 @@ async function testExample(url) {
     
     console.log("💻 start browser and open nextjs app");
     const puppeteer = require('puppeteer');
-    const browser = await puppeteer.launch();
+    const args = process.env.PUPPETEER_ARGS ? process.env.PUPPETEER_ARGS.split(" ") : [];
+    const browser = await puppeteer.launch({args});
     const page = await browser.newPage();
     await page.goto(url, {
       waitUntil: 'networkidle2',

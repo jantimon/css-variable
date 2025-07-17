@@ -2,10 +2,8 @@ use serde::Deserialize;
 use std::{collections::HashSet, fmt::Write};
 use swc_core::{
     common::DUMMY_SP,
-    ecma::{
-        ast::*,
-        visit::{VisitMut, VisitMutWith},
-    },
+    ecma::ast::*,
+    ecma::visit::{VisitMut, VisitMutWith},
 };
 
 mod hash;
@@ -154,10 +152,8 @@ impl VisitMut for TransformVisitor {
 
 #[cfg(test)]
 mod tests {
-    use swc_core::ecma::{
-        transforms::testing::test,
-        visit::{visit_mut_pass, VisitMutPass},
-    };
+    use swc_core::ecma::transforms::testing::test;
+    use swc_core::ecma::visit::{visit_mut_pass, VisitMutPass};
 
     use super::*;
 

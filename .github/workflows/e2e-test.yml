@@ -22,4 +22,5 @@ jobs:
         env:
           CI: true
           NODE_OPTIONS: --openssl-legacy-provider
+          PUPPETEER_ARGS: --no-sandbox
       - run: npx bundlesize -f dist/index.min.mjs

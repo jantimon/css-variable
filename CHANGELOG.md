@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.0.0](https://github.com/jantimon/css-variable/compare/v4.0.0...v8.0.0) (2025-11-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* requires swc_core 5.x
+
+### Features
+
+* add support for Next.js 15.0.4 ([#43](https://github.com/jantimon/css-variable/issues/43)) ([0f9a5a6](https://github.com/jantimon/css-variable/commit/0f9a5a6e8b6ab586dad0460ae0ab4c09948e5aa0))
+
 ## [7.0.0](https://github.com/jantimon/css-variable/compare/v6.0.0...v7.0.0) (2025-07-16)
 
 

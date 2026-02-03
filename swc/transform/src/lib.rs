@@ -57,7 +57,7 @@ impl VisitMut for TransformVisitor {
     ///  import { foo as x, createVar as y } from "css-variable";
     /// ```
     fn visit_mut_import_decl(&mut self, import_decl: &mut ImportDecl) {
-        if &import_decl.src.value != "css-variable" {
+        if import_decl.src.value.as_str() != Some("css-variable") {
             return;
         }
 

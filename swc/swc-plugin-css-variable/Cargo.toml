@@ -12,6 +12,6 @@ lazy_static = "1.4.0"
 pathdiff = "0.2.1"
 regex = "1.10.3"
 serde_json = "1.0.111"
-swc_core = { version = "45.0.2", features = ["ecma_plugin_transform"] }
+swc_core = { version = "50.2.3", features = ["ecma_plugin_transform"] }
 
 transform = { path = "../transform" }
